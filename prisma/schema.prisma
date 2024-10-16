@@ -1,0 +1,98 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                 String    @id @default(cuid())
+  email              String    @unique
+  password           String
+  name               String?
+  role               Role      @default(USER)
+  profileImage       String?
+  points             Int       @default(0)
+  referralCode       String    @unique
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  services           Service[]
+  activityLogs       ActivityLog[]
+  referredUsers      User[]    @relation("Referrals")
+  referredBy         User?     @relation("Referrals", fields: [referredById], references: [id])
+  referredById       String?
+}
+
+enum Role {
+  USER
+  TUTOR
+  WRITER
+  ADMIN
+}
+
+model Service {
+  id          String    @id @default(cuid())
+  type        ServiceType
+  subject     String?
+  level       String?
+  description String
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum ServiceType {
+  PERSONALIZED_TUTORING
+  EXAM_PREPARATION
+  RESEARCH_WRITING
+  BOOK_WRITING
+  BUSINESS_PLAN
+  SOP_WRITING
+}
+
+model ActivityLog {
+  id          String    @id @default(cuid())
+  user        User      @relation(fields: [userId], references: [id])
+  userId      String
+  serviceDetail String
+  referenceId String
+  amount      Float
+  createdAt   DateTime  @default(now())
+}
+
+model ContentLibrary {
+  id          String    @id @default(cuid())
+  title       String
+  type        ContentType
+  subject     String?
+  level       String?
+  content     String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+enum ContentType {
+  CURRICULUM
+  ASSESSMENT
+  LEARNING_STYLE_TEST
+}
+
+model Newsletter {
+  id        String    @id @default(cuid())
+  email     String    @unique
+  createdAt DateTime  @default(now())
+}
+
+model Testimonial {
+  id        String    @id @default(cuid())
+  name      String
+  content   String
+  rating    Int
+  createdAt DateTime  @default(now())
+}
