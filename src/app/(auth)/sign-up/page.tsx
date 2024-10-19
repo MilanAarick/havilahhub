@@ -6,17 +6,18 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { BookOpen, Lightbulb, Rocket, Sparkles } from "lucide-react";
-import { SIGN_IN_FORM } from "@/constants/forms";
+import { BookOpen, Lightbulb, Loader2, Rocket, Sparkles } from "lucide-react";
+import { SIGN_IN_FORM, SIGN_UP_FORM } from "@/constants/forms";
 import { FormGenerator } from "@/components/global/form-generator";
-import { useAuthSignIn } from "@/hooks/authentication";
+import { useAuthSignup } from "@/hooks/authentication";
+import dynamic from "next/dynamic";
+import SignUpForm from "./signup-form";
 
-export default function LoginScreen() {
-  const { isPending, onAuthenticatedUser, register, errors } = useAuthSignIn();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isHovering, setIsHovering] = useState(false);
+const OtpInput = dynamic(() => import("@/components/global/otp-input"), {
+  ssr: false,
+});
 
+export default function SignupPage() {
   return (
     <div className=" flex items-center justify-center p-4">
       <motion.div
@@ -28,39 +29,9 @@ export default function LoginScreen() {
         {/* Left side - Login Form */}
         <div className="w-full md:w-1/2 p-8">
           <h2 className="text-3xl font-heading font-bold text-primary mb-6">
-            Welcome Back!
+            Join Havilah Learning Hub
           </h2>
-          <form
-            className="flex flex-col gap-3 mt-10"
-            onSubmit={onAuthenticatedUser}
-          >
-            {SIGN_IN_FORM.map((field) => (
-              <FormGenerator
-                {...field}
-                key={field.id}
-                register={register}
-                errors={errors}
-              />
-            ))}
-
-            <Button
-              type="submit"
-              className="w-full mt-6 group gap-4"
-              disabled={isPending}
-            >
-              Sign In With Email
-              <Sparkles
-                size={20}
-                className=" group-hover:rotate-[360deg] duration-500"
-              />
-            </Button>
-          </form>
-          <p className="mt-4 text-sm text-center">
-            Don&apos;t have an account?{" "}
-            <a href="#" className="text-primary hover:underline">
-              Sign up
-            </a>
-          </p>
+          <SignUpForm />
         </div>
 
         {/* Right side - Illustration */}
@@ -105,7 +76,7 @@ export default function LoginScreen() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.5 }}
             >
-              Unlock Your Learning Potential
+              Start Your Learning Adventure
             </motion.h3>
             <motion.p
               className="mt-4 text-center text-muted-foreground"
@@ -113,8 +84,8 @@ export default function LoginScreen() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.5 }}
             >
-              Join Havilah Learning Hub and embark on an exciting educational
-              journey!
+              Join Havilah Learning Hub and unlock a world of knowledge and
+              growth!
             </motion.p>
           </div>
         </div>

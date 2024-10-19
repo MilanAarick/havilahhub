@@ -14,10 +14,17 @@ export const SignInSchema = z.object({
   email: z.string().email({ message: "Enter a valid email." }),
   password: z
     .string()
-    .min(4, { message: "Password should contain at least 4 characters." }),
+    .min(8, { message: "Password should contain at least 4 characters." }),
 });
 
-export const SignUpSchema = z.object({});
+export const SignUpSchema = z.object({
+  firstname: z.string().min(2, { message: "First name is required." }),
+  lastname: z.string().min(2, { message: "Last name is required." }),
+  email: z.string().email({ message: "Enter a valid email." }),
+  password: z
+    .string()
+    .min(8, { message: "Password should contain at least 8 characters." }),
+});
 
 export const SIGN_UP_FORM: AuthFormProps[] = [
   {
