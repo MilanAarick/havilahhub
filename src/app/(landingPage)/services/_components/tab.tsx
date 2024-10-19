@@ -1,28 +1,32 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   keepPreviousData,
   useInfiniteQuery,
   useQuery,
+  useQueryClient,
 } from "@tanstack/react-query";
 import { onGetServices } from "@/actions/learnings";
 import { Service } from "@prisma/client";
 import ServiceList from "./service-list";
 import { Button } from "@/components/ui/button";
 import CardLoader from "@/components/global/card-loader";
+import { useSearchParams } from "next/navigation";
 
 type FilterType = "all" | "writing" | "tutoring";
 
 const TabsComponent = () => {
+  const searchParams = useSearchParams();
+  const searchTerm = searchParams.get("q") ?? "";
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState<FilterType>("all");
 
   const { data, isPending, isError, error, isFetching, isPlaceholderData } =
     useQuery({
-      queryKey: ["services", filter, page],
-      queryFn: () => onGetServices(page, 10, filter),
+      queryKey: ["services", filter, page, searchTerm],
+      queryFn: () => onGetServices(page, 10, filter, searchTerm),
       placeholderData: keepPreviousData,
     });
 
@@ -30,6 +34,10 @@ const TabsComponent = () => {
     setFilter(value);
     setPage(1); // Reset to first page when changing filter
   };
+
+  useEffect(() => {
+    setPage(1);
+  }, [searchTerm]);
   return (
     <Tabs
       defaultValue="all"

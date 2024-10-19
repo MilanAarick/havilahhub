@@ -2,7 +2,7 @@
 
 import { client } from "@/lib/prisma";
 
-import { ServiceType } from "@prisma/client";
+import { Prisma, ServiceType } from "@prisma/client";
 
 type FilterType = "all" | "writing" | "tutoring";
 
@@ -20,30 +20,45 @@ const filterToServiceTypes: Record<FilterType, ServiceType[]> = {
 export const onGetServices = async (
   page = 1,
   pageSize = 10,
-  filter: FilterType = "all"
+  filter: FilterType = "all",
+  searchTerm?: string
 ) => {
   try {
     const skip = (page - 1) * pageSize;
     const serviceTypes = filterToServiceTypes[filter];
 
+    const where = {
+      type: {
+        in: serviceTypes,
+      },
+      ...(searchTerm
+        ? {
+            OR: [
+              {
+                description: {
+                  contains: searchTerm,
+                  mode: "insensitive" as Prisma.QueryMode,
+                },
+              },
+              {
+                subject: {
+                  contains: searchTerm,
+                  mode: "insensitive" as Prisma.QueryMode,
+                },
+              },
+            ],
+          }
+        : {}),
+    };
+
     const [services, totalCount] = await Promise.all([
       client.service.findMany({
-        where: {
-          type: {
-            in: serviceTypes,
-          },
-        },
+        where,
         skip,
         take: pageSize,
         orderBy: { createdAt: "desc" },
       }),
-      client.service.count({
-        where: {
-          type: {
-            in: serviceTypes,
-          },
-        },
-      }),
+      client.service.count({ where }),
     ]);
 
     return {
