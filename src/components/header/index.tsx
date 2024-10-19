@@ -52,13 +52,19 @@ const Header = () => {
             About
           </Link>
           <SignedIn>
-            <DropdownMenu
+            <Link
+              href="/services"
+              className="hover:text-secondary transition-colors"
+            >
+              Services
+            </Link>
+            {/* <DropdownMenu
               title="Services"
               items={[
                 { label: "Writers", href: "/services/writers" },
                 { label: "Tutors", href: "/services/tutors" },
               ]}
-            />
+            /> */}
             <Link
               href="/games"
               className="hover:text-secondary transition-colors"
