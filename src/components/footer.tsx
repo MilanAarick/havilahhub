@@ -7,7 +7,7 @@ type Props = {};
 const Footer = (props: Props) => {
   return (
     <footer className="bg-muted text-muted-foreground">
-      <div className="container mx-auto px-4 py-8 flex items-center justify-between">
+      <div className="container mx-auto px-4 py-8 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
         <div className="flex gap-3 items-center">
           <div>
             <p className="text-sm">
@@ -36,7 +36,7 @@ const Footer = (props: Props) => {
           </div>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex flex-col lg:flex-row lg:items-center gap-3">
           <Link
             href={"#"}
             className="hover:font-semibold hover:text-black duration-200"

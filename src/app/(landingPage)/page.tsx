@@ -21,7 +21,7 @@ export default function Homepage() {
         <section className="bg-gradient-to-br from-primary to-secondary text-primary-foreground relative">
           <div className="container mx-auto px-4 py-16 flex items-center justify-between relative z-20">
             <div className="max-w-3xl h-[calc(50svh-200px)]">
-              <h1 className="text-4xl font-bold mb-4 font-montserrat">
+              <h1 className="text-4xl font-bold mb-4 font-poppins">
                 Havilah Learning Hub: Giving you an Edge
               </h1>
               <p className="text-lg mb-8">
@@ -58,7 +58,7 @@ export default function Homepage() {
                 />
               </div>
               <div className="w-1/2 pl-8">
-                <h2 className="text-3xl font-bold mb-4 text-primary font-montserrat">
+                <h2 className="text-3xl font-bold mb-4 text-primary font-poppins">
                   Latest from Our Newsletter
                 </h2>
                 <p className="mb-4">
