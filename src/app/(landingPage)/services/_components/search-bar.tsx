@@ -20,7 +20,7 @@ const SearchBar = () => {
     if (value) {
       const queryParams = new URLSearchParams(window.location.search);
       queryParams.set("q", value);
-      console.log("Updated queryParams:", queryParams.toString());
+
       window.history.pushState(
         {},
         "",
@@ -29,7 +29,7 @@ const SearchBar = () => {
     } else {
       const queryParams = new URLSearchParams(window.location.search);
       queryParams.delete("q");
-      console.log("Updated queryParams:", queryParams.toString());
+
       window.history.pushState(
         {},
         "",

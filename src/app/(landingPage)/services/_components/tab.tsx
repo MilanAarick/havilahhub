@@ -20,6 +20,7 @@ type FilterType = "all" | "writing" | "tutoring";
 const TabsComponent = () => {
   const searchParams = useSearchParams();
   const searchTerm = searchParams.get("q") ?? "";
+  const filterTerm = searchParams.get("filter") as FilterType;
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState<FilterType>("all");
 
@@ -31,6 +32,14 @@ const TabsComponent = () => {
     });
 
   const handleTabChange = (value: FilterType) => {
+    const queryParams = new URLSearchParams(window.location.search);
+    queryParams.delete("q");
+    queryParams.set("filter", value);
+    window.history.pushState(
+      {},
+      "",
+      `${window.location.pathname}?${queryParams}`
+    );
     setFilter(value);
     setPage(1); // Reset to first page when changing filter
   };
@@ -41,7 +50,7 @@ const TabsComponent = () => {
   return (
     <Tabs
       defaultValue="all"
-      value={filter}
+      value={filterTerm ? filterTerm : filter}
       onValueChange={(value: string) => handleTabChange(value as FilterType)}
       className="w-full"
     >
@@ -51,6 +60,76 @@ const TabsComponent = () => {
         <TabsTrigger value="tutoring">Havilah Tutoring</TabsTrigger>
       </TabsList>
       <TabsContent value="all" className="mt-5 md:mt-8 lg:mt-12">
+        {isPending || isFetching ? (
+          <CardLoader />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {data?.data?.map((service) => (
+              <ServiceList key={service.id} service={service} />
+            ))}
+          </div>
+        )}
+        <div className="flex justify-between items-center mt-4">
+          <Button
+            onClick={() => setPage((old) => Math.max(old - 1, 1))}
+            disabled={page === 1}
+          >
+            Previous Page
+          </Button>
+          <span>
+            Page {page} of {data?.meta?.totalPages ?? 1}
+          </span>
+          <Button
+            onClick={() => {
+              if (
+                !isPlaceholderData &&
+                (data?.meta?.currentPage ?? 0) < (data?.meta?.totalPages ?? 1)
+              ) {
+                setPage((old) => old + 1);
+              }
+            }}
+            disabled={isPlaceholderData || page === data?.meta?.totalPages}
+          >
+            Next Page
+          </Button>
+        </div>
+      </TabsContent>
+      <TabsContent value="writing" className="mt-5 md:mt-8 lg:mt-12">
+        {isPending || isFetching ? (
+          <CardLoader />
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {data?.data?.map((service) => (
+              <ServiceList key={service.id} service={service} />
+            ))}
+          </div>
+        )}
+        <div className="flex justify-between items-center mt-4">
+          <Button
+            onClick={() => setPage((old) => Math.max(old - 1, 1))}
+            disabled={page === 1}
+          >
+            Previous Page
+          </Button>
+          <span>
+            Page {page} of {data?.meta?.totalPages ?? 1}
+          </span>
+          <Button
+            onClick={() => {
+              if (
+                !isPlaceholderData &&
+                (data?.meta?.currentPage ?? 0) < (data?.meta?.totalPages ?? 1)
+              ) {
+                setPage((old) => old + 1);
+              }
+            }}
+            disabled={isPlaceholderData || page === data?.meta?.totalPages}
+          >
+            Next Page
+          </Button>
+        </div>
+      </TabsContent>
+      <TabsContent value="tutoring" className="mt-5 md:mt-8 lg:mt-12">
         {isPending || isFetching ? (
           <CardLoader />
         ) : (
