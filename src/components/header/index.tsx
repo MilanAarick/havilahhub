@@ -126,10 +126,16 @@ const Header = () => {
                   <AccordionItem value="services">
                     <AccordionTrigger>Services</AccordionTrigger>
                     <AccordionContent>
-                      <Link href="/services/writers" className="block py-2">
+                      <Link
+                        href="/services?filter=writing"
+                        className="block py-2"
+                      >
                         Writers
                       </Link>
-                      <Link href="/services/tutors" className="block py-2">
+                      <Link
+                        href="/services?filter=tutoring"
+                        className="block py-2"
+                      >
                         Tutors
                       </Link>
                     </AccordionContent>
