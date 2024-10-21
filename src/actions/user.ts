@@ -1,6 +1,7 @@
 "use server";
 
 import { client } from "@/lib/prisma";
+import { ServiceType } from "@prisma/client";
 
 export const onGetUserLearnings = async (userId: string | undefined) => {
   if (!userId) {
@@ -42,4 +43,24 @@ export const onGetUserLearnings = async (userId: string | undefined) => {
       data: null,
     };
   }
+};
+
+export const addToActivityLog = async (
+  userId: string | undefined,
+  detail: string,
+  type: ServiceType,
+  amount: number,
+  referenceId: string
+) => {
+  try {
+    const activity = await client.activityLog.create({
+      data: {
+        user: { connect: { id: userId } },
+        serviceDetail: detail,
+        serviceType: type,
+        amount,
+        referenceId,
+      },
+    });
+  } catch (error) {}
 };

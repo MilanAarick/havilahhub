@@ -2,6 +2,7 @@ import React from "react";
 
 import TabsComponent from "./_components/tab";
 import SearchBar from "./_components/search-bar";
+import VerifyPayment from "./_components/verify-payment-modal";
 
 const Page = () => {
   return (
@@ -12,6 +13,7 @@ const Page = () => {
         <SearchBar />
       </div>
       <TabsComponent />
+      <VerifyPayment />
       {/* Add your content here */}
     </div>
   );

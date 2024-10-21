@@ -16,6 +16,7 @@
     "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^3.9.0",
     "@paralleldrive/cuid2": "^2.2.2",
+    "@paystack/inline-js": "^2.22.0",
     "@prisma/client": "^5.21.1",
     "@radix-ui/react-accordion": "^1.2.1",
     "@radix-ui/react-checkbox": "^1.1.2",
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@types/node": "^22.7.6",
+    "@types/paystack__inline-js": "^1.0.0",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "eslint": "^8",
