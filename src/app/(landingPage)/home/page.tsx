@@ -5,7 +5,7 @@ import Image from "next/image";
 import React from "react";
 import EmptyLearnings from "./_components/empty-learnings";
 import { Button } from "@/components/ui/button";
-import ActivityLogTable from "@/components/global/activity-log";
+import { ActivityLogTable } from "@/components/global/activity-log";
 
 type Props = {};
 

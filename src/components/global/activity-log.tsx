@@ -1,93 +1,246 @@
 "use client";
 
-import React from "react";
+import * as React from "react";
+import { formatDate } from "date-fns";
 import {
-  Table,
-  TableBody,
-  TableCaption,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
+  ColumnDef,
+  ColumnFiltersState,
+  SortingState,
+  VisibilityState,
+  flexRender,
+  getCoreRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  getSortedRowModel,
+  useReactTable,
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
+
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 // import {
 //   DropdownMenu,
+//   DropdownMenuCheckboxItem,
 //   DropdownMenuContent,
 //   DropdownMenuItem,
 //   DropdownMenuLabel,
 //   DropdownMenuSeparator,
 //   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { MoreHorizontal, ArrowUpDown } from "lucide-react";
+// } from "@/components/ui/dropdown-menu"
+import { Input } from "@/components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 import { ActivityLog } from "@prisma/client";
+import { Badge } from "../ui/badge";
 import { getServiceTitle } from "@/constants/global";
-import { formatDate } from "date-fns";
 
-type Props = {
+function getServiceTypeBadge(type: ActivityLog["serviceType"]) {
+  if (getServiceTitle(type) === "writing") {
+    return <Badge variant="secondary">Writing</Badge>;
+  } else if (getServiceTitle(type) === "tutoring") {
+    return <Badge variant="default">Tutoring</Badge>;
+  } else {
+    return <Badge variant="secondary">Writing</Badge>;
+  }
+}
+
+export const columns: ColumnDef<ActivityLog>[] = [
+  {
+    accessorKey: "createdAt",
+    header: "Date",
+    cell: ({ row }) => (
+      <div className="capitalize text-left">
+        {row.getValue("createdAt")
+          ? formatDate(new Date(row.getValue("createdAt")), "MMMM dd, yyyy")
+          : ""}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "serviceDetail",
+    header: "Detail",
+    cell: ({ row }) => (
+      <div className="lowercase text-left">{row.getValue("serviceDetail")}</div>
+    ),
+  },
+  {
+    accessorKey: "serviceType",
+    header: "Service",
+    cell: ({ row }) => (
+      <div className="lowercase text-left">
+        {getServiceTypeBadge(row.getValue("serviceType"))}
+      </div>
+    ),
+  },
+  {
+    accessorKey: "referenceId",
+    header: "reference ID",
+    cell: ({ row }) => (
+      <div className=" text-left">{row.getValue("referenceId")}</div>
+    ),
+  },
+  {
+    accessorKey: "amount",
+    header: () => <div className="text-right">Amount</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("amount"));
+
+      return <div className="text-right font-medium">&#8358;{amount}</div>;
+    },
+  },
+  //   {
+  //     id: "actions",
+  //     enableHiding: false,
+  //     cell: ({ row }) => {
+  //       const payment = row.original;
+
+  //       return (
+  //         <DropdownMenu>
+  //           <DropdownMenuTrigger asChild>
+  //             <Button variant="ghost" className="h-8 w-8 p-0">
+  //               <span className="sr-only">Open menu</span>
+  //               <MoreHorizontal className="h-4 w-4" />
+  //             </Button>
+  //           </DropdownMenuTrigger>
+  //           <DropdownMenuContent align="end">
+  //             <DropdownMenuLabel>Actions</DropdownMenuLabel>
+  //             <DropdownMenuItem
+  //               onClick={() => navigator.clipboard.writeText(payment.id)}
+  //             >
+  //               Copy payment ID
+  //             </DropdownMenuItem>
+  //             <DropdownMenuSeparator />
+  //             <DropdownMenuItem>View customer</DropdownMenuItem>
+  //             <DropdownMenuItem>View payment details</DropdownMenuItem>
+  //           </DropdownMenuContent>
+  //         </DropdownMenu>
+  //       );
+  //     },
+  //   },
+];
+interface Props {
   data: ActivityLog[] | undefined;
-};
+}
+export function ActivityLogTable({ data }: Props) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
-export default function ActivityLogTable({ data }: Props) {
-  const getServiceTypeBadge = (type: ActivityLog["serviceType"]) => {
-    if (getServiceTitle(type) === "writing") {
-      return <Badge variant="secondary">Writing</Badge>;
-    } else if (getServiceTitle(type) === "tutoring") {
-      return <Badge variant="default">Tutoring</Badge>;
-    } else {
-      return <Badge variant="secondary">Writing</Badge>;
-    }
-  };
+  const table = useReactTable({
+    data: data ? data : [],
+    columns,
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    onColumnVisibilityChange: setColumnVisibility,
+    onRowSelectionChange: setRowSelection,
+    state: {
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
+    },
+  });
 
   return (
-    <div className="rounded-md border">
-      <Table>
-        <TableCaption>A list of recent activity logs.</TableCaption>
-        <TableHeader>
-          <TableRow>
-            <TableHead className="w-[100px]">
-              <Button variant="ghost">
-                Date
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-              </Button>
-            </TableHead>
-            <TableHead>Service Detail</TableHead>
-            <TableHead>
-              <Button variant="ghost">
-                Type
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-              </Button>
-            </TableHead>
-            <TableHead>Reference ID</TableHead>
-            <TableHead className="text-right">
-              <Button variant="ghost">
-                Amount
-                <ArrowUpDown className="ml-2 h-4 w-4" />
-              </Button>
-            </TableHead>
-            <TableHead className="w-[100px]">Actions</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {data?.map((log) => (
-            <TableRow key={log.id}>
-              <TableCell className="font-medium">
-                {log?.createdAt
-                  ? formatDate(new Date(log.createdAt), "MMMM d, yyyy")
-                  : ""}
-              </TableCell>
-              <TableCell>{log.serviceDetail}</TableCell>
-              <TableCell>{getServiceTypeBadge(log.serviceType)}</TableCell>
-              <TableCell>{log.referenceId}</TableCell>
-              <TableCell className="text-right">
-                ${log.amount.toFixed(2)}
-              </TableCell>
-              <TableCell></TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+    <div className="w-full">
+      <div className="flex items-center py-4">
+        <Input
+          placeholder="Filter emails..."
+          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
+          onChange={(event) =>
+            table.getColumn("email")?.setFilterValue(event.target.value)
+          }
+          className="max-w-sm"
+        />
+      </div>
+      <div className="rounded-md border">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext()
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+      <div className="flex items-center justify-end space-x-2 py-4">
+        <div className="flex-1 text-sm text-muted-foreground">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className="space-x-2">
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            Previous
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            Next
+          </Button>
+        </div>
+      </div>
     </div>
   );
 }

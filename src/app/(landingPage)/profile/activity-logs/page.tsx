@@ -1,5 +1,5 @@
 import { onGetUserLearnings } from "@/actions/user";
-import ActivityLogTable from "@/components/global/activity-log";
+import { ActivityLogTable } from "@/components/global/activity-log";
 import { currentUser } from "@clerk/nextjs/server";
 import React from "react";
 
