@@ -20,10 +20,10 @@ type Props = {
 };
 
 const ReferralTabs = ({ user }: Props) => {
-  const copyToClipboard = () => {
+  const copyToClipboard = (text: string) => {
     navigator.clipboard
-      .writeText("sssfsssvs")
-      .then(() => toast.success("Link copied to clipboard!"))
+      .writeText(text)
+      .then(() => toast.success("Referral link copied to clipboard!"))
       .catch((err) => console.error("Failed to copy: ", err));
   };
   return (
@@ -47,17 +47,21 @@ const ReferralTabs = ({ user }: Props) => {
                 <div className="flex mt-1">
                   <Input
                     id="referral-link"
-                    value="ksdkssd"
+                    value={`https://havilahhub.vercel.app/sign-up?referredBy=${user?.referralCode}&referralType=writing`}
                     readOnly
                     className="flex-grow"
                   />
-                  <Button onClick={copyToClipboard} className="ml-2">
+                  <Button
+                    onClick={() =>
+                      copyToClipboard(
+                        `https://havilahhub.vercel.app/sign-up?referredBy=${user?.referralCode}&referralType=writing`
+                      )
+                    }
+                    className="ml-2"
+                  >
                     <Clipboard className="h-4 w-4" />
                   </Button>
                 </div>
-                <Button className="w-full">
-                  Generate Writing Referral Link
-                </Button>
               </div>
             </TabsContent>
             <TabsContent value="tutoring">
@@ -66,11 +70,18 @@ const ReferralTabs = ({ user }: Props) => {
                 <div className="flex mt-1">
                   <Input
                     id="referral-link"
-                    value={"referralLink"}
+                    value={`https://havilahhub.vercel.app/sign-up?referredBy=${user?.referralCode}&referralType=tutoring`}
                     readOnly
                     className="flex-grow"
                   />
-                  <Button onClick={copyToClipboard} className="ml-2">
+                  <Button
+                    onClick={() =>
+                      copyToClipboard(
+                        `https://havilahhub.vercel.app/sign-up?referredBy=${user?.referralCode}&referralType=tutoring`
+                      )
+                    }
+                    className="ml-2"
+                  >
                     <Clipboard className="h-4 w-4" />
                   </Button>
                 </div>

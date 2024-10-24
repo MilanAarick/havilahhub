@@ -26,8 +26,8 @@ const page = async (props: Props) => {
           <CardHeader>
             <CardTitle>Referral Point System</CardTitle>
             <CardDescription>
-              Earn points for each referral and withdraw when you reach 100
-              points
+              Earn points for referrals and be eligible to withdraw when you
+              reach 100 points
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -40,7 +40,7 @@ const page = async (props: Props) => {
                   <li>For each writing client: 5 points</li>
                 </ul>
               </div>
-              <div>
+              <div className="flex justify-between gap-5 items-center">
                 <h3 className="text-lg font-semibold mb-2">
                   Your Current Points:
                 </h3>

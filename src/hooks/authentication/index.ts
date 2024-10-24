@@ -43,7 +43,7 @@ export const useAuthSignIn = () => {
         reset();
         await setActive({ session: authenticated.createdSessionId });
         toast.success("Welcome back!");
-        router.push("/callback/sign-in");
+        router.push("/home");
       }
     } catch (error: any) {
       if (error.errors[0].code === "form_password_incorrect") {

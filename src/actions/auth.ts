@@ -125,8 +125,6 @@ export const onGetUser = async (clerkId: string | undefined) => {
       },
     });
 
-    console.log({ user });
-
     if (user) {
       return {
         status: 200,

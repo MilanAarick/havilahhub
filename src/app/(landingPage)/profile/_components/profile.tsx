@@ -7,29 +7,29 @@ type Props = {
 
 const Profile = ({ user }: Props) => {
   return (
-    <main>
+    <main className="pt-7">
       <div className="space-y-7">
         <div>
-          <h1 className="text-2xl text-muted-foreground">Name</h1>
+          <h1 className="text-2xl text-muted-foreground font-poppins">Name</h1>
           <p>
             {user.firstname} {user.lastname}
           </p>
         </div>
         <div>
-          <h1 className="text-2xl text-muted-foreground">Email</h1>
+          <h1 className="text-2xl text-muted-foreground font-poppins">Email</h1>
           <p>{user.email}</p>
         </div>
         <div>
-          <h1 className="text-2xl text-muted-foreground">Points</h1>
+          <h1 className="text-2xl text-muted-foreground font-poppins">
+            Points
+          </h1>
           <p>{user.points}</p>
         </div>
         <div>
-          <h1 className="text-2xl text-muted-foreground">Referral Code</h1>
-          <p>{user.referralCode}</p>
-        </div>
-        <div>
-          <h1 className="text-2xl text-muted-foreground">Referral Link</h1>
-          <p>{`https://www.example.com/sign-up?referredBy=${user.referralCode}&referralType=writing`}</p>
+          <h1 className="text-2xl text-muted-foreground font-poppins">
+            Referral Code
+          </h1>
+          <p className="font-medium">{user.referralCode}</p>
         </div>
       </div>
     </main>

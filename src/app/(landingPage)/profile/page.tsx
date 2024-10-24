@@ -10,7 +10,7 @@ const ProfilePage = async (props: Props) => {
   const profileUser = await onGetUser(user?.id);
   return (
     <main className="pt-20">
-      <h1 className="py-5 border-b text-2xl lg:text-4xl font-medium font-poppins">
+      <h1 className="py-5 border-b w-full text-2xl lg:text-4xl font-medium font-poppins">
         Personal Information
       </h1>
 
