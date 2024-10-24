@@ -57,7 +57,7 @@ export default function LoginScreen() {
           </form>
           <p className="mt-4 text-sm text-center">
             Don&apos;t have an account?{" "}
-            <a href="#" className="text-primary hover:underline">
+            <a href="/sign-up" className="text-primary hover:underline">
               Sign up
             </a>
           </p>

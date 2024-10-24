@@ -15,7 +15,7 @@ const SignInComp = (props: Props) => {
         <PopoverTrigger>
           <User />
         </PopoverTrigger>
-        <PopoverContent className="space-y-3">
+        <PopoverContent className="gap-3flex flex-col ">
           <Link href={"/sign-up"}>
             <Button>Sign Up</Button>
           </Link>
