@@ -42,9 +42,20 @@ const Header = () => {
         />
 
         <nav className="hidden md:flex items-center space-x-4">
-          <Link href="/" className="hover:text-secondary transition-colors">
-            Home
-          </Link>
+          <SignedIn>
+            <Link
+              href="/home"
+              className="hover:text-secondary transition-colors"
+            >
+              Home
+            </Link>
+          </SignedIn>
+          <SignedOut>
+            <Link href="/" className="hover:text-secondary transition-colors">
+              Home
+            </Link>
+          </SignedOut>
+
           <Link
             href="/about"
             className="hover:text-secondary transition-colors"

@@ -18,7 +18,11 @@ export const onGetUserLearnings = async (userId: string | undefined) => {
       },
       select: {
         services: true,
-        activityLogs: true,
+        activityLogs: {
+          orderBy: {
+            createdAt: "desc",
+          },
+        },
       },
     });
 
@@ -62,5 +66,26 @@ export const addToActivityLog = async (
         referenceId,
       },
     });
-  } catch (error) {}
+
+    if (activity) {
+      return {
+        status: 200,
+        message: "Activity log created successfully",
+        data: null,
+      };
+    }
+
+    return {
+      status: 400,
+      message: "Activity log not created",
+      data: null,
+    };
+  } catch (error: any) {
+    console.log("ADD_ACTIVITY_LOG_ERROR", error);
+    return {
+      status: 500,
+      message: error.message,
+      data: null,
+    };
+  }
 };

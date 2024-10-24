@@ -5,6 +5,7 @@ import Image from "next/image";
 import React from "react";
 import EmptyLearnings from "./_components/empty-learnings";
 import { Button } from "@/components/ui/button";
+import ActivityLogTable from "@/components/global/activity-log";
 
 type Props = {};
 
@@ -54,16 +55,20 @@ const page = async (props: Props) => {
         {/* services user bought */}
 
         <div>
-          {learnings.data?.services?.length === 0 && <EmptyLearnings />}
+          {learnings.data?.services?.length === 0 ? <EmptyLearnings /> : null}
         </div>
         <div className="text-center mt-20">
-          <h1 className="text-xl font-poppins lg:text-2xl font-semibold">
+          <h1 className="text-xl font-poppins lg:text-2xl font-semibold py-8">
             Activity Log
           </h1>
-          {learnings.data?.services?.length === 0 && (
+          {learnings.data?.activityLogs?.length === 0 ? (
             <p className="text-sm text-muted-foreground">
               Your activity logs will appear here as you buy services
             </p>
+          ) : (
+            <ActivityLogTable
+              data={learnings.data?.activityLogs.slice(0, 10)}
+            />
           )}
         </div>
       </aside>

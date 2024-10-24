@@ -1,6 +1,7 @@
 "use client";
 
 import { verifyPaystackPayment } from "@/actions/payment";
+import { addToActivityLog } from "@/actions/user";
 import {
   Dialog,
   DialogContent,
@@ -10,12 +11,15 @@ import {
 } from "@/components/ui/dialog";
 import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
 
-type Props = {};
+type Props = {
+  userId: string | undefined;
+};
 
-const VerifyPayment = (props: Props) => {
+const VerifyPayment = ({ userId }: Props) => {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const reference = searchParams.get("reference");
   const params = new URLSearchParams(searchParams.toString());
@@ -32,7 +36,23 @@ const VerifyPayment = (props: Props) => {
   };
 
   useEffect(() => {
-    if (isSuccess && data.status) {
+    if (isSuccess && data?.status) {
+      console.log({ data });
+      const addActivity = async () => {
+        const activity = await addToActivityLog(
+          userId,
+          `Paid for ${data?.data?.metadata?.serviceType}`,
+          data?.data?.metadata.serviceType,
+          data?.data?.amount / 100,
+          data?.data?.reference
+        );
+
+        if (activity.status === 200) {
+          router.push(`/content-library/curriculum`);
+        }
+      };
+
+      addActivity();
     }
   }, [data]);
 

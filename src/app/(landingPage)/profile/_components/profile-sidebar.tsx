@@ -23,7 +23,7 @@ const ProfileSidebar = (props: Props) => {
     },
     {
       title: "Activity Logs",
-      url: "/activity-logs",
+      url: "/profile/activity-logs",
       icon: Inbox,
     },
     {
