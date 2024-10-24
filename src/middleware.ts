@@ -1,6 +1,6 @@
 import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
 
-const excludedRoutes = ["/"];
+const excludedRoutes = ["/", "/sign-up", "/sign-in", "/callback"];
 
 const isExcluded = createRouteMatcher(excludedRoutes);
 

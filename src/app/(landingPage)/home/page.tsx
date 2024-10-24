@@ -53,12 +53,14 @@ const page = async (props: Props) => {
       <aside className="container mx-auto my-16">
         {/* services user bought */}
 
-        <div>{learnings.data?.services.length === 0 && <EmptyLearnings />}</div>
+        <div>
+          {learnings.data?.services?.length === 0 && <EmptyLearnings />}
+        </div>
         <div className="text-center mt-20">
           <h1 className="text-xl font-poppins lg:text-2xl font-semibold">
             Activity Log
           </h1>
-          {learnings.data?.services.length === 0 && (
+          {learnings.data?.services?.length === 0 && (
             <p className="text-sm text-muted-foreground">
               Your activity logs will appear here as you buy services
             </p>

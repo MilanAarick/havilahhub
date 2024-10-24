@@ -23,6 +23,7 @@ const SignUpForm = (props: Props) => {
     setCode,
     getValues,
     sendingCode,
+    params,
   } = useAuthSignup();
 
   const handleSubmit = (e: any) => {

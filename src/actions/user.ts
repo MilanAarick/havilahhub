@@ -14,7 +14,7 @@ export const onGetUserLearnings = async (userId: string | undefined) => {
   try {
     const learnings = await client.user.findUnique({
       where: {
-        id: userId,
+        clerkId: userId,
       },
       select: {
         services: true,
@@ -55,7 +55,7 @@ export const addToActivityLog = async (
   try {
     const activity = await client.activityLog.create({
       data: {
-        user: { connect: { id: userId } },
+        user: { connect: { clerkId: userId } },
         serviceDetail: detail,
         serviceType: type,
         amount,

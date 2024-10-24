@@ -69,6 +69,11 @@ export const useAuthSignIn = () => {
 };
 
 export const useAuthSignup = () => {
+  const params = new URLSearchParams(useSearchParams().toString());
+  const referredBy = params.get("referredBy");
+  const referralType = params.get("referralType");
+  const referralUrl = referredBy ? `?referredBy=${referredBy}` : "";
+  const referralTypeUrl = referralType ? `&referralType=${referralType}` : "";
   const { setActive, isLoaded, signUp } = useSignUp();
   const [creating, setCreating] = useState(false);
 
@@ -96,6 +101,10 @@ export const useAuthSignup = () => {
 
   const router = useRouter();
 
+  const redirectUrl: string[] = [];
+  if (referredBy) redirectUrl.push(`referredBy=${referredBy}`);
+  if (referralType) redirectUrl.push(`referralType=${referralType}`);
+  const redirect = redirectUrl.length > 0 ? `?${redirectUrl.join("&")}` : "";
   const onGenerateCode = async (email: string, password: string) => {
     if (!isLoaded)
       return toast.error("Something went wrong, please try again later");
@@ -149,28 +158,14 @@ export const useAuthSignup = () => {
       if (completeSignUp.status === "complete") {
         if (!signUp.createdUserId) return toast.error("User not found");
 
-        const user = await onSignUpUser({
-          firstname: values.firstname,
-          lastname: values.lastname,
-          id: signUp.createdUserId,
-          image: "",
-          email: values.email,
-          referralCode: `HA${createId()}`,
-        });
-
         reset();
 
-        if (user.status === 200) {
-          toast.success("User successfully created");
+        if (signUp.createdUserId) {
+          toast.success("Creatig account");
           await setActive({
             session: completeSignUp.createdSessionId,
           });
-          router.push(`/home`);
-        }
-
-        if (user.status !== 200) {
-          toast.error("User could not be created! Try again");
-          clerk.user?.delete();
+          router.push(`/callback${redirect}`);
         }
 
         setCreating(false);
@@ -203,5 +198,6 @@ export const useAuthSignup = () => {
     verifying,
     creating,
     sendingCode,
+    params: params.get("referredBy"),
   };
 };
