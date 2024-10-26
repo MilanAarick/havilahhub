@@ -2,7 +2,13 @@
 
 import { client } from "@/lib/prisma";
 
-import { Prisma, SchoolLevel, ServiceType, SubjectArea } from "@prisma/client";
+import {
+  Prisma,
+  SchoolLevel,
+  ServiceType,
+  SubjectArea,
+  TestStatus,
+} from "@prisma/client";
 
 type FilterType = "all" | "writing" | "tutoring";
 
@@ -201,6 +207,89 @@ export const onGetSingleTest = async (id: string) => {
     return {
       status: 500,
       message: "An error occurred while fetching test",
+      data: null,
+    };
+  }
+};
+
+interface AttemptTest {
+  userId: string;
+  testId: string;
+  score: number;
+}
+
+export const onCreateAttempt = async ({
+  userId,
+  testId,
+  score,
+}: AttemptTest) => {
+  try {
+    const testAttempt = await client.testAttempt.create({
+      data: {
+        userId,
+        testId,
+        status: TestStatus.COMPLETED,
+        score,
+        completedAt: new Date(),
+      },
+    });
+
+    if (testAttempt) {
+      return {
+        status: 200,
+        message: "Progress Saved!",
+      };
+    }
+
+    return {
+      status: 404,
+      message: "Progress not saved",
+    };
+  } catch (error: any) {
+    console.log("ERROR_SAVING_TEST", error);
+    return {
+      status: 500,
+      message: error.message,
+    };
+  }
+};
+
+export const onGetTestAttempts = async (userId: string | undefined) => {
+  try {
+    const testAttempts = await client.testAttempt.findMany({
+      where: {
+        userId,
+      },
+      orderBy: {
+        completedAt: "desc",
+      },
+      include: {
+        test: {
+          include: {
+            questions: true,
+          },
+        },
+      },
+    });
+
+    if (testAttempts) {
+      return {
+        status: 200,
+        message: "Test attempts fetched successfully",
+        data: testAttempts,
+      };
+    }
+
+    return {
+      status: 404,
+      message: "Test attempts not found",
+      data: null,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      status: 500,
+      message: "An error occurred while fetching test attempts",
       data: null,
     };
   }

@@ -128,3 +128,39 @@ export function formatServiceType(serviceType: string): string {
     .replace(/_/g, " ")
     .replace(/\b\w/g, (char) => char.toUpperCase());
 }
+
+export interface TestWithAttempts {
+  completedAt: Date | null;
+  id: string;
+  score: number | null;
+  testId: string;
+  test: Quiz;
+  userId: string;
+  status: string;
+  startedAt: Date;
+}
+export interface Quiz {
+  createdAt: Date;
+  description: string | null;
+  difficultyLevel: string | null;
+  grade: string | null;
+  id: string;
+  isPublished: boolean;
+  metadata: any;
+  passingScore: number | null;
+  questions: Question[];
+  schoolLevel: string;
+  subjectArea: string;
+  timeLimit: number | null;
+  title: string;
+  topic: string | null;
+  updatedAt: Date;
+}
+
+export interface Question {
+  id: string;
+  testId: string;
+  questionText: string;
+  type: string;
+  points: number;
+}

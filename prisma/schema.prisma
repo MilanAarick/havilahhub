@@ -157,7 +157,7 @@ model QuestionOption {
 
 model TestAttempt {
   id          String    @id @default(cuid())
-  user        User      @relation(fields: [userId], references: [id])
+  user        User      @relation(fields: [userId], references: [clerkId])
   userId      String
   test        Test      @relation(fields: [testId], references: [id])
   testId      String

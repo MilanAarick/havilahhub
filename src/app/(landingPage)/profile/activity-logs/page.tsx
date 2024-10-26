@@ -11,8 +11,8 @@ const page = async (props: Props) => {
   const activityLogs = data.data?.activityLogs;
 
   return (
-    <main>
-      <h1 className="py-5 border-b w-full text-2xl lg:text-4xl font-medium font-poppins">
+    <main className="px-5">
+      <h1 className="py-5 border-b w-full text-2xl lg:text-4xl font-medium font-poppins ">
         Activity Logs
       </h1>
 

@@ -1,7 +1,13 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Home, Inbox, LucideSidebarClose, Users } from "lucide-react";
+import {
+  BookCheck,
+  Home,
+  Inbox,
+  LucideSidebarClose,
+  Users,
+} from "lucide-react";
 import Link from "next/link";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -30,6 +36,11 @@ const ProfileSidebar = (props: Props) => {
       title: "Referrals",
       url: "/profile/referral",
       icon: Users,
+    },
+    {
+      title: "Test Scores",
+      url: "/profile/tests",
+      icon: BookCheck,
     },
   ];
 

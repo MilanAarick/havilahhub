@@ -15,20 +15,28 @@ import {
 import { Progress } from "@/components/ui/progress";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { CheckCircle2, XCircle } from "lucide-react";
+import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import { Test } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
+import { onCreateAttempt } from "@/actions/learnings";
+import { useUser } from "@clerk/nextjs";
 
 type Props = {
   test: any;
 };
 
 const TestPage = ({ test }: Props) => {
+  const user = useUser();
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [timeLeft, setTimeLeft] = useState((test?.timeLimit ?? 0) * 60); // Convert minutes to seconds
-
+  const { mutate, isPending } = useMutation({
+    mutationKey: ["save-test-attempt"],
+    mutationFn: async () =>
+      onCreateAttempt({ userId: user?.user?.id!, testId: test?.id!, score }),
+  });
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
@@ -82,14 +90,23 @@ const TestPage = ({ test }: Props) => {
   };
 
   useEffect(() => {
-    if (showResult && calculatePercentageScore() >= test?.passingScore) {
-      confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-      });
+    if (showResult) {
+      mutate();
+      if (calculatePercentageScore() >= test?.passingScore) {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 },
+        });
+      }
     }
   }, [showResult]);
+
+  const progressWidth = () => {
+    const calculated = (currentQuestionIndex / test.questions.length) * 100;
+
+    return calculated;
+  };
 
   if (showResult) {
     const percentageScore = calculatePercentageScore();
@@ -104,7 +121,10 @@ const TestPage = ({ test }: Props) => {
           <p className="text-2xl font-bold mb-4">
             Your Score: {percentageScore.toFixed(2)}%
           </p>
-          <Progress value={percentageScore} className="w-full h-4 mb-4" />
+          <Progress
+            value={percentageScore}
+            className="w-full h-4 mb-4 bg-gray-200"
+          />
           {passed ? (
             <p className="text-green-600 font-semibold">
               Congratulations! You passed the test!
@@ -113,6 +133,13 @@ const TestPage = ({ test }: Props) => {
             <p className="text-red-600 font-semibold">
               Unfortunately, you did not pass the test. Keep practicing!
             </p>
+          )}
+
+          {isPending && (
+            <div className="mt-5 flex items-center gap-5 font-poppins">
+              <p>Saving Progress</p>
+              <Loader2 className="animate-spin" />
+            </div>
           )}
         </CardContent>
       </Card>
@@ -132,8 +159,8 @@ const TestPage = ({ test }: Props) => {
               Time Remaining: {formatTime(timeLeft)}
             </p>
             <Progress
-              value={(timeLeft / (test.timeLimit * 60)) * 100}
-              className="w-full h-2"
+              value={progressWidth()}
+              className="w-full h-2 bg-gray-200"
             />
           </div>
           <h2 className="text-xl font-bold mb-4">

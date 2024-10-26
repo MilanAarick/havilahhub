@@ -14,20 +14,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
-// import {
-//   DropdownMenu,
-//   DropdownMenuCheckboxItem,
-//   DropdownMenuContent,
-//   DropdownMenuItem,
-//   DropdownMenuLabel,
-//   DropdownMenuSeparator,
-//   DropdownMenuTrigger,
-// } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -36,98 +24,83 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ActivityLog } from "@prisma/client";
-import { Badge } from "../ui/badge";
-import { getServiceTitle } from "@/constants/global";
+import { ActivityLog, Question, Test, TestAttempt } from "@prisma/client";
+import { TestWithAttempts } from "@/constants/global";
 
-function getServiceTypeBadge(type: ActivityLog["serviceType"]) {
-  if (getServiceTitle(type) === "writing") {
-    return <Badge variant="secondary">Writing</Badge>;
-  } else if (getServiceTitle(type) === "tutoring") {
-    return <Badge variant="default">Tutoring</Badge>;
-  } else {
-    return <Badge variant="secondary">Writing</Badge>;
-  }
+interface TestWithDetails {
+  data: TestWithAttempts[] | null;
 }
 
-export const columns: ColumnDef<ActivityLog>[] = [
+export const columns: ColumnDef<TestWithAttempts>[] = [
   {
-    accessorKey: "createdAt",
-    header: "Date",
-    cell: ({ row }) => (
-      <div className="capitalize text-left">
-        {row.getValue("createdAt")
-          ? formatDate(new Date(row.getValue("createdAt")), "MMMM dd, yyyy")
-          : ""}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "serviceDetail",
-    header: "Detail",
-    cell: ({ row }) => (
-      <div className="lowercase text-left">{row.getValue("serviceDetail")}</div>
-    ),
-  },
-  {
-    accessorKey: "serviceType",
-    header: "Service",
-    cell: ({ row }) => (
-      <div className="lowercase text-left">
-        {getServiceTypeBadge(row.getValue("serviceType"))}
-      </div>
-    ),
-  },
-  {
-    accessorKey: "referenceId",
-    header: "reference ID",
-    cell: ({ row }) => (
-      <div className=" text-left">{row.getValue("referenceId")}</div>
-    ),
-  },
-  {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "completedAt",
+    header: "Date Completed",
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
-
-      return <div className="text-right font-medium">&#8358;{amount}</div>;
+      const date = row.original?.completedAt;
+      return (
+        <div className="lowercase text-left">
+          {date ? formatDate(new Date(date), "MMMM dd, yyyy") : ""}
+        </div>
+      );
     },
   },
-  //   {
-  //     id: "actions",
-  //     enableHiding: false,
-  //     cell: ({ row }) => {
-  //       const payment = row.original;
-
-  //       return (
-  //         <DropdownMenu>
-  //           <DropdownMenuTrigger asChild>
-  //             <Button variant="ghost" className="h-8 w-8 p-0">
-  //               <span className="sr-only">Open menu</span>
-  //               <MoreHorizontal className="h-4 w-4" />
-  //             </Button>
-  //           </DropdownMenuTrigger>
-  //           <DropdownMenuContent align="end">
-  //             <DropdownMenuLabel>Actions</DropdownMenuLabel>
-  //             <DropdownMenuItem
-  //               onClick={() => navigator.clipboard.writeText(payment.id)}
-  //             >
-  //               Copy payment ID
-  //             </DropdownMenuItem>
-  //             <DropdownMenuSeparator />
-  //             <DropdownMenuItem>View customer</DropdownMenuItem>
-  //             <DropdownMenuItem>View payment details</DropdownMenuItem>
-  //           </DropdownMenuContent>
-  //         </DropdownMenu>
-  //       );
-  //     },
-  //   },
+  {
+    accessorKey: "testId",
+    header: "Test ID",
+    cell: ({ row }) => (
+      <div className="lowercase text-left">{row.getValue("testId")}</div>
+    ),
+  },
+  {
+    accessorKey: "test",
+    header: "Level",
+    cell: ({ row }) => {
+      const level = row.original?.test?.schoolLevel;
+      return <div className="lowercase text-left">{level}</div>;
+    },
+  },
+  {
+    accessorKey: "test",
+    header: "Subject",
+    cell: ({ row }) => {
+      const subject = row.original?.test?.subjectArea;
+      return <div className="lowercase text-left">{subject}</div>;
+    },
+  },
+  {
+    accessorKey: "score",
+    header: "Cut off Score",
+    cell: ({ row }) => {
+      const passingScore = row.original?.test?.passingScore;
+      return <div className="lowercase text-left">{passingScore}%</div>;
+    },
+  },
+  {
+    accessorKey: "score",
+    header: "Test Score",
+    cell: ({ row }) => {
+      const questionLength = row.original?.test?.questions?.length;
+      const percentage = ((row.original.score ?? 0) / questionLength) * 100;
+      const formatted = percentage.toFixed(1);
+      return (
+        <div className="lowercase text-left">
+          {row.getValue("score")} / {questionLength}{" "}
+          <span className="font-semibold"> ({formatted}%) </span>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "test",
+    header: "Test Question",
+    cell: ({ row }) => {
+      const title = row.original?.test?.title;
+      return <div className="lowercase text-left">{title}</div>;
+    },
+  },
 ];
-interface Props {
-  data: ActivityLog[] | undefined;
-}
-export function ActivityLogTable({ data }: Props) {
+
+export function TestTable({ data }: TestWithDetails) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     []
@@ -218,10 +191,6 @@ export function ActivityLogTable({ data }: Props) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"

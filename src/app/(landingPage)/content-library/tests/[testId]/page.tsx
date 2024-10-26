@@ -11,7 +11,7 @@ const page = async ({ params }: { params: { testId: string } }) => {
   const test = await onGetSingleTest(params.testId);
 
   return (
-    <div>
+    <div className="min-h-svh">
       <article className="container pt-16">
         <h1 className="text-2xl font-semibold text-primary font-poppins lg:text-4xl py-4">
           Test
