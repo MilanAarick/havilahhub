@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const page = (props: Props) => {
   return (
     <main>
-      <article className="mt-24 container mx-auto p-5">
+      <article className="mt-24 container mx-auto p-5 bg-gray-50">
         <h1 className="font-medium font-inter lg:text-2xl pb-6">About Us</h1>
         <h2 className="font-semibold font-poppins text-3xl lg:text-7xl leading-9">
           We foster critical thinking <br />

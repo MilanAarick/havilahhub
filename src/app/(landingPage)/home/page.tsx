@@ -41,7 +41,7 @@ const page = async (props: Props) => {
           </div>
         </section>
       </div>
-      <aside className="bg-primary text-white ">
+      <aside className="bg-secondary text-white ">
         <div className="flex items-center justify-between gap-5 p-5 md:p-10 lg:p-16">
           <h1 className="text-xl lg:text-3xl 2xl:text-5xl font-poppins font-semibold">
             Welcome, {clerk?.firstName}!

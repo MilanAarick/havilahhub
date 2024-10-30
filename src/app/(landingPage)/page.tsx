@@ -20,11 +20,11 @@ export default function Homepage() {
       <main className="flex-grow ">
         <section className="bg-gradient-to-br from-primary to-secondary text-primary-foreground relative">
           <div className="container mx-auto px-4 py-16 flex items-center justify-between relative z-20">
-            <div className="max-w-3xl h-[calc(50svh-200px)]">
+            <div className="max-w-3xl h-[230px] lg:h-[380px]">
               <h1 className="text-4xl font-bold mb-4 font-poppins">
                 Havilah Learning Hub: Giving you an Edge
               </h1>
-              <p className="text-lg mb-8">
+              <p className="text-base lg:text-lg mb-8">
                 Havilah Learning Hub provides personalized tutoring and research
                 support from kindergarten to postgraduate levels, offering
                 tailored tutoring, assignment help, and project assistance to
@@ -47,8 +47,8 @@ export default function Homepage() {
 
         <section className="bg-background text-foreground">
           <div className="container mx-auto px-4 py-16">
-            <div className="flex items-center">
-              <div className="w-1/2 pr-8">
+            <div className="flex items-center gap-8 flex-col lg:flex-row">
+              <div className="w-full lg:w-1/2 ">
                 <Image
                   src={header_image}
                   alt="Students learning"
@@ -57,7 +57,7 @@ export default function Homepage() {
                   className="rounded-lg shadow-lg"
                 />
               </div>
-              <div className="w-1/2 pl-8">
+              <div className="lg:w-1/2 ">
                 <h2 className="text-3xl font-bold mb-4 text-primary font-poppins">
                   Latest from Our Newsletter
                 </h2>

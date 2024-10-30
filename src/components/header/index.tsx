@@ -32,7 +32,7 @@ import DropdownMenu from "./drop-down";
 
 const Header = () => {
   return (
-    <header className="bg-primary text-primary-foreground sticky top-0 z-50">
+    <header className="bg-white/80 backdrop-blur-md text-primary-foreground sticky top-0 z-50 text-black">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Image
           src={logo}
@@ -41,7 +41,7 @@ const Header = () => {
           height={80}
         />
 
-        <nav className="hidden md:flex items-center space-x-4">
+        <nav className="hidden md:flex items-center space-x-4 text-black">
           <SignedIn>
             <Link
               href="/home"

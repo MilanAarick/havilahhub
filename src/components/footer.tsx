@@ -6,7 +6,7 @@ type Props = {};
 
 const Footer = (props: Props) => {
   return (
-    <footer className="bg-muted text-muted-foreground">
+    <footer className="bg-secondary text-white">
       <div className="container mx-auto px-4 py-8 flex flex-col lg:flex-row lg:items-center justify-between gap-8">
         <div className="flex gap-3 items-center">
           <div>
@@ -16,22 +16,13 @@ const Footer = (props: Props) => {
           </div>
           <div className="flex space-x-4">
             <Link href="#" aria-label="Facebook">
-              <Facebook
-                size={20}
-                className="text-primary hover:text-primary/80"
-              />
+              <Facebook size={20} className="text-black" />
             </Link>
             <Link href="#" aria-label="Instagram">
-              <Instagram
-                size={20}
-                className="text-primary hover:text-primary/80"
-              />
+              <Instagram size={20} className="text-black" />
             </Link>
             <Link href="#" aria-label="LinkedIn">
-              <Linkedin
-                size={20}
-                className="text-primary hover:text-primary/80"
-              />
+              <Linkedin size={20} className="text-black" />
             </Link>
           </div>
         </div>

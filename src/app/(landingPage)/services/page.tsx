@@ -69,7 +69,7 @@ const EnhancedServicesPage = () => {
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <main>
         {/* Hero Section */}
-        <section className="relative bg-primary text-white overflow-hidden ">
+        <section className="relative bg-secondary text-white overflow-hidden ">
           <div className="absolute inset-0">
             <Image
               src={banner_three}
@@ -87,7 +87,11 @@ const EnhancedServicesPage = () => {
               Discover our comprehensive range of educational services designed
               to help you excel in your academic and professional pursuits.
             </p>
-            <Button size="lg" variant="secondary">
+            <Button
+              size="lg"
+              variant="secondary"
+              className="bg-black text-white hover:bg-black hover:text-white opacity-0"
+            >
               Explore Our Services
             </Button>
           </div>
@@ -174,7 +178,11 @@ const EnhancedServicesPage = () => {
               Get in touch with Havilah Learning Hub today and take the first
               step towards academic success!
             </p>
-            <Button variant="secondary" size="lg">
+            <Button
+              variant="secondary"
+              size="lg"
+              className="bg-black text-white hover:bg-black hover:text-white"
+            >
               Contact Us Now
             </Button>
           </div>

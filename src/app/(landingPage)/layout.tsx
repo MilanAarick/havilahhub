@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <main className={` font-inter antialiased`}>
       <Header />
-      <div className="pb-10 bg-white">{children}</div>
+      <div className="pb-10 bg-gray-50">{children}</div>
 
       <Footer />
     </main>
