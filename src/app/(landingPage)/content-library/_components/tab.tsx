@@ -34,12 +34,21 @@ const TabsComponent = () => {
   const handleTabChange = (value: FilterType) => {
     const queryParams = new URLSearchParams(window.location.search);
     queryParams.delete("q");
-    queryParams.set("filter", value);
-    window.history.pushState(
-      {},
-      "",
-      `${window.location.pathname}?${queryParams}`
-    );
+    if (value === "all") {
+      queryParams.delete("filter");
+      window.history.pushState(
+        {},
+        "",
+        `${window.location.pathname}?${queryParams}`
+      );
+    } else {
+      queryParams.set("filter", value);
+      window.history.pushState(
+        {},
+        "",
+        `${window.location.pathname}?${queryParams}`
+      );
+    }
     setFilter(value);
     setPage(1); // Reset to first page when changing filter
   };
