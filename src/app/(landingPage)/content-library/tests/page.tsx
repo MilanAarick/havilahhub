@@ -15,7 +15,7 @@ const page = async (props: Props) => {
         <TestNav />
       </div>
 
-      <div>
+      <div className="min-h-[calc(100svh-200px)]">
         <TestCatalogPage />
       </div>
     </div>
