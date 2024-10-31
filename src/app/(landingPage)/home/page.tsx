@@ -6,6 +6,7 @@ import React from "react";
 import EmptyLearnings from "./_components/empty-learnings";
 import { Button } from "@/components/ui/button";
 import { ActivityLogTable } from "@/components/global/activity-log";
+import Link from "next/link";
 
 type Props = {};
 
@@ -46,17 +47,19 @@ const page = async (props: Props) => {
           <h1 className="text-xl lg:text-3xl 2xl:text-5xl font-poppins font-semibold">
             Welcome, {clerk?.firstName}!
           </h1>
-          <Button className="bg-white text-black hover:bg-white/90 hover:text-black">
-            Go to Services
-          </Button>
+          <Link href="/services">
+            <Button className="bg-white text-black hover:bg-white/90 hover:text-black">
+              Go to Services
+            </Button>
+          </Link>
         </div>
       </aside>
       <aside className="container mx-auto my-16">
         {/* services user bought */}
 
-        <div>
+        {/* <div>
           {learnings.data?.services?.length === 0 ? <EmptyLearnings /> : null}
-        </div>
+        </div> */}
         <div className="text-center mt-20">
           <h1 className="text-xl font-poppins lg:text-2xl font-semibold py-8">
             Activity Log
