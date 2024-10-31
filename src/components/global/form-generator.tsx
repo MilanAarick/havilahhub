@@ -6,6 +6,8 @@ import { ErrorMessage } from "@hookform/error-message";
 import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 type FormGeneratorProps = {
   type?: "text" | "email" | "password" | "number";
@@ -30,18 +32,46 @@ export const FormGenerator = ({
   type,
   lines,
 }: FormGeneratorProps) => {
+  const [showPassword, setShowPassword] = useState(false);
   switch (inputType) {
     case "input":
       return (
         <Label className="flex flex-col gap-2" htmlFor={`input-${label}`}>
           {label && label}
-          <Input
-            id={`input-${label}`}
-            type={type}
-            placeholder={placeholder}
-            // className="bg-white border border-themeGray text-black"
-            {...register(name)}
-          />
+          <div className="relative">
+            <Input
+              id={`input-${label}`}
+              type={
+                type === "password"
+                  ? showPassword
+                    ? "text"
+                    : "password"
+                  : type
+              }
+              placeholder={placeholder}
+              {...register(name)}
+            />
+            {type === "password" && (
+              <button
+                type="button"
+                onClick={() => setShowPassword(!showPassword)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-700"
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            )}
+          </div>
+          {type === "password" && (
+            <p className="text-sm text-muted-foreground mt-1">
+              Password must contain:
+              <ul className="list-disc list-inside">
+                <li>At least 8 characters</li>
+                <li>At least 1 number</li>
+                <li>At least 1 lowercase letter</li>
+                <li>At least 1 uppercase letter</li>
+              </ul>
+            </p>
+          )}
           <ErrorMessage
             errors={errors}
             name={name}

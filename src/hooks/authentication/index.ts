@@ -134,6 +134,8 @@ export const useAuthSignup = () => {
         "That email address is taken. Please try another."
       ) {
         toast.error("Email already in use, please try another");
+      } else {
+        toast.error(error?.errors[0]?.message ?? "An error occurred");
       }
       console.log(JSON.stringify(error, null, 2));
     } finally {
