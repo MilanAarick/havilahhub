@@ -32,6 +32,14 @@ export default function SignupPage() {
             Join Havilah Learning Hub
           </h2>
           <SignUpForm />
+          <div>
+            <p className="mt-4 text-sm text-center">
+              Have an account?{" "}
+              <a href="/sign-in" className="text-primary hover:underline">
+                Sign in
+              </a>
+            </p>
+          </div>
         </div>
 
         {/* Right side - Illustration */}
