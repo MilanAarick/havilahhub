@@ -10,6 +10,7 @@ import { BookOpen, Lightbulb, Rocket, Sparkles } from "lucide-react";
 import { SIGN_IN_FORM } from "@/constants/forms";
 import { FormGenerator } from "@/components/global/form-generator";
 import { useAuthSignIn } from "@/hooks/authentication";
+import Link from "next/link";
 
 export default function LoginScreen() {
   const { isPending, onAuthenticatedUser, register, errors } = useAuthSignIn();
@@ -61,6 +62,11 @@ export default function LoginScreen() {
               Sign up
             </a>
           </p>
+          <Link href="/forgot-password">
+            <p className="mt-4 text-sm text-secondary text-center">
+              Forgot Password?
+            </p>
+          </Link>
         </div>
 
         {/* Right side - Illustration */}

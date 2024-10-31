@@ -61,17 +61,7 @@ export const FormGenerator = ({
               </button>
             )}
           </div>
-          {type === "password" && (
-            <p className="text-sm text-muted-foreground mt-1">
-              Password must contain:
-              <ul className="list-disc list-inside">
-                <li>At least 8 characters</li>
-                <li>At least 1 number</li>
-                <li>At least 1 lowercase letter</li>
-                <li>At least 1 uppercase letter</li>
-              </ul>
-            </p>
-          )}
+
           <ErrorMessage
             errors={errors}
             name={name}
