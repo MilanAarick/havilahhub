@@ -114,8 +114,12 @@ const Header = () => {
         </nav>
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="md:hidden">
-              <Menu className="h-6 w-6" />
+            <Button
+              variant="outline"
+              size="icon"
+              className="md:hidden bg-transparent border-none"
+            >
+              <Menu className="h-7 w-7 text-secondary" />
             </Button>
           </SheetTrigger>
           <SheetContent>
