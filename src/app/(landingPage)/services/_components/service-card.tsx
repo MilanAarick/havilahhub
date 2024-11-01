@@ -10,9 +10,22 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ChevronUp } from "lucide-react";
+import { ChevronDown, ChevronUp, ChevronRight } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import React, { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/components/ui/drawer";
+import { useMediaQuery } from "@/hooks/use-media-query";
 
 type Props = {
   service: {
@@ -25,11 +38,19 @@ type Props = {
 };
 
 const ServiceCard = ({ service }: Props) => {
-  const [expandedService, setExpandedService] = useState<string | null>(null);
+  const [open, setOpen] = useState(false);
+  const isDesktop = useMediaQuery("(min-width: 768px)");
 
-  const toggleService = (id: string) => {
-    setExpandedService(expandedService === id ? null : id);
+  const onOpenChange = (open: boolean) => {
+    setOpen(open);
   };
+
+  const Content = () => (
+    <div className="px-4">
+      <p className="text-gray-600">{service.details}</p>
+    </div>
+  );
+
   return (
     <motion.div
       key={service.id}
@@ -37,6 +58,7 @@ const ServiceCard = ({ service }: Props) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
       id={service.id}
+      className="max-w-[400px] h-full"
     >
       <Card className="overflow-hidden h-full flex flex-col">
         <Image
@@ -49,40 +71,39 @@ const ServiceCard = ({ service }: Props) => {
         <CardHeader>
           <CardTitle className="text-2xl font-bold">{service.title}</CardTitle>
         </CardHeader>
-        <CardContent className="flex-grow">
+        <CardContent>
           <CardDescription>{service.description}</CardDescription>
         </CardContent>
         <CardFooter>
           <Button
-            onClick={() => toggleService(service.id)}
+            onClick={() => setOpen(true)}
             variant="outline"
             className="w-full"
           >
-            {expandedService === service.id ? (
-              <>
-                Less Info <ChevronUp className="ml-2 h-4 w-4" />
-              </>
-            ) : (
-              <>
-                More Info <ChevronDown className="ml-2 h-4 w-4" />
-              </>
-            )}
+            More Info <ChevronRight className="ml-2 h-4 w-4" />
           </Button>
         </CardFooter>
-        <AnimatePresence>
-          {expandedService === service.id && (
-            <motion.div
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.3 }}
-              className="px-6 pb-4"
-            >
-              <p className="text-gray-600">{service.details}</p>
-            </motion.div>
-          )}
-        </AnimatePresence>
       </Card>
+
+      {isDesktop ? (
+        <Dialog open={open} onOpenChange={onOpenChange}>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>{service.title}</DialogTitle>
+            </DialogHeader>
+            <Content />
+          </DialogContent>
+        </Dialog>
+      ) : (
+        <Drawer open={open} onOpenChange={onOpenChange}>
+          <DrawerContent>
+            <DrawerHeader>
+              <DrawerTitle>{service.title}</DrawerTitle>
+            </DrawerHeader>
+            <Content />
+          </DrawerContent>
+        </Drawer>
+      )}
     </motion.div>
   );
 };

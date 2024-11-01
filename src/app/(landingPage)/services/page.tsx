@@ -114,7 +114,7 @@ const EnhancedServicesPage = () => {
             <h2 className="text-4xl font-extrabold text-center mb-16">
               Our Services
             </h2>
-            <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-3 justify-center">
               {services.map((service) => (
                 <ServiceCard service={service} key={service.id} />
               ))}
