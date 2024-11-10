@@ -23,6 +23,8 @@ export const useAuthSignIn = () => {
     formState: { errors },
     reset,
     handleSubmit,
+    watch,
+    setValue,
   } = useForm<z.infer<typeof SignInSchema>>({
     resolver: zodResolver(SignInSchema),
     mode: "onBlur",
@@ -93,7 +95,14 @@ export const useAuthSignIn = () => {
     initiateLoginFlow({ email: values.email, password: values.password });
   });
 
-  return { isPending, onAuthenticatedUser, register, errors };
+  return {
+    isPending,
+    onAuthenticatedUser,
+    register,
+    errors,
+    watch,
+    setValue,
+  };
 };
 
 export const useAuthSignup = () => {

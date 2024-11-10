@@ -14,9 +14,10 @@ import Link from "next/link";
 import { toast } from "sonner";
 
 export default function LoginScreen() {
-  const { isPending, onAuthenticatedUser, register, errors } = useAuthSignIn();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { isPending, onAuthenticatedUser, register, errors, watch, setValue } =
+    useAuthSignIn();
+  const email = watch("email");
+  const password = watch("password");
   const [isHovering, setIsHovering] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
@@ -25,12 +26,13 @@ export default function LoginScreen() {
     if (localData) {
       const parsedData = JSON.parse(localData);
       setRememberMe(true);
-      setEmail(parsedData.email);
-      setPassword(parsedData.password);
+      setValue("email", parsedData.email);
+      setValue("password", parsedData.password);
     }
   }, [rememberMe]);
 
   const handleRememberMe = () => {
+    setRememberMe(!rememberMe);
     if (!email || !password)
       return toast.warning("Please enter your email and password");
 
