@@ -6,6 +6,7 @@ const excludedRoutes = [
   "/sign-in",
   "/callback",
   "/forgot-password",
+  "/about",
 ];
 
 const isExcluded = createRouteMatcher(excludedRoutes);

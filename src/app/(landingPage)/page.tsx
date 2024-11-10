@@ -30,6 +30,21 @@ export default function Homepage() {
                 tailored tutoring, assignment help, and project assistance to
                 help students excel academically.
               </p>
+              <nav className="flex flex-row gap-2">
+                <Link href="/sign-in" className="">
+                  <Button variant="default" className="text-white">
+                    Sign In
+                  </Button>
+                </Link>
+                <Link href="/sign-up" className="">
+                  <Button
+                    variant="outline"
+                    className="text-black hover:text-white border-0"
+                  >
+                    Sign Up
+                  </Button>
+                </Link>
+              </nav>
             </div>
           </div>
           <div className="absolute h-full w-full top-0 left-0 z-0">

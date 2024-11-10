@@ -15,8 +15,10 @@ const page = (props: Props) => {
   return (
     <main>
       <article className="mt-24 container mx-auto p-5 bg-gray-50">
-        <h1 className="font-medium font-inter lg:text-2xl pb-6">About Us</h1>
-        <h2 className="font-semibold font-poppins text-3xl lg:text-7xl leading-9">
+        <h1 className="font-medium font-inter text-3xl lg:text-7xl pb-6 text-secondary">
+          About Us
+        </h1>
+        <h2 className="font-semibold font-poppins text-3xl lg:text-7xl leading-9 mt-5">
           We foster critical thinking <br />
           <span className="text-gray-300">and academic excellence</span>
         </h2>

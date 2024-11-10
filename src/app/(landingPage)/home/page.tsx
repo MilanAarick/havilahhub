@@ -18,7 +18,7 @@ const page = async (props: Props) => {
       <div>
         <section className="bg-gradient-to-br from-primary to-secondary text-primary-foreground relative">
           <div className="container mx-auto px-4 py-16 flex items-center justify-between relative z-20">
-            <div className="max-w-3xl h-[calc(50svh-200px)]">
+            <div className=" h-[calc(50svh-200px)]">
               <h1 className="text-4xl font-bold mb-4 font-poppins">
                 Welcome to Havilah Learning Hub
               </h1>
@@ -42,8 +42,8 @@ const page = async (props: Props) => {
           </div>
         </section>
       </div>
-      <aside className="bg-secondary text-white ">
-        <div className="flex items-center justify-between gap-5 p-5 md:p-10 lg:p-16">
+      <aside className="bg-secondary text-white h-[120px] flex items-center justify-center">
+        <div className="container flex items-center justify-between gap-5 py-5 md:py-10 lg:py-16 ">
           <h1 className="text-xl lg:text-3xl 2xl:text-5xl font-poppins font-semibold">
             Welcome, {clerk?.firstName}!
           </h1>

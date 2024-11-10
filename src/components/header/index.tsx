@@ -32,7 +32,7 @@ import DropdownMenu from "./drop-down";
 
 const Header = () => {
   return (
-    <header className="bg-white/80 backdrop-blur-md text-primary-foreground sticky top-0 z-50 text-black">
+    <header className="bg-white text-primary-foreground sticky top-0 z-50 text-black">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
         <Image
           src={logo}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -11,12 +11,38 @@ import { SIGN_IN_FORM } from "@/constants/forms";
 import { FormGenerator } from "@/components/global/form-generator";
 import { useAuthSignIn } from "@/hooks/authentication";
 import Link from "next/link";
+import { toast } from "sonner";
 
 export default function LoginScreen() {
   const { isPending, onAuthenticatedUser, register, errors } = useAuthSignIn();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [isHovering, setIsHovering] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  useEffect(() => {
+    const localData = localStorage.getItem("rememberMeData");
+    if (localData) {
+      const parsedData = JSON.parse(localData);
+      setRememberMe(true);
+      setEmail(parsedData.email);
+      setPassword(parsedData.password);
+    }
+  }, [rememberMe]);
+
+  const handleRememberMe = () => {
+    if (!email || !password)
+      return toast.warning("Please enter your email and password");
+
+    if (rememberMe) {
+      localStorage.setItem(
+        "rememberMeData",
+        JSON.stringify({ email, password })
+      );
+    } else {
+      localStorage.removeItem("rememberMeData");
+    }
+  };
 
   return (
     <div className=" flex items-center justify-center p-4">
@@ -43,6 +69,15 @@ export default function LoginScreen() {
                 errors={errors}
               />
             ))}
+
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="remember"
+                checked={rememberMe}
+                onCheckedChange={handleRememberMe}
+              />
+              <Label htmlFor="remember">Remember me</Label>
+            </div>
 
             <Button
               type="submit"

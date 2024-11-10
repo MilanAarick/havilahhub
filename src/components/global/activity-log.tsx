@@ -80,7 +80,7 @@ export const columns: ColumnDef<ActivityLog>[] = [
   },
   {
     accessorKey: "referenceId",
-    header: "reference ID",
+    header: "Reference ID",
     cell: ({ row }) => (
       <div className=" text-left">{row.getValue("referenceId")}</div>
     ),
@@ -167,14 +167,14 @@ export function ActivityLogTable({ data }: Props) {
           className="max-w-sm"
         />
       </div> */}
-      <div className="rounded-md border">
-        <Table>
-          <TableHeader>
+      <div className="rounded-md border border-black/60">
+        <Table className="border-black/60">
+          <TableHeader className="border-black/60 text-black">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id} className="text-black">
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead key={header.id} className="text-black">
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -218,10 +218,6 @@ export function ActivityLogTable({ data }: Props) {
         </Table>
       </div>
       <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
         <div className="space-x-2">
           <Button
             variant="outline"

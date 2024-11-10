@@ -207,3 +207,19 @@ model Testimonial {
   rating    Int
   createdAt DateTime  @default(now())
 }
+
+//make userId =  clerkId
+model UserDevice {
+  id          String   @id @default(cuid())
+  userId      String
+  deviceId    String
+  browserName String
+  osName      String
+  ipAddress   String
+  geoCity     String?
+  geoCountry  String?
+  lastSeen    DateTime
+  createdAt   DateTime @default(now())
+
+  @@unique([userId, deviceId])
+}

@@ -1,6 +1,6 @@
 // import { onSignUpUser } from "@/actions/auth";
 // import { SignUpSchema } from "@/components/forms/sign-up/schema";
-import { onSignUpUser } from "@/actions/auth";
+import { onSignUpUser, registerDeviceOnSignup } from "@/actions/auth";
 import { SignInSchema, SignUpSchema } from "@/constants/forms";
 import { useClerk, useSignIn, useSignUp } from "@clerk/nextjs";
 import { OAuthStrategy } from "@clerk/types";
@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
 import { createId } from "@paralleldrive/cuid2";
+import { checkAndRegisterDevice } from "@/actions/auth";
 
 export const useAuthSignIn = () => {
   const { isLoaded, setActive, signIn } = useSignIn();
@@ -29,6 +30,20 @@ export const useAuthSignIn = () => {
 
   const router = useRouter();
 
+  const generateDeviceFingerprint = async () => {
+    const deviceData = [
+      navigator.userAgent,
+      navigator.hardwareConcurrency,
+    ].join("|");
+
+    // Create a hash of the device data
+    const encoder = new TextEncoder();
+    const data = encoder.encode(deviceData);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+  };
+
   const onClerkAuth = async (email: string, password: string) => {
     if (!isLoaded)
       return toast.error("Something went wrong, please try again later");
@@ -40,10 +55,23 @@ export const useAuthSignIn = () => {
       });
 
       if (authenticated.status === "complete") {
+        const deviceInfo = {
+          browserName: navigator.userAgent,
+          osName: navigator.platform ?? "",
+          deviceId: await generateDeviceFingerprint(), // Use fingerprint instead of createId
+          userId: authenticated.id!,
+        };
+
+        const { isNewDevice } = await checkAndRegisterDevice(deviceInfo);
+
+        // if (isNewDevice) {
+        //   toast.info("New device detected! We've sent you a verification email.");
+        // }
+
         reset();
         await setActive({ session: authenticated.createdSessionId });
         toast.success("Welcome back!");
-        router.push("/home");
+        router.push(redirect_url ? redirect_url : "/home");
       }
     } catch (error: any) {
       if (error.errors[0].code === "form_password_incorrect") {
@@ -81,6 +109,20 @@ export const useAuthSignup = () => {
   const [verifying, setVerifying] = useState(false);
   const [code, setCode] = useState("");
   const clerk = useClerk();
+
+  const generateDeviceFingerprint = async () => {
+    const deviceData = [
+      navigator.userAgent,
+      navigator.hardwareConcurrency,
+    ].join("|");
+
+    // Create a hash of the device data
+    const encoder = new TextEncoder();
+    const data = encoder.encode(deviceData);
+    const hashBuffer = await crypto.subtle.digest("SHA-256", data);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, "0")).join("");
+  };
 
   const {
     register,
@@ -163,7 +205,15 @@ export const useAuthSignup = () => {
         reset();
 
         if (signUp.createdUserId) {
-          toast.success("Creatig account");
+          const deviceInfo = {
+            browserName: navigator.userAgent,
+            osName: navigator.platform ?? "",
+            deviceId: await generateDeviceFingerprint(), // Use fingerprint instead of createId
+            userId: signUp.id!,
+          };
+
+          await registerDeviceOnSignup(deviceInfo);
+          toast.success("Creating account");
           await setActive({
             session: completeSignUp.createdSessionId,
           });

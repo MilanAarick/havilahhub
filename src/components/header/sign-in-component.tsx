@@ -68,7 +68,7 @@ export default function SignInComp() {
         <Button
           variant="ghost"
           size="icon"
-          className="rounded-full hover:text-white"
+          className="rounded-full hover:text-white hover:bg-secondary"
           aria-label="User menu"
         >
           <User className="h-5 w-5" />

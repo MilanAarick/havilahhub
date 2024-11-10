@@ -10,7 +10,7 @@ type Props = {
 const Layout = ({ children }: Props) => {
   return (
     <main
-      className={` font-inter antialiased min-h-screen bg-gradient-to-br from-primary to-secondary flex items-center justify-center`}
+      className={` font-inter antialiased min-h-screen flex items-center justify-center bg-white`}
     >
       <div className="">
         <div>
