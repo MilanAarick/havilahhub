@@ -51,8 +51,13 @@ const SearchBar = () => {
           autoFocus
         />
       ) : (
-        <Button variant="ghost" size="icon" onClick={() => setIsExpanded(true)}>
-          <Search className="h-4 w-4" />
+        <Button
+          variant="ghost"
+          size="icon"
+          className="hover:bg-secondary hover:text-white duration-200"
+          onClick={() => setIsExpanded(true)}
+        >
+          <Search className="h-4 w-4 " />
         </Button>
       )}
     </div>

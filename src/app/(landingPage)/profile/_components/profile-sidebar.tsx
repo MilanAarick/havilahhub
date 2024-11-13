@@ -33,14 +33,14 @@ const ProfileSidebar = (props: Props) => {
       icon: Inbox,
     },
     {
-      title: "Referrals",
-      url: "/profile/referral",
-      icon: Users,
-    },
-    {
       title: "Test Scores",
       url: "/profile/tests",
       icon: BookCheck,
+    },
+    {
+      title: "Referrals",
+      url: "/profile/referral",
+      icon: Users,
     },
   ];
 

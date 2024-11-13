@@ -16,6 +16,7 @@ const services = [
   {
     id: "personalized-tutoring",
     title: "Personalized Tutoring",
+    type: "tutoring",
     description:
       "One-on-one tailored lessons adapting to individual learning styles and challenges.",
     image: banner_five,
@@ -25,6 +26,7 @@ const services = [
   {
     id: "exam-preparation",
     title: "Exam Preparation",
+    type: "tutoring",
     description:
       "Equipping students with knowledge, strategies, and confidence to succeed in exams.",
     image: banner_four,
@@ -34,6 +36,7 @@ const services = [
   {
     id: "research-writing",
     title: "Research Writing",
+    type: "writing",
     description:
       "Supporting university-level students in producing high-quality academic papers.",
     image: research_writing,
@@ -42,6 +45,7 @@ const services = [
   {
     id: "book-writing",
     title: "Book Writing",
+    type: "writing",
     description:
       "Expert services for both fiction and nonfiction book writing projects.",
     image: book_writing,
@@ -50,6 +54,7 @@ const services = [
   {
     id: "business-plan-sop",
     title: "Business Plan and SOPs",
+    type: "writing",
     description: "Professional writing services for business plans and SOPs.",
     image: business_plan,
     details: `At Havilah Learning Hub, we offer professional business plan and SOP writing services that are tailored to your specific needs. Whether you're launching a startup or applying for a new position, our expertly written documents are clear, concise, and impactful. We ensure that your business plans and SOPs stand out, helping you achieve your professional goals.`,
@@ -57,6 +62,7 @@ const services = [
   {
     id: "statement-of-purpose",
     title: "Statement of Purpose Writing",
+    type: "writing",
     description:
       "Crafting compelling SOPs for university and professional program applications.",
     image: sop_writing,

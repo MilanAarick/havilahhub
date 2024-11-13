@@ -10,7 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ChevronUp, ChevronRight } from "lucide-react";
+import { ChevronDown, ChevronUp, ChevronRight, ArrowRight } from "lucide-react";
 import Image, { StaticImageData } from "next/image";
 import React, { useState } from "react";
 import {
@@ -26,6 +26,8 @@ import {
   DrawerTitle,
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/hooks/use-media-query";
+import { useRouter } from "next/navigation";
+import { getServiceTitle } from "@/constants/global";
 
 type Props = {
   service: {
@@ -34,11 +36,13 @@ type Props = {
     description: string;
     details: string;
     image: StaticImageData;
+    type: string;
   };
 };
 
 const ServiceCard = ({ service }: Props) => {
   const [open, setOpen] = useState(false);
+  const router = useRouter();
   const isDesktop = useMediaQuery("(min-width: 768px)");
 
   const onOpenChange = (open: boolean) => {
@@ -48,6 +52,22 @@ const ServiceCard = ({ service }: Props) => {
   const Content = () => (
     <div className="px-4">
       <p className="text-gray-600">{service.details}</p>
+
+      <div className="flex items-center gap-2 mt-6">
+        <Button variant="outline" className="w-full">
+          Free Consultation
+        </Button>
+        <Button
+          onClick={() =>
+            router.push(`/content-library/curriculum?filter=${service.type}`)
+          }
+          variant="default"
+          className="w-full"
+        >
+          Pay Now
+          <ArrowRight className="h-4 w-4" />
+        </Button>
+      </div>
     </div>
   );
 
