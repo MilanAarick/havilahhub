@@ -12,6 +12,7 @@ import { FormGenerator } from "@/components/global/form-generator";
 import { useAuthSignIn } from "@/hooks/authentication";
 import Link from "next/link";
 import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 export default function LoginScreen() {
   const { isPending, onAuthenticatedUser, register, errors, watch, setValue } =
@@ -89,7 +90,10 @@ export default function LoginScreen() {
               Sign In With Email
               <Sparkles
                 size={20}
-                className=" group-hover:rotate-[360deg] duration-500"
+                className={cn(
+                  " group-hover:rotate-[360deg] duration-500",
+                  isPending ? "animate-spin" : ""
+                )}
               />
             </Button>
           </form>
