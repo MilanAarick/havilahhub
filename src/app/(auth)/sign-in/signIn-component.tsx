@@ -1,26 +1,58 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
-import { BookOpen, Lightbulb, Loader2, Rocket, Sparkles } from "lucide-react";
-import { SIGN_IN_FORM, SIGN_UP_FORM } from "@/constants/forms";
+import { BookOpen, Lightbulb, Rocket, Sparkles } from "lucide-react";
+import { SIGN_IN_FORM } from "@/constants/forms";
 import { FormGenerator } from "@/components/global/form-generator";
-import { useAuthSignup } from "@/hooks/authentication";
-import dynamic from "next/dynamic";
-import SignUpForm from "./signup-form";
+import { useAuthSignIn } from "@/hooks/authentication";
+import Link from "next/link";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 import { Separator } from "@/components/ui/separator";
 import GoogleAuthButton from "@/components/global/google-button";
 import FacebookAuthButton from "@/components/global/facebook-button";
 
-const OtpInput = dynamic(() => import("@/components/global/otp-input"), {
-  ssr: false,
-});
+type Props = {
+  id: string | undefined;
+};
+export default function LoginScreen({ id }: Props) {
+  const { isPending, onAuthenticatedUser, register, errors, watch, setValue } =
+    useAuthSignIn();
+  const email = watch("email");
+  const password = watch("password");
+  const [isHovering, setIsHovering] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
 
-export default function SignupPage() {
+  useEffect(() => {
+    const localData = localStorage.getItem("rememberMeData");
+    if (localData) {
+      const parsedData = JSON.parse(localData);
+      setRememberMe(true);
+      setValue("email", parsedData.email);
+      setValue("password", parsedData.password);
+    }
+  }, [rememberMe]);
+
+  const handleRememberMe = () => {
+    setRememberMe(!rememberMe);
+    if (!email || !password)
+      return toast.warning("Please enter your email and password");
+
+    if (rememberMe) {
+      localStorage.setItem(
+        "rememberMeData",
+        JSON.stringify({ email, password })
+      );
+    } else {
+      localStorage.removeItem("rememberMeData");
+    }
+  };
+
   return (
     <div className=" flex items-center justify-center p-4">
       <motion.div
@@ -32,9 +64,45 @@ export default function SignupPage() {
         {/* Left side - Login Form */}
         <div className="w-full md:w-1/2 p-8">
           <h2 className="text-3xl font-heading font-bold text-primary mb-6">
-            Join Havilah Learning Hub
+            Welcome Back!
           </h2>
-          <SignUpForm />
+          <form
+            className="flex flex-col gap-3 mt-10"
+            onSubmit={onAuthenticatedUser}
+          >
+            {SIGN_IN_FORM.map((field) => (
+              <FormGenerator
+                {...field}
+                key={field.id}
+                register={register}
+                errors={errors}
+              />
+            ))}
+
+            <div className="flex items-center gap-2">
+              <Checkbox
+                id="remember"
+                checked={rememberMe}
+                onCheckedChange={handleRememberMe}
+              />
+              <Label htmlFor="remember">Remember me</Label>
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full mt-6 group gap-4"
+              disabled={isPending}
+            >
+              Sign In With Email
+              <Sparkles
+                size={20}
+                className={cn(
+                  " group-hover:rotate-[360deg] duration-500",
+                  isPending ? "animate-spin" : ""
+                )}
+              />
+            </Button>
+          </form>
           <div className="my-10 w-full relative ">
             <div className="bg-white p-3 absolute text-themeTextGray text-xs top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
               OR CONTINUE WITH
@@ -42,17 +110,20 @@ export default function SignupPage() {
             <Separator orientation="horizontal" className="bg-gray-300" />
           </div>
           <div className="space-y-4">
-            <GoogleAuthButton method="signUp" />
-            <FacebookAuthButton method="signUp" />
+            <GoogleAuthButton method="signIn" id={id} />
+            <FacebookAuthButton method="signIn" id={id} />
           </div>
-          <div>
-            <p className="mt-4 text-sm text-center">
-              Have an account?{" "}
-              <a href="/sign-in" className="text-primary hover:underline">
-                Sign in
-              </a>
+          <p className="mt-4 text-sm text-center">
+            Don&apos;t have an account?{" "}
+            <a href="/sign-up" className="text-primary hover:underline">
+              Sign up
+            </a>
+          </p>
+          <Link href="/forgot-password">
+            <p className="mt-4 text-sm text-secondary text-center">
+              Forgot Password?
             </p>
-          </div>
+          </Link>
         </div>
 
         {/* Right side - Illustration */}
@@ -97,7 +168,7 @@ export default function SignupPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.5 }}
             >
-              Start Your Learning Adventure
+              Unlock Your Learning Potential
             </motion.h3>
             <motion.p
               className="mt-4 text-center text-muted-foreground"
@@ -105,8 +176,8 @@ export default function SignupPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.5 }}
             >
-              Join Havilah Learning Hub and unlock a world of knowledge and
-              growth!
+              Join Havilah Learning Hub and embark on an exciting educational
+              journey!
             </motion.p>
           </div>
         </div>

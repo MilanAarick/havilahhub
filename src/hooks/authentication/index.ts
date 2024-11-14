@@ -262,3 +262,63 @@ export const useAuthSignup = () => {
     params: params.get("referredBy"),
   };
 };
+
+export const useGoogleAuth = () => {
+  const { signIn, isLoaded: LoadedSignIn } = useSignIn();
+  const { signUp, isLoaded: LoadedSignUp } = useSignUp();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const referredBy = searchParams.get("referredBy");
+  const referralType = searchParams.get("referralType");
+
+  const signInWith = async (strategy: OAuthStrategy, id?: string) => {
+    if (!LoadedSignIn) return;
+
+    try {
+      // Construct redirect URL with referral parameters
+      const redirectUrlComplete =
+        "/home" +
+        (referredBy ? `?referredBy=${referredBy}` : "") +
+        (referralType
+          ? `${referredBy ? "&" : "?"}referralType=${referralType}`
+          : "");
+
+      const res = await signIn.authenticateWithRedirect({
+        strategy,
+        redirectUrl: "/home",
+        redirectUrlComplete,
+      });
+
+      console.log({ res });
+    } catch (error: any) {
+      console.log(error.errors[0]);
+      if (error.errors[0]?.code === "session_exists") {
+        router.push("/home");
+        toast.success("Welcome back!");
+      }
+    }
+  };
+
+  const signUpWith = (strategy: OAuthStrategy) => {
+    if (!LoadedSignUp) return;
+    try {
+      // Construct callback URL with referral parameters
+      const redirectUrlComplete =
+        "/callback" +
+        (referredBy ? `?referredBy=${referredBy}` : "") +
+        (referralType
+          ? `${referredBy ? "&" : "?"}referralType=${referralType}`
+          : "");
+
+      return signUp.authenticateWithRedirect({
+        strategy,
+        redirectUrl: "/home",
+        redirectUrlComplete,
+      });
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  return { signUpWith, signInWith };
+};
