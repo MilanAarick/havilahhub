@@ -2,87 +2,51 @@
 
 import { client } from "@/lib/prisma";
 
-import {
-  Prisma,
-  SchoolLevel,
-  ServiceType,
-  SubjectArea,
-  TestStatus,
-} from "@prisma/client";
+import { Prisma, SchoolLevel, SubjectArea } from "@prisma/client";
 
-type FilterType = "all" | "writing" | "tutoring";
-
-const filterToServiceTypes: Record<FilterType, ServiceType[]> = {
-  all: Object.values(ServiceType),
-  writing: [
-    ServiceType.RESEARCH_WRITING,
-    ServiceType.BOOK_WRITING,
-    ServiceType.BUSINESS_PLAN,
-    ServiceType.SOP_WRITING,
-  ],
-  tutoring: [ServiceType.PERSONALIZED_TUTORING, ServiceType.EXAM_PREPARATION],
-};
-
-export const onGetServices = async (
-  page = 1,
-  pageSize = 10,
-  filter: FilterType = "all",
-  searchTerm?: string
-) => {
+export const onGetServices = async () => {
   try {
-    const skip = (page - 1) * pageSize;
-    const serviceTypes = filterToServiceTypes[filter];
-
-    const where = {
-      type: {
-        in: serviceTypes,
-      },
-      ...(searchTerm
-        ? {
-            OR: [
-              {
-                description: {
-                  contains: searchTerm,
-                  mode: "insensitive" as Prisma.QueryMode,
-                },
-              },
-              {
-                subject: {
-                  contains: searchTerm,
-                  mode: "insensitive" as Prisma.QueryMode,
-                },
-              },
-            ],
-          }
-        : {}),
-    };
-
-    const [services, totalCount] = await Promise.all([
-      client.service.findMany({
-        where,
-        skip,
-        take: pageSize,
-        orderBy: { createdAt: "desc" },
-      }),
-      client.service.count({ where }),
-    ]);
+    const services = await client.service.findMany();
 
     return {
       status: 200,
       message: "Services fetched successfully",
       data: services,
-      meta: {
-        currentPage: page,
-        pageSize,
-        totalCount,
-        totalPages: Math.ceil(totalCount / pageSize),
-      },
     };
   } catch (error) {
     console.error(error);
     return {
       status: 500,
       message: "An error occurred while fetching services",
+    };
+  }
+};
+
+export const getTutoringServices = async (searchTerm?: string) => {
+  try {
+    const services = await client.tutoringService.findMany({
+      where: {
+        OR: [
+          {
+            subject: {
+              contains: searchTerm,
+              mode: "insensitive" as Prisma.QueryMode,
+            },
+          },
+        ],
+      },
+    });
+
+    return {
+      status: 200,
+      message: "Tutoring services fetched successfully",
+      data: services,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      status: 500,
+      message: "An error occurred while fetching tutoring services",
     };
   }
 };
@@ -112,15 +76,13 @@ export const onGetTests = async ({
     if (searchTerm) {
       where.OR = [
         {
-          description: {
-            contains: searchTerm,
-            mode: "insensitive" as Prisma.QueryMode,
-          },
-        },
-        {
-          title: {
-            contains: searchTerm,
-            mode: "insensitive" as Prisma.QueryMode,
+          questions: {
+            some: {
+              questionText: {
+                contains: searchTerm,
+                mode: "insensitive" as Prisma.QueryMode,
+              },
+            },
           },
         },
       ];
@@ -207,89 +169,6 @@ export const onGetSingleTest = async (id: string) => {
     return {
       status: 500,
       message: "An error occurred while fetching test",
-      data: null,
-    };
-  }
-};
-
-interface AttemptTest {
-  userId: string;
-  testId: string;
-  score: number;
-}
-
-export const onCreateAttempt = async ({
-  userId,
-  testId,
-  score,
-}: AttemptTest) => {
-  try {
-    const testAttempt = await client.testAttempt.create({
-      data: {
-        userId,
-        testId,
-        status: TestStatus.COMPLETED,
-        score,
-        completedAt: new Date(),
-      },
-    });
-
-    if (testAttempt) {
-      return {
-        status: 200,
-        message: "Progress Saved!",
-      };
-    }
-
-    return {
-      status: 404,
-      message: "Progress not saved",
-    };
-  } catch (error: any) {
-    console.log("ERROR_SAVING_TEST", error);
-    return {
-      status: 500,
-      message: error.message,
-    };
-  }
-};
-
-export const onGetTestAttempts = async (userId: string | undefined) => {
-  try {
-    const testAttempts = await client.testAttempt.findMany({
-      where: {
-        userId,
-      },
-      orderBy: {
-        completedAt: "desc",
-      },
-      include: {
-        test: {
-          include: {
-            questions: true,
-          },
-        },
-      },
-    });
-
-    if (testAttempts) {
-      return {
-        status: 200,
-        message: "Test attempts fetched successfully",
-        data: testAttempts,
-      };
-    }
-
-    return {
-      status: 404,
-      message: "Test attempts not found",
-      data: null,
-    };
-  } catch (error) {
-    console.error(error);
-    return {
-      status: 500,
-      message: "An error occurred while fetching test attempts",
       data: null,
     };
   }

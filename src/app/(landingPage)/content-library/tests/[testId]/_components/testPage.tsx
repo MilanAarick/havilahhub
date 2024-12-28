@@ -18,7 +18,6 @@ import { Label } from "@/components/ui/label";
 import { CheckCircle2, Loader2, XCircle } from "lucide-react";
 import { Test } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
-import { onCreateAttempt } from "@/actions/learnings";
 import { useUser } from "@clerk/nextjs";
 
 type Props = {
@@ -32,11 +31,7 @@ const TestPage = ({ test }: Props) => {
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
   const [timeLeft, setTimeLeft] = useState((test?.timeLimit ?? 0) * 60); // Convert minutes to seconds
-  const { mutate, isPending } = useMutation({
-    mutationKey: ["save-test-attempt"],
-    mutationFn: async () =>
-      onCreateAttempt({ userId: user?.user?.id!, testId: test?.id!, score }),
-  });
+
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prevTime) => {
@@ -89,18 +84,18 @@ const TestPage = ({ test }: Props) => {
     return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
   };
 
-  useEffect(() => {
-    if (showResult) {
-      mutate();
-      if (calculatePercentageScore() >= test?.passingScore) {
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 },
-        });
-      }
-    }
-  }, [showResult]);
+  // useEffect(() => {
+  //   if (showResult) {
+  //     mutate();
+  //     if (calculatePercentageScore() >= test?.passingScore) {
+  //       confetti({
+  //         particleCount: 100,
+  //         spread: 70,
+  //         origin: { y: 0.6 },
+  //       });
+  //     }
+  //   }
+  // }, [showResult]);
 
   const progressWidth = () => {
     const calculated = (currentQuestionIndex / test.questions.length) * 100;
@@ -133,13 +128,6 @@ const TestPage = ({ test }: Props) => {
             <p className="text-red-600 font-semibold">
               Unfortunately, you did not pass the test. Keep practicing!
             </p>
-          )}
-
-          {isPending && (
-            <div className="mt-5 flex items-center gap-5 font-poppins">
-              <p>Saving Progress</p>
-              <Loader2 className="animate-spin" />
-            </div>
           )}
         </CardContent>
       </Card>

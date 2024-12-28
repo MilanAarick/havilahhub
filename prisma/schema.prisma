@@ -28,7 +28,22 @@ model User {
   referredUsers      User[]    @relation("Referrals")
   referredBy         User?     @relation("Referrals", fields: [referredById], references: [id])
   referredById       String?
-   testAttempts       TestAttempt[]
+  //  testAttempts       TestAttempt[]
+
+  WritingService TutoringService[]
+}
+
+model TutoringService {
+  id         String    @id @default(cuid())
+  type       ServiceType
+  subject    String?
+  twoDaysPrice Int?
+  threeDaysPrice Int?
+  fiveDaysPrice Int?
+   createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  user        User?     @relation(fields: [userId], references: [id])
+  userId      String? 
 }
 
 enum Role {
@@ -42,22 +57,40 @@ model Service {
   id          String    @id @default(cuid())
   type        ServiceType
   subject     String?
-  level       String?
   description String
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
-    user        User?     @relation(fields: [userId], references: [id])
+  user        User?     @relation(fields: [userId], references: [id])
   userId      String? 
-  price       Float
+  ResearchAndAssignmentPlans Json?
+  bookWritingPlans Json?
+  businessPlans Json?
+  sopPlans Json?
+  publishingPlans Json?
+  addOn String?
+  addOnPrice Int?
+  revisions   Int?
+  
 }
+
+
 
 enum ServiceType {
   PERSONALIZED_TUTORING
-  EXAM_PREPARATION
   RESEARCH_WRITING
+  ASSIGNMENT_HELP
   BOOK_WRITING
   BUSINESS_PLAN
   SOP_WRITING
+  PROOFREADING
+  PUBLISHING
+}
+
+enum ServiceLevel {
+  BASIC
+  STANDARD
+  PREMIUM
+  SPECIAL
 }
 
 model ActivityLog {
@@ -90,6 +123,22 @@ enum ContentType {
 }
 
 enum SchoolLevel {
+  PRE_K
+  KINDERGARTEN
+  KINDERGARTEN_1
+  KINDERGARTEN_2
+  GRADE_1
+  GRADE_2
+  GRADE_3
+  GRADE_4
+  GRADE_5
+  GRADE_6
+  GRADE_7
+  GRADE_8
+  GRADE_9
+  GRADE_10
+  GRADE_11
+  GRADE_12
   PRIMARY
   SECONDARY
   HIGH_SCHOOL
@@ -101,6 +150,7 @@ enum SchoolLevel {
 
 enum SubjectArea {
   MATHEMATICS
+  ENGLISH
   SCIENCES
   LANGUAGES
   HUMANITIES
@@ -113,19 +163,12 @@ enum SubjectArea {
 
 model Test {
   id              String    @id @default(cuid())
-  title           String
-  description     String?
   schoolLevel     SchoolLevel
   subjectArea     SubjectArea
-  topic           String?   // Specific topic within the subject area
-  grade           String?   // Specific grade level if applicable
-  timeLimit       Int?      // Time limit in minutes (optional)
+  topic           String?   
   passingScore    Float?    // Passing score percentage (optional)
-  difficultyLevel String?   // e.g., "Beginner", "Intermediate", "Advanced"
   questions       Question[]
-  attempts        TestAttempt[]
-  isPublished     Boolean   @default(false)
-  metadata        Json?     // For additional custom fields
+  isPublished     Boolean   @default(true)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 }
@@ -135,11 +178,11 @@ model Question {
   test        Test      @relation(fields: [testId], references: [id])
   testId      String
   questionText String
+  questionImage String?
   type        QuestionType
   options     QuestionOption[]
-  answers     Answer[]
-  points      Int       @default(1)
-  order       Int
+  hasPicture      Boolean   @default(false)
+  // answers     Answer[]
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
@@ -150,42 +193,39 @@ model QuestionOption {
   questionId  String
   optionText  String
   isCorrect   Boolean
-  order       Int
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
 }
 
-model TestAttempt {
-  id          String    @id @default(cuid())
-  user        User      @relation(fields: [userId], references: [clerkId])
-  userId      String
-  test        Test      @relation(fields: [testId], references: [id])
-  testId      String
-  answers     Answer[]
-  score       Float?
-  startedAt   DateTime  @default(now())
-  completedAt DateTime?
-  status      TestStatus @default(IN_PROGRESS)
-}
+// model TestAttempt {
+//   id          String    @id @default(cuid())
+//   user        User      @relation(fields: [userId], references: [clerkId])
+//   userId      String
+//   test        Test      @relation(fields: [testId], references: [id])
+//   testId      String
+//   answers     Answer[]
+//   score       Float?
+//   startedAt   DateTime  @default(now())
+//   completedAt DateTime?
+//   status      TestStatus @default(IN_PROGRESS)
+// }
 
-model Answer {
-  id            String    @id @default(cuid())
-  testAttempt   TestAttempt @relation(fields: [testAttemptId], references: [id])
-  testAttemptId String
-  question      Question  @relation(fields: [questionId], references: [id])
-  questionId    String
-  selectedOptions String[] // Array of selected option IDs
-  isCorrect     Boolean?
-  points        Int?
-  createdAt     DateTime  @default(now())
-}
+// model Answer {
+//   id            String    @id @default(cuid())
+//   // testAttempt   TestAttempt @relation(fields: [testAttemptId], references: [id])
+//   testAttemptId String
+//   question      Question  @relation(fields: [questionId], references: [id])
+//   questionId    String
+//   selectedOptions String[] // Array of selected option IDs
+//   isCorrect     Boolean?
+//   points        Int?
+//   createdAt     DateTime  @default(now())
+// }
 
 enum QuestionType {
   MULTIPLE_CHOICE
-  MULTIPLE_SELECT
   TRUE_FALSE
-  SHORT_ANSWER
-  ESSAY
+  THEORY
 }
 
 enum TestStatus {

@@ -63,25 +63,19 @@ const Header = () => {
             About
           </Link>
           <SignedIn>
-            <Link
-              href="/services"
-              className="hover:text-secondary transition-colors"
-            >
-              Services
-            </Link>
-            {/* <DropdownMenu
+            <DropdownMenu
               title="Services"
               items={[
                 { label: "Writers", href: "/services/writers" },
                 { label: "Tutors", href: "/services/tutors" },
               ]}
-            /> */}
-            <Link
+            />
+            {/* <Link
               href="/games"
               className="hover:text-secondary transition-colors"
             >
               Games
-            </Link>
+            </Link> */}
             <DropdownMenu
               title="Content Library"
               items={[
@@ -90,20 +84,13 @@ const Header = () => {
               ]}
             />
           </SignedIn>
+
           <SignedIn>
             <UserMenu />
           </SignedIn>
           <SignedOut>
             <SignInComp />
           </SignedOut>
-          <SignedIn>
-            <Link
-              href="/referral"
-              className="hover:text-secondary transition-colors hover:rotate-12"
-            >
-              <Gift size={20} />
-            </Link>
-          </SignedIn>
 
           <Link
             href="/help"
@@ -164,18 +151,18 @@ const Header = () => {
                       >
                         Curriculum
                       </Link>
-                      <Link
+                      {/* <Link
                         href="/content-library/tests"
                         className="block py-2"
                       >
                         Tests
-                      </Link>
+                      </Link> */}
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
-                <Link href="/games" className="block py-2">
+                {/* <Link href="/games" className="block py-2">
                   Games
-                </Link>
+                </Link> */}
                 <Link href="/referral" className="block py-2">
                   Referral
                 </Link>

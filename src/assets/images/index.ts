@@ -9,6 +9,10 @@ import research_writing from "./74891.jpg";
 import book_writing from "./2147978229.jpg";
 import business_plan from "./2147785631.jpg";
 import sop_writing from "./sop.jpg";
+import assignment from "./assignment-help.png";
+import book from "./book-writing.png";
+import proofReading from "./proof-reading.jpg";
+import publishing from "./publishing.jpg";
 
 export {
   header_image,
@@ -22,4 +26,8 @@ export {
   book_writing,
   business_plan,
   sop_writing,
+  book,
+  assignment,
+  proofReading,
+  publishing,
 };

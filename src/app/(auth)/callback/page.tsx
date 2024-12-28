@@ -1,4 +1,4 @@
-import { onSignUpUser } from "@/actions/auth";
+import { onGetUser, onSignUpUser } from "@/actions/auth";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { currentUser } from "@clerk/nextjs/server";
 import { createId } from "@paralleldrive/cuid2";
@@ -11,6 +11,11 @@ type Props = {
 
 const Page = async ({ searchParams }: Props) => {
   const user = await currentUser();
+  const dbUser = await onGetUser(user?.id);
+
+  if (dbUser.data?.id) {
+    return redirect("/home");
+  }
 
   const referredBy = searchParams.referredBy as string;
   const referralType = searchParams.referralType as string;

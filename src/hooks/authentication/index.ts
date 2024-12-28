@@ -312,7 +312,7 @@ export const useGoogleAuth = () => {
 
       return signUp.authenticateWithRedirect({
         strategy,
-        redirectUrl: "/home",
+        redirectUrl: "/callback",
         redirectUrlComplete,
       });
     } catch (error) {

@@ -154,33 +154,24 @@ export default function TestCatalogPage() {
               {data?.data?.map((test, index) => (
                 <Card key={index} className="flex flex-col">
                   <CardHeader>
-                    <CardTitle>{test.title}</CardTitle>
-                    <CardDescription>{test.description}</CardDescription>
+                    <CardTitle className="capitalize">
+                      {test.schoolLevel.replace("_", " ").toLowerCase()}
+                    </CardTitle>
+                    <CardDescription className="capitalize">
+                      {test.subjectArea.replace("_", " ").toLowerCase()}
+                    </CardDescription>
                   </CardHeader>
                   <CardContent className="flex-grow">
-                    <div className="flex flex-wrap gap-2 mb-4">
+                    {/* <div className="flex flex-wrap gap-2 mb-4">
                       <Badge variant="secondary">
                         {test.schoolLevel.replace("_", " ")}
                       </Badge>
                       <Badge variant="outline">
                         {test.subjectArea.replace("_", " ")}
                       </Badge>
-                      <Badge>{test.difficultyLevel}</Badge>
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex items-center">
-                        <Clock className="mr-2 h-4 w-4" />
-                        <span>{test.timeLimit} minutes</span>
-                      </div>
-                      <div className="flex items-center">
-                        <BookOpen className="mr-2 h-4 w-4" />
-                        <span>{test.topic}</span>
-                      </div>
-                      <div className="flex items-center">
-                        <BarChart className="mr-2 h-4 w-4" />
-                        <span>Passing Score: {test.passingScore}%</span>
-                      </div>
-                    </div>
+                      
+                    </div> */}
+                    <div className="space-y-2"></div>
                   </CardContent>
                   <CardFooter>
                     <Button

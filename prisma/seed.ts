@@ -8,414 +8,434 @@ import {
 
 const prisma = new PrismaClient();
 
-const services = [
-  {
-    type: ServiceType.PERSONALIZED_TUTORING, // Use the enum value directly
-    subject: "Mathematics",
-    level: "High School",
-    description:
-      "Personalized tutoring sessions for high school math students.",
-    price: 5000,
-  },
-  {
-    type: ServiceType.EXAM_PREPARATION,
-    subject: "Physics",
-    level: "Undergraduate",
-    description: "Physics exam preparation for university students.",
-    price: 5000,
-  },
-  {
-    type: ServiceType.PERSONALIZED_TUTORING,
-    subject: "Biology",
-    level: "High School",
-    description: "One-on-one tutoring for high school biology students.",
-    price: 5000,
-  },
-  {
-    type: ServiceType.RESEARCH_WRITING,
-    subject: "Physics",
-    level: "Graduate",
-    description:
-      "Assistance with writing research papers for physics students.",
-    price: 5000,
-  },
-  {
-    type: ServiceType.BOOK_WRITING,
-    subject: "Science Fiction",
-    level: null,
-    description: "Help with writing and editing science fiction novels.",
-    price: 5000,
-  },
-  {
-    type: ServiceType.BUSINESS_PLAN,
-    subject: "Startups",
-    level: null,
-    description: "Business plan writing services for startup companies.",
-    price: 5000,
-  },
-  {
-    type: ServiceType.SOP_WRITING,
-    subject: "Graduate School",
-    level: null,
-    description:
-      "Writing statement of purpose (SOP) for graduate school applications.",
-    price: 5000,
-  },
-  {
-    type: ServiceType.EXAM_PREPARATION,
-    subject: "Chemistry",
-    level: "High School",
-    description:
-      "Exam preparation sessions for high school chemistry students.",
-    price: 75000,
-  },
-  {
-    type: ServiceType.PERSONALIZED_TUTORING,
-    subject: "History",
-    level: "Middle School",
-    description: "One-on-one history tutoring for middle school students.",
-    price: 5000,
-  },
-  {
-    type: ServiceType.RESEARCH_WRITING,
-    subject: "Economics",
-    level: "Undergraduate",
-    description: "Research writing support for economics undergraduates.",
-    price: 50000,
-  },
-  {
-    type: ServiceType.BOOK_WRITING,
-    subject: "Memoirs",
-    level: null,
-    description: "Assistance with writing personal memoirs.",
-    price: 6000,
-  },
-  {
-    type: ServiceType.BUSINESS_PLAN,
-    subject: "Small Businesses",
-    level: null,
-    description: "Comprehensive business plans for small businesses.",
-    price: 5000,
-  },
-  {
-    type: ServiceType.SOP_WRITING,
-    subject: "MBA Programs",
-    level: null,
-    description: "SOP writing services tailored for MBA program applications.",
-    price: 30000,
-  },
-  {
-    type: ServiceType.EXAM_PREPARATION,
-    subject: "Mathematics",
-    level: "Undergraduate",
-    description: "Exam preparation for university-level mathematics.",
-    price: 5000,
-  },
-  {
-    type: ServiceType.PERSONALIZED_TUTORING,
-    subject: "English Literature",
-    level: "High School",
-    description:
-      "Personalized tutoring for high school English literature students.",
-    price: 15000,
-  },
-];
+// export const services = [
+//   {
+//     type: ServiceType.RESEARCH_WRITING,
+//     subject: "Research Writing",
+//     description:
+//       "High-quality content writing tailored to your requirements. No revisions included.",
+//     addOn:
+//       "Final-year BSc. research projects at a flat rate of ₦100,000 (a 52.25% discount from the regular rate).",
+//     addOnPrice: 100000,
+//     ResearchAndAssignmentPlans: {
+//       basic: {
+//         discription:
+//           "High-quality content writing tailored to your requirements. No revisions included.",
+//         price: 41.89,
+//       },
+//       standard: {
+//         discription:
+//           "Includes content writing with 3 revisions and support for advanced data analysis if required.",
+//         price: 52.36,
+//       },
+//       premium: {
+//         discription:
+//           "Covers technical fields requiring advanced data analysis, coding, or urgent deadlines. Includes multiple revisions.",
+//         price: 62.83,
+//       },
+//     },
+//   },
+//   {
+//     type: ServiceType.ASSIGNMENT_HELP,
+//     subject: "Assignment Help",
+//     description:
+//       "Simple assignments with clear instructions. No revisions included.",
+//     ResearchAndAssignmentPlans: {
+//       basic: {
+//         discription:
+//           "Simple assignments with clear instructions. No revisions included.",
+//         price: 41.89,
+//       },
+//       standard: {
+//         discription:
+//           "Advanced assignments, including case studies, with up to 2 revisions.",
+//         price: 52.36,
+//       },
+//       premium: {
+//         discription:
+//           "Priority service for complex assignments or urgent deadlines (delivery < 48 hours).",
+//         price: 62.83,
+//       },
+//     },
+//   },
+//   {
+//     type: ServiceType.BOOK_WRITING,
+//     subject: "Book Writing",
+//     description: "High-quality manuscript draft only.",
+//     bookWritingPlans: {
+//       plan1: {
+//         length: "10,000 - 19,999 words",
+//         basic: {
+//           price: 418900,
+//           description: "₦418,900 - High-quality manuscript draft only.",
+//         },
+//         standard: {
+//           price: 523625,
+//           description: "₦523,625 - Includes manuscript + 3 revisions.",
+//         },
+//         premium: {
+//           price: 628300,
+//           description: "₦628,300 - Manuscript, revisions, expedited delivery.",
+//         },
+//       },
+//       plan2: {
+//         length: "20,000 - 49,999 words",
+//         basic: {
+//           price: 1256700,
+//           description: "₦1,256,700 - High-quality manuscript draft only.",
+//         },
+//         standard: {
+//           price: 1570875,
+//           description: "₦1,570,875 - Includes Manuscript + 3 revisions.",
+//         },
+//         premium: {
+//           price: 1885050,
+//           description:
+//             "₦1,885,050 - Manuscript, revisions, expedited delivery.",
+//         },
+//       },
+//       plan3: {
+//         length: "50,000 - 99,999 words",
+//         basic: {
+//           price: 2513400,
+//           description: "₦2,513,400 - High-quality manuscript draft only.",
+//         },
+//         standard: {
+//           price: 3141750,
+//           description: "₦3,141,750 - Includes Manuscript + 3 revisions.",
+//         },
+//         premium: {
+//           price: 3770100,
+//           description:
+//             "₦3,770,100 - Manuscript, revisions, expedited delivery.",
+//         },
+//       },
+//       plan4: {
+//         length: "100,000 + words",
+//         basic: {
+//           price: 5026800,
+//           description: "₦5,026,800 - High-quality manuscript draft only.",
+//         },
+//         standard: {
+//           price: 6283500,
+//           description: "₦6,283,500 - Includes Manuscript + 3 revisions.",
+//         },
+//         premium: {
+//           price: 7540200,
+//           description:
+//             "₦7,540,200 - Manuscript, revisions, expedited delivery.",
+//         },
+//       },
+//     },
+//     addOn: "Ghostwriting services (confidentiality surcharge): +25%",
+//   },
+//   {
+//     type: ServiceType.BUSINESS_PLAN,
+//     subject: "Business Plans & SOPs",
+//     description: "Simple Business Plan",
+//     businessPlans: {
+//       simple: {
+//         basic: 180000,
+//         standard: 250000,
+//         premium: 300000,
+//       },
+//       standard: {
+//         basic: 450000,
+//         standard: 650000,
+//         premium: 800000,
+//       },
+//       comprehensive: {
+//         basic: 1200000,
+//         standard: 1500000,
+//         premium: 2000000,
+//       },
+//     },
+//     addOn:
+//       "SOP Writing - Flat rate ₦60,000 (only available for standard and premium packages).",
+//     addOnPrice: 60000,
+//   },
+//   {
+//     type: ServiceType.SOP_WRITING,
+//     subject: "Statement of Purpose Writing",
+//     description:
+//       "Flat Rate: ₦55,000. Revisions: Two free edits; additional edits at +₦5,500 each. Rush Orders: +20% for 24-48 hour delivery.",
+//     sopPlans: {
+//       flatRate: 55000,
+//       revisions: "Two free edits; additional edits at +₦5,500 each.",
+//       rushOrders: "+20% for 24-48 hour delivery.",
+//     },
+//   },
+//   {
+//     type: ServiceType.PROOFREADING,
+//     subject: "Proofreading and Corrections",
+//     description:
+//       "Detailed proofreading and corrections for documents of any size or complexity.",
+//     proofreadingPlans: {
+//       customQuotes:
+//         "Custom quotes available upon request (quotes are available within 15 minutes of request).",
+//     },
+//   },
+//   {
+//     type: ServiceType.PUBLISHING,
+//     subject: "Publishing Packages",
+//     description: "Manuscript Review Only",
+//     publishingPlans: {
+//       level1: {
+//         description: "Manuscript Review Only",
+//         basic: 100000,
+//         standard: 0,
+//         premium: 0,
+//       },
+//       level2: {
+//         description: "Self-Publishing Support",
+//         basic: 0,
+//         standard: 450000,
+//         premium: 650000,
+//       },
+//       level3: {
+//         description: "Traditional Submission",
+//         basic: 0,
+//         standard: 350000,
+//         premium: 500000,
+//       },
+//     },
+//   },
+// ];
 
-// Add these to the tests array in the previous script
-const additionalTests = [
+// const tutoring = [
+//   {
+//     type: ServiceType.PERSONALIZED_TUTORING,
+//     subject: "General Subjects (Physical)",
+//     twoDaysPrice: 80000,
+//     threeDaysPrice: 100000,
+//     fiveDaysPrice: 120000,
+//   },
+//   {
+//     type: ServiceType.PERSONALIZED_TUTORING,
+//     subject: "General Subjects (Online)",
+//     twoDaysPrice: 50000,
+//     threeDaysPrice: 65000,
+//     fiveDaysPrice: 80000,
+//   },
+
+//   {
+//     type: ServiceType.PERSONALIZED_TUTORING,
+//     subject: "Arts & Music",
+//     twoDaysPrice: 100000,
+//     threeDaysPrice: 130500,
+//     fiveDaysPrice: 165500,
+//   },
+//   {
+//     type: ServiceType.PERSONALIZED_TUTORING,
+//     subject: "International Languages",
+//     twoDaysPrice: 95000,
+//     threeDaysPrice: 125000,
+//     fiveDaysPrice: 155000,
+//   },
+//   {
+//     type: ServiceType.PERSONALIZED_TUTORING,
+//     subject: "Computer & Coding",
+//     twoDaysPrice: 105000,
+//     threeDaysPrice: 145500,
+//     fiveDaysPrice: 195500,
+//   },
+// ];
+
+const tests = [
   {
-    title: "Calculus Midterm",
-    description: "Comprehensive test covering differential calculus",
-    schoolLevel: SchoolLevel.UNDERGRADUATE,
+    schoolLevel: SchoolLevel.PRIMARY,
     subjectArea: SubjectArea.MATHEMATICS,
-    topic: "Differential Calculus",
-    grade: "First Year",
-    timeLimit: 120,
-    passingScore: 70,
-    difficultyLevel: "Intermediate",
-    isPublished: true,
-    questions: {
-      create: [
-        {
-          questionText: "What is the derivative of x²?",
-          type: QuestionType.MULTIPLE_CHOICE,
-          points: 2,
-          order: 1,
-          options: {
-            create: [
-              { optionText: "2x", isCorrect: true, order: 1 },
-              { optionText: "x²", isCorrect: false, order: 2 },
-              { optionText: "2", isCorrect: false, order: 3 },
-              { optionText: "x", isCorrect: false, order: 4 },
-            ],
-          },
-        },
-        {
-          questionText: "Is the derivative of a constant always zero?",
-          type: QuestionType.TRUE_FALSE,
-          points: 1,
-          order: 2,
-          options: {
-            create: [
-              { optionText: "True", isCorrect: true, order: 1 },
-              { optionText: "False", isCorrect: false, order: 2 },
-            ],
-          },
-        },
-      ],
-    },
-  },
-  {
-    title: "Physics Midterm",
-    description: "Test covering fundamental concepts in mechanics",
-    schoolLevel: SchoolLevel.UNDERGRADUATE,
-    subjectArea: SubjectArea.SCIENCES,
-    topic: "Mechanics",
-    grade: "First Year",
-    timeLimit: 90,
-    passingScore: 60,
-    difficultyLevel: "Intermediate",
-    isPublished: true,
-    questions: {
-      create: [
-        {
-          questionText: "What is Newton's First Law of Motion?",
-          type: QuestionType.MULTIPLE_CHOICE,
-          points: 2,
-          order: 1,
-          options: {
-            create: [
-              { optionText: "Law of Inertia", isCorrect: true, order: 1 },
-              { optionText: "Law of Acceleration", isCorrect: false, order: 2 },
-              { optionText: "Law of Momentum", isCorrect: false, order: 3 },
-              { optionText: "Law of Gravity", isCorrect: false, order: 4 },
-            ],
-          },
-        },
-        {
-          questionText: "Acceleration due to gravity is a constant.",
-          type: QuestionType.TRUE_FALSE,
-          points: 1,
-          order: 2,
-          options: {
-            create: [
-              { optionText: "True", isCorrect: true, order: 1 },
-              { optionText: "False", isCorrect: false, order: 2 },
-            ],
-          },
-        },
-      ],
-    },
-  },
-  {
-    title: "Intro to Business Quiz",
-    description: "Basics of business concepts for high school students",
-    schoolLevel: SchoolLevel.HIGH_SCHOOL,
-    subjectArea: SubjectArea.BUSINESS,
-    topic: "Introduction to Business",
-    grade: "10th Grade",
-    timeLimit: 60,
-    passingScore: 50,
-    difficultyLevel: "Beginner",
-    isPublished: true,
     questions: {
       create: [
         {
           questionText:
-            "Which of the following is a type of business organization?",
-          type: QuestionType.MULTIPLE_CHOICE,
-          points: 1,
-          order: 1,
+            "Write the place value of the digit 3 in the number 365,092.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
           options: {
-            create: [
-              { optionText: "Sole Proprietorship", isCorrect: true, order: 1 },
-              { optionText: "Corporation", isCorrect: true, order: 2 },
-              { optionText: "Association", isCorrect: false, order: 3 },
-              { optionText: "All of the above", isCorrect: true, order: 4 },
-            ],
+            create: [],
+          },
+        },
+        {
+          questionText: "Round 128,645 to the nearest 100,000.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
+          },
+        },
+        {
+          questionText: "Multiply: 7,321 × 34 = ___.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
+          },
+        },
+        {
+          questionText: "Divide: 9,840 ÷ 12 = ___.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
           },
         },
         {
           questionText:
-            "True or False: The primary goal of a business is to generate profit.",
-          type: QuestionType.TRUE_FALSE,
-          points: 1,
-          order: 2,
+            "Solve: A factory produces 425 items daily. How many items are produced in 5 days?",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
           options: {
-            create: [
-              { optionText: "True", isCorrect: true, order: 1 },
-              { optionText: "False", isCorrect: false, order: 2 },
-            ],
-          },
-        },
-      ],
-    },
-  },
-  {
-    title: "Basic Algebra Test",
-    description: "Assessment on fundamental algebra concepts",
-    schoolLevel: SchoolLevel.SECONDARY,
-    subjectArea: SubjectArea.MATHEMATICS,
-    topic: "Algebra",
-    grade: "7th Grade",
-    timeLimit: 45,
-    passingScore: 55,
-    difficultyLevel: "Beginner",
-    isPublished: false,
-    questions: {
-      create: [
-        {
-          questionText: "What is the solution to the equation 2x + 3 = 7?",
-          type: QuestionType.MULTIPLE_CHOICE,
-          points: 1,
-          order: 1,
-          options: {
-            create: [
-              { optionText: "x = 2", isCorrect: true, order: 1 },
-              { optionText: "x = 3", isCorrect: false, order: 2 },
-              { optionText: "x = 4", isCorrect: false, order: 3 },
-              { optionText: "x = 5", isCorrect: false, order: 4 },
-            ],
+            create: [],
           },
         },
         {
-          questionText: "Is x² always positive for any real number x?",
-          type: QuestionType.TRUE_FALSE,
-          points: 1,
-          order: 2,
+          questionText: "Solve: 312 + 17 - 514 =",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
           options: {
-            create: [
-              { optionText: "True", isCorrect: true, order: 1 },
-              { optionText: "False", isCorrect: false, order: 2 },
-            ],
-          },
-        },
-      ],
-    },
-  },
-  {
-    title: "Physics Midterm",
-    description: "Test covering fundamental concepts in mechanics",
-    schoolLevel: SchoolLevel.UNDERGRADUATE,
-    subjectArea: SubjectArea.SCIENCES,
-    topic: "Mechanics",
-    grade: "First Year",
-    timeLimit: 90,
-    passingScore: 60,
-    difficultyLevel: "Intermediate",
-    isPublished: true,
-    questions: {
-      create: [
-        {
-          questionText: "What is Newton's First Law of Motion?",
-          type: QuestionType.MULTIPLE_CHOICE,
-          points: 2,
-          order: 1,
-          options: {
-            create: [
-              { optionText: "Law of Inertia", isCorrect: true, order: 1 },
-              { optionText: "Law of Acceleration", isCorrect: false, order: 2 },
-              { optionText: "Law of Momentum", isCorrect: false, order: 3 },
-              { optionText: "Law of Gravity", isCorrect: false, order: 4 },
-            ],
+            create: [],
           },
         },
         {
-          questionText: "Acceleration due to gravity is a constant.",
-          type: QuestionType.TRUE_FALSE,
-          points: 1,
-          order: 2,
+          questionText: "Solve: 5615 + 14 - 738 =",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
           options: {
-            create: [
-              { optionText: "True", isCorrect: true, order: 1 },
-              { optionText: "False", isCorrect: false, order: 2 },
-            ],
+            create: [],
           },
         },
-      ],
-    },
-  },
-  {
-    title: "Intro to Business Quiz",
-    description: "Basics of business concepts for high school students",
-    schoolLevel: SchoolLevel.HIGH_SCHOOL,
-    subjectArea: SubjectArea.BUSINESS,
-    topic: "Introduction to Business",
-    grade: "10th Grade",
-    timeLimit: 60,
-    passingScore: 50,
-    difficultyLevel: "Beginner",
-    isPublished: true,
-    questions: {
-      create: [
         {
-          questionText:
-            "Which of the following is a type of business organization?",
-          type: QuestionType.MULTIPLE_SELECT,
-          points: 1,
-          order: 1,
+          questionText: "Convert 38 + 28 + 14 to a decimal.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
           options: {
-            create: [
-              { optionText: "Sole Proprietorship", isCorrect: true, order: 1 },
-              { optionText: "Corporation", isCorrect: true, order: 2 },
-              { optionText: "Association", isCorrect: false, order: 3 },
-              { optionText: "All of the above", isCorrect: true, order: 4 },
-            ],
+            create: [],
+          },
+        },
+        {
+          questionText: "Compare: Which is greater: 0.65 or 312 + 17 - 514?",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
           },
         },
         {
           questionText:
-            "True or False: The primary goal of a business is to generate profit.",
-          type: QuestionType.TRUE_FALSE,
-          points: 1,
-          order: 2,
+            "Find the surface area of a rectangular prism: Length = 6 cm, Width = 4 cm, Height = 3 cm.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
           options: {
-            create: [
-              { optionText: "True", isCorrect: true, order: 1 },
-              { optionText: "False", isCorrect: false, order: 2 },
-            ],
-          },
-        },
-      ],
-    },
-  },
-  {
-    title: "Basic Chemistry Quiz",
-    description: "Introduction to fundamental concepts in chemistry",
-    schoolLevel: SchoolLevel.SECONDARY,
-    subjectArea: SubjectArea.SCIENCES,
-    topic: "Chemistry Basics",
-    grade: "8th Grade",
-    timeLimit: 45,
-    passingScore: 60,
-    difficultyLevel: "Beginner",
-    isPublished: true,
-    questions: {
-      create: [
-        {
-          questionText: "What is the chemical formula for water?",
-          type: QuestionType.MULTIPLE_CHOICE,
-          points: 1,
-          order: 1,
-          options: {
-            create: [
-              { optionText: "H2O", isCorrect: true, order: 1 },
-              { optionText: "O2", isCorrect: false, order: 2 },
-              { optionText: "CO2", isCorrect: false, order: 3 },
-              { optionText: "H2SO4", isCorrect: false, order: 4 },
-            ],
+            create: [],
           },
         },
         {
-          questionText: "Is water an element?",
-          type: QuestionType.TRUE_FALSE,
-          points: 1,
-          order: 2,
+          questionText:
+            "Calculate the volume of a rectangular prism: Length = 10 cm, Width = 8 cm, Height = 4 cm.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
           options: {
-            create: [
-              { optionText: "True", isCorrect: false, order: 1 },
-              { optionText: "False", isCorrect: true, order: 2 },
-            ],
+            create: [],
+          },
+        },
+        {
+          questionText: "Convert 1.25 liters to milliliters.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
+          },
+        },
+        {
+          questionText:
+            "In the 17 times multiplication table, what is the product of 6, 9 and 12.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
+          },
+        },
+        {
+          questionText:
+            "Solve: If a car consumes 8 liters of fuel for every 100 km, how much fuel is needed for 400 km?",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
+          },
+        },
+        {
+          questionText:
+            "Calculate the circumference of a circle with radius = 15 cm (If π = 22/7).",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
+          },
+        },
+        {
+          questionText:
+            "Find the area of a parallelogram with a base of 10 cm and a height of 8 cm.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
+          },
+        },
+        {
+          questionText:
+            "Find the area of a rhombus whose side is 6 cm and whose altitude is 4 cm.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
+          },
+        },
+        {
+          questionText:
+            "If one of its diagonals is 8 cm long, find the length of the other diagonal.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
+          },
+        },
+        {
+          questionText: "Solve for x: 3x + 5 = 14.",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
+          },
+        },
+        {
+          questionText:
+            "Solve: A container holds 1,200 ml of water. How many liters is this?",
+          hasPicture: false,
+          questionImage: null,
+          type: QuestionType.THEORY,
+          options: {
+            create: [],
           },
         },
       ],
@@ -424,9 +444,9 @@ const additionalTests = [
 ];
 
 async function main() {
-  for (const service of additionalTests) {
+  for (const test of tests) {
     await prisma.test.create({
-      data: service,
+      data: test,
     });
   }
   console.log("Seed data has been inserted successfully");
