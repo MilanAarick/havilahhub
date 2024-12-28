@@ -28,9 +28,10 @@ model User {
   referredUsers      User[]    @relation("Referrals")
   referredBy         User?     @relation("Referrals", fields: [referredById], references: [id])
   referredById       String?
-  //  testAttempts       TestAttempt[]
 
   WritingService TutoringService[]
+
+  TestAttempt TestAttempt[]
 }
 
 model TutoringService {
@@ -160,6 +161,17 @@ enum SubjectArea {
   ARTS
   OTHER
 }
+model TestAttempt {
+  id              String        @id @default(cuid())
+  user            User          @relation(fields: [userId], references: [id])
+  userId          String
+  test            Test          @relation(fields: [testId], references: [id])
+  testId          String
+  score           Float?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+}
+
 
 model Test {
   id              String    @id @default(cuid())
@@ -171,6 +183,8 @@ model Test {
   isPublished     Boolean   @default(true)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
+
+  TestAttempt TestAttempt[]
 }
 
 model Question {

@@ -173,3 +173,85 @@ export const onGetSingleTest = async (id: string) => {
     };
   }
 };
+
+export const addTestAttempt = async (
+  userId: string,
+  testId: string,
+  score: number
+) => {
+  try {
+    const test = await client.test.findUnique({
+      where: {
+        id: testId,
+      },
+    });
+
+    const user = await client.user.findUnique({
+      where: {
+        clerkId: userId,
+      },
+    });
+
+    if (!test || !user) {
+      return {
+        status: 404,
+        message: "Test or user not found",
+        data: null,
+      };
+    }
+
+    const testAttempt = await client.testAttempt.create({
+      data: {
+        user: { connect: { clerkId: userId } },
+        test: { connect: { id: testId } },
+        score,
+      },
+    });
+
+    return {
+      status: 200,
+      message: "Test attempt created successfully",
+      data: testAttempt,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      status: 500,
+      message: "An error occurred while creating test attempt",
+      data: null,
+    };
+  }
+};
+
+export const getTestAttempts = async (userId: string) => {
+  try {
+    const user = await client.user.findUnique({
+      where: {
+        clerkId: userId,
+      },
+    });
+
+    const testAttempts = await client.testAttempt.findMany({
+      where: {
+        userId: user?.id,
+      },
+      include: {
+        test: true,
+      },
+    });
+
+    console.log(testAttempts);
+
+    return {
+      status: 200,
+      message: "Test attempts fetched successfully",
+      data: testAttempts,
+    };
+  } catch (error) {
+    console.error(error);
+    return {
+      status: 500,
+      message: "An error occurred while fetching test attempts",
+    };
+  }
+};

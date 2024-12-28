@@ -28,28 +28,17 @@ import { ActivityLog, Question, Test, TestAttempt } from "@prisma/client";
 import { TestWithAttempts } from "@/constants/global";
 
 interface TestWithDetails {
-  data: TestWithAttempts[] | null;
+  data: (TestAttempt & { test: Test })[] | null;
 }
 
-export const columns: ColumnDef<TestWithAttempts>[] = [
-  {
-    accessorKey: "completedAt",
-    header: "Date Completed",
-    cell: ({ row }) => {
-      const date = row.original?.completedAt;
-      return (
-        <div className="lowercase text-left">
-          {date ? formatDate(new Date(date), "MMMM dd, yyyy") : ""}
-        </div>
-      );
-    },
-  },
+export const columns: ColumnDef<TestAttempt & { test: Test }>[] = [
   {
     accessorKey: "testId",
     header: "Test ID",
-    cell: ({ row }) => (
-      <div className="lowercase text-left">{row.getValue("testId")}</div>
-    ),
+    cell: ({ row }) => {
+      const id = row.original?.testId;
+      return <div className="lowercase text-left">{id}</div>;
+    },
   },
   {
     accessorKey: "test",
@@ -67,35 +56,13 @@ export const columns: ColumnDef<TestWithAttempts>[] = [
       return <div className="lowercase text-left">{subject}</div>;
     },
   },
-  {
-    accessorKey: "score",
-    header: "Cut off Score",
-    cell: ({ row }) => {
-      const passingScore = row.original?.test?.passingScore;
-      return <div className="lowercase text-left">{passingScore}%</div>;
-    },
-  },
+
   {
     accessorKey: "score",
     header: "Test Score",
     cell: ({ row }) => {
-      const questionLength = row.original?.test?.questions?.length;
-      const percentage = ((row.original.score ?? 0) / questionLength) * 100;
-      const formatted = percentage.toFixed(1);
-      return (
-        <div className="lowercase text-left">
-          {row.getValue("score")} / {questionLength}{" "}
-          <span className="font-semibold"> ({formatted}%) </span>
-        </div>
-      );
-    },
-  },
-  {
-    accessorKey: "test",
-    header: "Test Question",
-    cell: ({ row }) => {
-      const title = row.original?.test?.title;
-      return <div className="lowercase text-left">{title}</div>;
+      const score = row.original?.score;
+      return <div className="lowercase text-left">{score}%</div>;
     },
   },
 ];

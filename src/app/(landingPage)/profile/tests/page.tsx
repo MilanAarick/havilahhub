@@ -1,13 +1,14 @@
 import { currentUser } from "@clerk/nextjs/server";
 import React from "react";
 import { TestTable } from "../_components/test-table";
-import { onGetTestAttempts } from "@/actions/learnings";
+import { getTestAttempts } from "@/actions/learnings";
 
 type Props = {};
 
 const page = async (props: Props) => {
   const user = await currentUser();
-  const tests = await onGetTestAttempts(user?.id);
+  console.log({ user });
+  const tests = await getTestAttempts(user?.id!);
   return (
     <main className="">
       <div className="container py-6">
@@ -16,7 +17,7 @@ const page = async (props: Props) => {
         </h1>
 
         <div className="mt-8">
-          <TestTable data={tests?.data} />
+          <TestTable data={tests?.data ?? null} />
         </div>
       </div>
     </main>
