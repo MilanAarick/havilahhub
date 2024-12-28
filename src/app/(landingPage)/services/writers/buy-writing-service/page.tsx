@@ -11,7 +11,7 @@ const page = async (props: Props) => {
   const user = await currentUser();
   return (
     <div className="min-h-dvh">
-      <ServiceSelectionFlow services={services as any} />
+      <ServiceSelectionFlow services={services.data as any} />
       <VerifyPayment userId={user?.id} />
     </div>
   );

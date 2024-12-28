@@ -1,5 +1,3 @@
-"use client";
-
 import { banner_three } from "@/assets/images";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
@@ -9,12 +7,11 @@ import AboutServices from "./_components/about-services";
 import Testimonials from "./_components/testimonials";
 import CallToAction from "./_components/call-to-action";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = {};
 
 const Page = (props: Props) => {
-  const router = useRouter();
-
   return (
     <div>
       <section className="relative bg-secondary text-white overflow-hidden ">
@@ -27,7 +24,7 @@ const Page = (props: Props) => {
             className="opacity-20"
           />
         </div>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
+        <div className=" max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 relative z-10">
           <h1 className="text-5xl font-extrabold mb-6">
             Elevate Your Writing with Havilah Writers
           </h1>
@@ -36,14 +33,15 @@ const Page = (props: Props) => {
             high-quality, tailored writing services for students, businesses,
             and authors.
           </p>
-          <Button
-            size="lg"
-            variant="secondary"
-            className="bg-black text-white hover:bg-black hover:text-white"
-            onClick={() => router.push("buy-writing-services")}
-          >
-            Explore Our Services
-          </Button>
+          <Link href={"/services/writers/buy-writing-service"}>
+            <Button
+              size="lg"
+              variant="secondary"
+              className="bg-black text-white hover:bg-black hover:text-white"
+            >
+              Explore Our Services
+            </Button>
+          </Link>
         </div>
         <svg
           className="absolute bottom-0 w-full text-white"

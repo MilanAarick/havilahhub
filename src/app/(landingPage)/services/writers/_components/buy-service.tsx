@@ -1143,7 +1143,7 @@ export default function ServiceSelectionFlow({ services }: Props) {
   const handleBuy = async () => {
     await mutateAsync(
       {
-        amount: total,
+        amount: Number(total) * 100,
         type: selectedService?.type as ServiceType,
         email: clerk?.user?.emailAddresses[0]?.emailAddress,
         phone: personalInfo.phoneNumber,

@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { CheckCircle } from "lucide-react";
+import Link from "next/link";
 
 export default function AboutWriters() {
   const features = [
@@ -41,12 +42,14 @@ export default function AboutWriters() {
           ))}
         </div>
         <div className="text-center">
-          <Button
-            size="lg"
-            className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300"
-          >
-            Explore Services
-          </Button>
+          <Link href="/services/writers/buy-writing-service">
+            <Button
+              size="lg"
+              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300"
+            >
+              Explore Services
+            </Button>
+          </Link>
         </div>
       </div>
     </section>

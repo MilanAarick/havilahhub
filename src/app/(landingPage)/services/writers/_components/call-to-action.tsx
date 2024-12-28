@@ -1,12 +1,7 @@
-"use client";
-
 import { Button } from "@/components/ui/button";
-import { useControls } from "@/hooks/store/controls";
-import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function CallToAction() {
-  const router = useRouter();
-  const { setOpen } = useControls();
   return (
     <section className="py-20 px-4 sm:px-6 lg:px-8 bg-blue-600 text-white">
       <div className="max-w-4xl mx-auto text-center">
@@ -24,13 +19,14 @@ export default function CallToAction() {
           >
             Request a Quote
           </Button>
-          <Button
-            size="lg"
-            className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300"
-            onClick={() => router.push("buy-writing-services")}
-          >
-            Explore Services
-          </Button>
+          <Link href="/services/writers/buy-writing-service">
+            <Button
+              size="lg"
+              className="bg-blue-700 hover:bg-blue-800 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300"
+            >
+              Explore Services
+            </Button>
+          </Link>
         </div>
       </div>
     </section>
