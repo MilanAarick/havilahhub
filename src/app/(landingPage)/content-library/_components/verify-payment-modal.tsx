@@ -31,7 +31,7 @@ const VerifyPayment = ({ userId }: Props) => {
   const onOpenChange = () => {
     if (data?.status) {
       params.delete("reference");
-      window.location.href = `/services/writers`;
+      window.location.href = `/services/buy-writing-services`;
     }
   };
 
