@@ -80,6 +80,10 @@ export const useAuthSignIn = () => {
         toast.error("Email or password is incorrect");
       } else if (error.errors[0].code === "Session already exists") {
         router.push(redirect_url ? redirect_url : "/home");
+      } else if (error.errors[0].message === "Invalid verification strategy") {
+        toast.error(
+          "You created this account with a different method. Please sign In using it."
+        );
       } else {
         toast.error(error.errors[0].message);
       }
