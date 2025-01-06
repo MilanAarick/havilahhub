@@ -89,7 +89,7 @@ export const columns: ColumnDef<ActivityLog>[] = [
     accessorKey: "amount",
     header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"));
+      const amount = parseFloat(row.getValue("amount")).toLocaleString();
 
       return <div className="text-right font-medium">&#8358;{amount}</div>;
     },
