@@ -335,7 +335,7 @@ export default function ServiceSelectionFlow({ services }: Props) {
             calculateTotal(0);
           }}
         >
-          {services.map((service) => (
+          {services?.map((service) => (
             <div key={service.type} className="flex items-center space-x-2">
               <RadioGroupItem
                 value={service.type}

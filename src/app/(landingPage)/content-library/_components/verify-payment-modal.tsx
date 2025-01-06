@@ -31,7 +31,7 @@ const VerifyPayment = ({ userId }: Props) => {
   const onOpenChange = () => {
     if (data?.status) {
       params.delete("reference");
-      window.location.href = `/services/buy-writing-services`;
+      window.location.href = `/services/writers/buy-writing-services`;
     }
   };
 
@@ -48,7 +48,7 @@ const VerifyPayment = ({ userId }: Props) => {
         );
 
         if (activity.status === 200) {
-          router.push(`/content-library/curriculum`);
+          router.push(`/services/writers/buy-writing-services`);
         }
       };
 

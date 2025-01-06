@@ -58,9 +58,7 @@ const ServiceCard = ({ service }: Props) => {
           Free Consultation
         </Button>
         <Button
-          onClick={() =>
-            router.push(`/content-library/curriculum?filter=${service.type}`)
-          }
+          onClick={() => router.push(`/services/writers/buy-writing-services`)}
           variant="default"
           className="w-full"
         >
