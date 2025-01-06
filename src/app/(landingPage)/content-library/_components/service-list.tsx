@@ -11,19 +11,11 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { TutoringService, ServiceType } from "@prisma/client";
-import { formatServiceType, getServiceTitle } from "@/constants/global";
-import {
-  GraduationCap,
-  Loader2,
-  Music,
-  NotebookText,
-  Play,
-  Trophy,
-} from "lucide-react";
+import { Loader2 } from "lucide-react";
 import Paystack from "@paystack/inline-js";
 import { useMutation } from "@tanstack/react-query";
 import { payWithPaystack } from "@/actions/payment";
-import { useClerk, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 import {
   Popover,
@@ -39,25 +31,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
   const clerk = useUser();
   const [selectedAmount, setSelectedAmount] = useState(0);
   const [id, setId] = useState(0);
-  const getIcon = () => {
-    if (getServiceTitle(service.type) === "writing") {
-      return <NotebookText className="text-green-500" />;
-    } else if (getServiceTitle(service.type) === "tutoring") {
-      return <GraduationCap className="text-yellow-500" />;
-    } else {
-      return <GraduationCap className="text-yellow-500" />;
-    }
-  };
-
-  const getColor = () => {
-    if (getServiceTitle(service.type) === "writing") {
-      return "bg-green-500";
-    } else if (getServiceTitle(service.type) === "tutoring") {
-      return "bg-yellow-500";
-    } else {
-      return "bg-red-500";
-    }
-  };
 
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["initialize-paystack"],
@@ -103,7 +76,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
   return (
     <Card className="relative bg-gray-900 text-white overflow-hidden">
       <div
-        className={`absolute bottom-0 right-0 w-24 h-24 ${getColor()} opacity-50 rounded-tl-full`}
+        className={`absolute bottom-0 right-0 w-24 h-24 bg-yellow-500 opacity-50 rounded-tl-full`}
       />
       <CardHeader className="relative z-10">
         {/* <div className="flex justify-between items-start">

@@ -109,7 +109,7 @@ export const filterToServiceTypes: Record<FilterType, ServiceType[]> = {
     ServiceType.BUSINESS_PLAN,
     ServiceType.SOP_WRITING,
   ],
-  tutoring: [ServiceType.PERSONALIZED_TUTORING, ServiceType.EXAM_PREPARATION],
+  tutoring: [ServiceType.PERSONALIZED_TUTORING],
 };
 
 export function getServiceTitle(serviceType: ServiceType): string {
