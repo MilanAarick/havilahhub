@@ -70,12 +70,7 @@ const Header = () => {
                 { label: "Tutors", href: "/services/tutors" },
               ]}
             />
-            {/* <Link
-              href="/games"
-              className="hover:text-secondary transition-colors"
-            >
-              Games
-            </Link> */}
+
             <DropdownMenu
               title="Content Library"
               items={[
@@ -87,17 +82,23 @@ const Header = () => {
 
           <SignedIn>
             <UserMenu />
+            <Link
+              href="/profile/referral"
+              className="hover:text-secondary transition-colors"
+            >
+              <Gift size={20} />
+            </Link>
           </SignedIn>
           <SignedOut>
             <SignInComp />
           </SignedOut>
 
-          <Link
+          {/* <Link
             href="/help"
             className="hover:text-secondary transition-colors hover:rotate-12"
           >
             <HelpCircle size={20} />
-          </Link>
+          </Link> */}
         </nav>
         <Sheet>
           <SheetTrigger asChild>
