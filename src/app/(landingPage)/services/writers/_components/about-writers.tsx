@@ -41,16 +41,6 @@ export default function AboutWriters() {
             </Card>
           ))}
         </div>
-        <div className="text-center">
-          <Link href="/services/writers/buy-writing-service">
-            <Button
-              size="lg"
-              className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-8 rounded-full shadow-lg transition duration-300"
-            >
-              Explore Services
-            </Button>
-          </Link>
-        </div>
       </div>
     </section>
   );

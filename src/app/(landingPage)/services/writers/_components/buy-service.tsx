@@ -387,7 +387,7 @@ export default function ServiceSelectionFlow({ services }: Props) {
                 <RadioGroupItem value={plan} id={`plan-${plan}`} />
                 <Label htmlFor={`plan-${plan}`}>
                   {plan.charAt(0).toUpperCase() + plan.slice(1)} - ₦
-                  {details.price} per page
+                  {details.price} per word
                 </Label>
               </div>
             )
@@ -795,7 +795,7 @@ export default function ServiceSelectionFlow({ services }: Props) {
             {selectedPlan.charAt(0).toUpperCase() + selectedPlan.slice(1)} Plan
           </h3>
           <p>{plan.description}</p>
-          <p>Price: ₦{plan.price} per page</p>
+          <p>Price: ₦{plan.price} per word</p>
           <div className="mt-2">
             <p>Enter number of pages</p>
             <Input
@@ -892,7 +892,7 @@ export default function ServiceSelectionFlow({ services }: Props) {
         <div>
           <p>Service: {selectedService.subject}</p>
           <p>Plan: {selectedPlan}</p>
-          <p>Price: ₦{total.toLocaleString()} per page</p>
+          <p>Price: ₦{total.toLocaleString()} per word</p>
         </div>
       );
     } else if (selectedService.bookWritingPlans) {
