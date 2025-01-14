@@ -83,7 +83,7 @@ export default function Homepage() {
                   laboris nisi ut aliquip ex ea commodo consequat.
                 </p>
                 <Link
-                  href={"#"}
+                  href={"https://eepurl.com/i12SFg"}
                   className="text-primary flex items-center gap-3"
                 >
                   Sign up for our newsletter
