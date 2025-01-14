@@ -21,7 +21,7 @@ export default function Homepage() {
         <section className="bg-gradient-to-br from-primary to-secondary text-primary-foreground relative">
           <div className="container mx-auto px-4 py-16 flex items-center justify-between relative z-20">
             <div className="max-w-3xl h-[230px] lg:h-[380px]">
-              <h1 className="text-4xl font-bold mb-4 font-poppins">
+              <h1 className="text-2xl sm:text-4xl font-bold mb-4 font-poppins">
                 Havilah Learning Hub: Giving you an Edge
               </h1>
               <p className="text-base lg:text-lg mb-8">
