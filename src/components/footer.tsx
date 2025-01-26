@@ -18,7 +18,7 @@ const Footer = (props: Props) => {
           </div>
           <div className="flex items-end space-x-4">
             <Link
-              href="https://www.facebook.com/share/KRAptGMmnBtNiXMd/?mibextid=qi2Omg"
+              href=" https://www.facebook.com/share/KRAptGMmnBtNiXMd/?mibextid=qi2Omg "
               target="_blank"
               aria-label="Facebook"
             >
@@ -32,14 +32,14 @@ const Footer = (props: Props) => {
               <Image src={instagram} alt="Facebook" width={32} height={32} />
             </Link>
             <Link
-              href="https://www.linkedin.com/company/havilahtutors/"
+              href=" https://www.linkedin.com/company/havilahtutors/"
               target="_blank"
               aria-label="LinkedIn"
             >
               <Image src={linkedin} alt="Facebook" width={32} height={32} />
             </Link>
             <Link
-              href="https://youtube.com/@havilahlearnonghub?si=bF_amnZpdWflsDPV"
+              href="https://www.youtube.com/@HavilahLearningHub"
               target="_blank"
               aria-label="LinkedIn"
             >
