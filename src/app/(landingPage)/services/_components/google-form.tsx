@@ -122,7 +122,7 @@ export default function GoogleForm() {
     setIsSubmitting(true);
     try {
       handleBuy(
-        totalAmount,
+        Number(totalAmount) * 100,
         values.email,
         ServiceType.PERSONALIZED_TUTORING,
         values.phoneNumber,

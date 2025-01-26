@@ -133,8 +133,6 @@ export default function TestCatalogPage() {
       placeholderData: keepPreviousData,
     });
 
- 
-
   //   const updateQuery = (text: string | null) => {
   //     if (text) {
   //       query.set("searchTerm", text);
@@ -144,9 +142,9 @@ export default function TestCatalogPage() {
 
   return (
     <main>
-      {(isPending || isFetching) && <TestLoader />}
+      {/* {(isPending || isFetching) && <TestLoader />} */}
       <div className="container mx-auto p-4 w-full">
-        {!isPending && !isFetching && data?.data?.length !== 0 && (
+        {!isPending && data?.data?.length !== 0 && (
           <div>
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 w-full">
               {data?.data?.map((test, index) => (

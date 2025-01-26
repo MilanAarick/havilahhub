@@ -7,7 +7,6 @@ type Props = {};
 
 const page = async (props: Props) => {
   const user = await currentUser();
-  console.log({ user });
   const tests = await getTestAttempts(user?.id!);
   return (
     <main className="">
