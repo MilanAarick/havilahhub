@@ -39,21 +39,30 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
       type,
       email,
       phone,
+      subjects,
     }: {
       amount: number;
       type: ServiceType;
       email: string | undefined;
       phone: string | undefined;
-    }) => payWithPaystack(amount, type, email, phone),
+      subjects: string | undefined;
+    }) => payWithPaystack(amount, type, email, phone, subjects),
   });
 
-  const handleBuy = async (amount: number, type: ServiceType) => {
+  const handleBuy = async (
+    amount: number,
+    email: string,
+    type: ServiceType,
+    phone: string,
+    subjects: string
+  ) => {
     await mutateAsync(
       {
         amount,
         type,
-        email: clerk?.user?.emailAddresses[0]?.emailAddress,
-        phone: "",
+        email,
+        phone,
+        subjects,
       },
       {
         onSuccess(data, variables, context) {
@@ -120,7 +129,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service }) => {
                     className="text-primary border-white hover:bg-white hover:text-gray-900 hover:bg-secondary w-full"
                     onClick={() => {
                       setId(i);
-                      handleBuy(price! * 100, service.type);
+                      // handleBuy(price! * 100, service.type);
                     }}
                   >
                     {label}{" "}

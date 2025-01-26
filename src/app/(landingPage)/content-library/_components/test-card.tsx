@@ -133,9 +133,7 @@ export default function TestCatalogPage() {
       placeholderData: keepPreviousData,
     });
 
-  useEffect(() => {
-    console.log({ data });
-  }, [data]);
+ 
 
   //   const updateQuery = (text: string | null) => {
   //     if (text) {

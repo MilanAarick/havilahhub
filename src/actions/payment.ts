@@ -9,7 +9,8 @@ export const payWithPaystack = async (
   amount: number,
   type: ServiceType,
   email: string | undefined,
-  phone: string | undefined
+  phone: string | undefined,
+  subjects: string | undefined
 ) => {
   try {
     const response = await axios.post(
@@ -20,6 +21,7 @@ export const payWithPaystack = async (
         metadata: {
           serviceType: type,
           phone,
+          subjects,
         },
       },
       {

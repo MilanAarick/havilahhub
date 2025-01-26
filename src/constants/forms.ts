@@ -73,3 +73,27 @@ export const SIGN_IN_FORM: AuthFormProps[] = [
     type: "password",
   },
 ];
+
+export type TutorFormData = {
+  email: string;
+
+  parentName: string;
+
+  phoneNumber: string;
+
+  homeAddress: string;
+
+  preferredContact: "email" | "phone";
+
+  referralSource: "social" | "referral" | "website";
+
+  services: {
+    physicalClasses?: "80000" | "100000" | "120000";
+
+    onlineClasses?: "50000" | "65000" | "80000";
+
+    artsMusic?: "100000" | "130500" | "165000";
+
+    languages?: "95000" | "125000" | "155000";
+  };
+};
