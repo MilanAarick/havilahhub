@@ -31,13 +31,12 @@ const VerifyPayment = ({ userId }: Props) => {
   const onOpenChange = () => {
     if (data?.status) {
       params.delete("reference");
-      window.location.href = `/services/writers/buy-writing-services`;
+      window.location.href = `/home`;
     }
   };
 
   useEffect(() => {
     if (isSuccess && data?.status) {
-      console.log({ data });
       const addActivity = async () => {
         const activity = await addToActivityLog(
           userId,
@@ -48,7 +47,7 @@ const VerifyPayment = ({ userId }: Props) => {
         );
 
         if (activity.status === 200) {
-          router.push(`/services/writers/buy-writing-services`);
+          router.push(`/home`);
         }
       };
 
