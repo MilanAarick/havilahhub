@@ -13,6 +13,9 @@ import assignment from "./assignment-help.png";
 import book from "./book-writing.png";
 import proofReading from "./proof-reading.jpg";
 import publishing from "./publishing.jpg";
+import childrenLibrary from "./children-library.jpg";
+import childTeacher from "./child-teacher.jpg";
+import childTeacher2 from "./teacher-helping-kids-class-b.png";
 
 export {
   header_image,
@@ -30,4 +33,7 @@ export {
   assignment,
   proofReading,
   publishing,
+  childrenLibrary,
+  childTeacher,
+  childTeacher2,
 };

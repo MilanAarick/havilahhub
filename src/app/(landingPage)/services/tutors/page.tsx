@@ -10,6 +10,8 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import GoogleForm from "../_components/google-form";
+import { childrenLibrary, childTeacher, childTeacher2 } from "@/assets/images";
+import Link from "next/link";
 
 const subjects = [
   {
@@ -162,13 +164,15 @@ export default function CourseSubjects() {
         </h2>
         <div className="relative">
           <div className="flex flex-col items-center justify-center gap-4">
-            <Button
-              size="lg"
-              variant={"secondary"}
-              className="bg-primary text-white hover:bg-secondary rounded-full"
-            >
-              Choose a Plan
-            </Button>
+            <Link href="#plan">
+              <Button
+                size="lg"
+                variant={"secondary"}
+                className="bg-primary text-white hover:bg-secondary rounded-full"
+              >
+                Choose a Plan
+              </Button>
+            </Link>
             <Button
               size="lg"
               variant="outline"
@@ -177,15 +181,7 @@ export default function CourseSubjects() {
               Book a Consultation
             </Button>
           </div>
-          <div className="absolute -right-4 bottom-0 hidden md:block">
-            <img
-              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/image-tbjQu1VRHhZsPsJJiAY66tbxQHTYny.png"
-              alt="Decorative hand illustration"
-              width={150}
-              height={150}
-              className="transform -scale-x-100"
-            />
-          </div>
+          <div className="absolute -right-4 bottom-0 hidden md:block"></div>
         </div>
       </div>
 
@@ -207,15 +203,23 @@ export default function CourseSubjects() {
         </aside>
       </section>
 
-      <section className="my-8 mt-20" id="plan">
-        <article className="space-y-3 text-center py-9">
+      <section className="my-8 mt-20 relative" id="plan">
+        <Image
+          src={childTeacher2}
+          alt=""
+          width={0}
+          height={0}
+          sizes="100vw"
+          className="w-full h-full object-cover absolute inset-0"
+        />
+        <article className="space-y-3 text-center py-9 relative z-20">
           <h1 className="text-xl lg:text-4xl text-primary font-bold text-center">
             Start A Lesson Plan Today
           </h1>
 
           <p>Let us give you an edge</p>
+          <GoogleForm />
         </article>
-        <GoogleForm />
       </section>
     </main>
   );
