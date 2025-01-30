@@ -18,6 +18,7 @@ import {
 } from "@/assets/images";
 import Link from "next/link";
 import { AnimatedTestimonials } from "@/components/global/animated-testimonials";
+import { cn } from "@/lib/utils";
 
 const subjects = [
   {
@@ -172,11 +173,16 @@ export default function CourseSubjects() {
             type="single"
             key={index}
             collapsible
-            className="bg-white rounded-lg shadow"
+            className={cn(
+              "bg-white rounded-lg shadow",
+              expandedIndex !== index
+                ? "border-none shadow-none bg-transparent"
+                : ""
+            )}
             onValueChange={() => handleToggle(index)}
           >
             <AccordionItem value={`item-${index}`}>
-              <AccordionTrigger className="px-4 py-3 hover:no-underline">
+              <AccordionTrigger className="px-4 py-3 hover:no-underline bg-white">
                 <span className="text-left font-medium">{subject.title}</span>
               </AccordionTrigger>
 
