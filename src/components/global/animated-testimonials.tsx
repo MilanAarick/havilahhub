@@ -2,7 +2,6 @@
 
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowLeftCircle, ArrowRightCircle } from "lucide-react";
-import Image from "next/image";
 import { useEffect, useState } from "react";
 
 type Testimonial = {
