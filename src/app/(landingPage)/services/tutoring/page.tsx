@@ -10,8 +10,14 @@ import {
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import GoogleForm from "../_components/google-form";
-import { childrenLibrary, childTeacher, childTeacher2 } from "@/assets/images";
+import {
+  childrenLibrary,
+  childTeacher,
+  childTeacher2,
+  momDaughter,
+} from "@/assets/images";
 import Link from "next/link";
+import { AnimatedTestimonials } from "@/components/global/animated-testimonials";
 
 const subjects = [
   {
@@ -125,6 +131,29 @@ const chooseUs = [
   },
 ];
 
+const testimonials = [
+  {
+    quote:
+      "Havilah Writers helped me ace my final-year project. I couldn't be more thankful!",
+    name: "Adewale A.O",
+    designation: " BSc. Student",
+    src: "https://img.freepik.com/free-photo/young-man-with-backpack-tablet-computer-3d-illustration-cartoon-character_1057-45863.jpg?t=st=1738251639~exp=1738255239~hmac=5dfa85b788feaae6e929d83a5bca25a54375297ae6f5e1d414755bb4293b5222&w=826",
+  },
+  {
+    quote: "My business plan exceeded all expectations. Truly professional!",
+    name: "Grace M.",
+    designation: "Entrepreneur",
+    src: "https://img.freepik.com/free-psd/3d-rendering-hair-style-avatar-design_23-2151869131.jpg?t=st=1738251764~exp=1738255364~hmac=59d3f154a649fc481bf768cbd5abd9228eecb66c0a5746473abd982a218f604c&w=826",
+  },
+  {
+    quote:
+      "Their book writing service turned my dream into reality. Highly recommended!",
+    name: "Samuel T.",
+    designation: "Author",
+    src: "https://img.freepik.com/free-psd/3d-illustration-human-avatar-profile_23-2150671151.jpg?t=st=1738251806~exp=1738255406~hmac=710e0d0ae3772ac5eba3ab6e78291bfc77a0a16ddd57d980f33a03266a38b090&w=826",
+  },
+];
+
 export default function CourseSubjects() {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null);
 
@@ -191,7 +220,7 @@ export default function CourseSubjects() {
         </h1>
 
         <aside>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mt-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 my-8">
             {chooseUs.map((item) => (
               <div key={item.id} className="border-2 border-secondary p-2">
                 <p className="text-sm text-center text-black border border-primary py-5 font-medium ">
@@ -200,6 +229,18 @@ export default function CourseSubjects() {
               </div>
             ))}
           </div>
+        </aside>
+
+        <Image
+          src={momDaughter}
+          alt="Havilah"
+          width={900}
+          height={700}
+          className="object-cover mx-auto"
+        />
+
+        <aside className="mt-10">
+          <AnimatedTestimonials testimonials={testimonials} />
         </aside>
       </section>
 
