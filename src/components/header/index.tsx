@@ -66,8 +66,8 @@ const Header = () => {
             <DropdownMenu
               title="Services"
               items={[
-                { label: "Writers", href: "/services/writers" },
-                { label: "Tutors", href: "/services/tutors" },
+                { label: "Writing", href: "/services/writing" },
+                { label: "Tutoring", href: "/services/tutoring" },
               ]}
             />
 

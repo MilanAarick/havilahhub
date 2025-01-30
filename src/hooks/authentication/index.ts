@@ -274,6 +274,7 @@ export const useGoogleAuth = () => {
   const searchParams = useSearchParams();
   const referredBy = searchParams.get("referredBy");
   const referralType = searchParams.get("referralType");
+  const redirect_url = searchParams.get("redirect_url");
 
   const signInWith = async (strategy: OAuthStrategy, id?: string) => {
     if (!LoadedSignIn) return;
@@ -287,19 +288,17 @@ export const useGoogleAuth = () => {
           ? `${referredBy ? "&" : "?"}referralType=${referralType}`
           : "");
 
-      const res = await signIn.authenticateWithRedirect({
+      await signIn.authenticateWithRedirect({
         strategy,
-        redirectUrl: "/home",
+        redirectUrl: redirect_url ? redirect_url : "/home",
         redirectUrlComplete,
       });
-
-      console.log({ res });
     } catch (error: any) {
-      console.log(error.errors[0]);
+      console.log("errors", error.errors[0]);
       if (error.errors[0]?.code === "session_exists") {
-        router.push("/home");
-        toast.success("Welcome back!");
+        router.push(redirect_url ? redirect_url : "/home");
       }
+      router.push(redirect_url ? redirect_url : "/home");
     }
   };
 
@@ -316,7 +315,7 @@ export const useGoogleAuth = () => {
 
       return signUp.authenticateWithRedirect({
         strategy,
-        redirectUrl: "/callback",
+        redirectUrl: redirectUrlComplete,
         redirectUrlComplete,
       });
     } catch (error) {

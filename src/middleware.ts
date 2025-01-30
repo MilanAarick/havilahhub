@@ -4,6 +4,7 @@ const excludedRoutes = [
   "/",
   "/sign-up",
   "/sign-in",
+  "/sso-callback",
   "/callback",
   "/forgot-password",
   "/about",

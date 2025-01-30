@@ -20,9 +20,6 @@ const Page = async ({ searchParams }: Props) => {
   const referredBy = searchParams.referredBy as string;
   const referralType = searchParams.referralType as string;
 
-  console.log("Referral Code:", referredBy);
-  console.log("Referral Type:", referralType);
-
   if (!user) {
     redirect("/sign-up");
   }

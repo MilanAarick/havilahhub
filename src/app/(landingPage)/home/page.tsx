@@ -7,6 +7,7 @@ import EmptyLearnings from "./_components/empty-learnings";
 import { Button } from "@/components/ui/button";
 import { ActivityLogTable } from "@/components/global/activity-log";
 import Link from "next/link";
+import VerifyPayment from "../content-library/_components/verify-payment-modal";
 
 type Props = {};
 
@@ -75,6 +76,7 @@ const page = async (props: Props) => {
           )}
         </div>
       </aside>
+      <VerifyPayment userId={clerk?.id} />
     </main>
   );
 };
