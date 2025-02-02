@@ -13,6 +13,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Loader2 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
 import React, { useEffect } from "react";
+import { toast } from "sonner";
 
 type Props = {
   userId: string | undefined;
@@ -39,16 +40,22 @@ const VerifyPayment = ({ userId }: Props) => {
   useEffect(() => {
     if (data?.status && isSuccess) {
       const addActivity = async () => {
-        const activity = await addToActivityLog(
-          userId,
-          `Paid for ${data?.data?.metadata?.serviceType}`,
-          data?.data?.metadata.serviceType,
-          data?.data?.amount / 100,
-          data?.data?.reference
-        );
+        try {
+          const activity = await addToActivityLog(
+            userId,
+            `Paid for ${data?.data?.metadata?.serviceType}`,
+            data?.data?.metadata.serviceType,
+            data?.data?.amount / 100,
+            data?.data?.reference
+          );
 
-        if (activity.status === 200) {
-          router.replace(`/home`);
+          toast.success("Payment confirmed successfully");
+          if (activity.status === 200) {
+            router.replace(`/home`);
+          }
+        } catch (error) {
+          toast.error("An error occurred while adding activity log");
+          console.log("ADD_ACTIVITY_ERROR", error);
         }
       };
 
