@@ -57,7 +57,7 @@ const VerifyPayment = ({ userId }: Props) => {
   }, [data?.status, isSuccess]);
 
   return (
-    <Dialog open={!!reference} onOpenChange={onOpenChange}>
+    <Dialog open={!!reference}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Verifying Payment</DialogTitle>
