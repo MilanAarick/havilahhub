@@ -51,7 +51,7 @@ const VerifyPayment = ({ userId }: Props) => {
 
           toast.success("Payment confirmed successfully");
           if (activity.status === 200) {
-            router.replace(`/home`);
+            // router.replace(`/home`);
           }
         } catch (error) {
           toast.error("An error occurred while adding activity log");
@@ -62,6 +62,10 @@ const VerifyPayment = ({ userId }: Props) => {
       addActivity();
     }
   }, [data?.status, isSuccess]);
+
+  useEffect(() => {
+    console.log(data, isSuccess);
+  }, [data, isSuccess]);
 
   return (
     <Dialog open={!!reference}>
