@@ -54,7 +54,7 @@ const VerifyPayment = ({ userId }: Props) => {
 
       addActivity();
     }
-  }, [data?.status]);
+  }, [data?.status, isSuccess]);
 
   return (
     <Dialog open={!!reference} onOpenChange={onOpenChange}>
