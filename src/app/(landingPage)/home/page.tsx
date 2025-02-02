@@ -9,9 +9,12 @@ import { ActivityLogTable } from "@/components/global/activity-log";
 import Link from "next/link";
 import VerifyPayment from "../content-library/_components/verify-payment-modal";
 
-type Props = {};
+type Props = {
+  searchParams: { [key: string]: string | string[] | undefined };
+};
 
 const page = async (props: Props) => {
+  const reference = props.searchParams.reference as string;
   const clerk = await currentUser();
   const learnings = await onGetUserLearnings(clerk?.id);
   return (
@@ -76,7 +79,7 @@ const page = async (props: Props) => {
           )}
         </div>
       </aside>
-      <VerifyPayment userId={clerk?.id} />
+      {reference ? <VerifyPayment userId={clerk?.id} /> : null}
     </main>
   );
 };

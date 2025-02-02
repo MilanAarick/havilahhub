@@ -57,7 +57,6 @@ export const verifyPaystackPayment = async (reference: string) => {
       }
     );
 
-    console.log(response.data);
     return response.data as PaystackVerify;
   } catch (error: any) {
     console.log(error.response);

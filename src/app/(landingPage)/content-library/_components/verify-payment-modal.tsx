@@ -26,17 +26,18 @@ const VerifyPayment = ({ userId }: Props) => {
   const { data, isPending, isError, isSuccess } = useQuery({
     queryKey: ["verify-payment"],
     queryFn: () => verifyPaystackPayment(reference!),
+    enabled: !!reference,
   });
 
   const onOpenChange = () => {
     if (data?.status) {
       params.delete("reference");
-      window.location.href = `/home`;
+      router.replace("/home");
     }
   };
 
   useEffect(() => {
-    if (isSuccess && data?.status) {
+    if (data?.status && isSuccess) {
       const addActivity = async () => {
         const activity = await addToActivityLog(
           userId,
@@ -47,13 +48,13 @@ const VerifyPayment = ({ userId }: Props) => {
         );
 
         if (activity.status === 200) {
-          router.push(`/home`);
+          router.replace(`/home`);
         }
       };
 
       addActivity();
     }
-  }, [data]);
+  }, [data?.status]);
 
   return (
     <Dialog open={!!reference} onOpenChange={onOpenChange}>
