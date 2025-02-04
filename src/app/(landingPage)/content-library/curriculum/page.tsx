@@ -2,10 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
-import ViewPdf from "./_components/pdfViewer";
+
 import { englishPdf, mathsPdf } from "@/assets/files";
+import dynamic from "next/dynamic";
 
 type Props = {};
+
+const ViewPdf = dynamic(() => import("./_components/pdfViewer"), {
+  loading: () => <p>Loading...</p>,
+});
 
 const CurriculumPage = (props: Props) => {
   const [selectedSubject, setSelectedSubject] = useState<string | null>(

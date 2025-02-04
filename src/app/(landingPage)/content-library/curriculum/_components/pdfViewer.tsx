@@ -17,15 +17,9 @@ const resizeObserverOptions = {};
 const maxWidth = 800;
 
 const ViewPdf = ({ selectedFile }: Props) => {
-  const router = useRouter();
-
   const [numPages, setNumPages] = useState<number>();
   const [containerRef, setContainerRef] = useState<HTMLElement | null>(null);
   const [containerWidth, setContainerWidth] = useState<number>();
-
-  // State for tracking pages
-  const [currentPage, setCurrentPage] = useState(1);
-  const [readPages, setReadPages] = useState<Set<number>>(new Set());
 
   // Refs for tracking
   const pageRefsMap = useRef<Map<number, HTMLDivElement>>(new Map());
