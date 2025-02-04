@@ -128,15 +128,15 @@ export default function GoogleForm() {
         values.phoneNumber,
         selectedSubjects
       );
-      //   const result = await sendEmail(values);
-      //   if (result.success) {
-      //     toast.success("Thank you for your submission. We'll be in touch soon!");
-      //     form.reset();
-      //   } else {
-      //     throw new Error(result.message);
-      //   }
+      const result = await sendEmail(values);
+      if (result.success) {
+        toast.success("Thank you for your submission. We'll be in touch soon!");
+        form.reset();
+      } else {
+        throw new Error(result.message);
+      }
     } catch (error) {
-      //   toast.error("Failed to submit form. Please try again later.");
+      toast.error("Failed to submit form. Please try again later.");
     } finally {
       setIsSubmitting(false);
     }

@@ -5,12 +5,13 @@ import { TutorFormData } from "@/constants/forms";
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
-  host: process.env.ZOHO_SMTP_HOST,
-  port: 465,
+  service: "Zoho",
+  host: "smtppro.zoho.com",
+  port: 587,
   secure: true,
   auth: {
     user: process.env.ZOHO_MAIL,
-    pass: process.env.ZOHO_MAIL_PASSWORD,
+    pass: process.env.ZOHO_PASSWORD,
   },
 });
 
@@ -18,10 +19,10 @@ export async function sendEmail(formData: TutorFormData) {
   try {
     const emailHtml = await renderFormSubmissionEmail(formData);
 
-    const info = await transporter.sendMail({
-      from: `"Havilah Educational Services" <${process.env.ZOHO_MAIL}>`,
+    await transporter.sendMail({
+      from: `"Havilah Educational Services" < ${process.env.ZOHO_MAIL}>`,
       to: process.env.ZOHO_MAIL,
-      subject: "New Form Submission",
+      subject: "New Purchase",
       html: emailHtml,
     });
 
