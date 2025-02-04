@@ -118,7 +118,7 @@ const Header = () => {
               </SheetDescription>
             </SheetHeader>
             <div className="mt-4 space-y-4">
-              <Link href="/" className="block py-2">
+              <Link href="/home" className="block py-2">
                 Home
               </Link>
               <Link href="/about" className="block py-2">
@@ -129,17 +129,11 @@ const Header = () => {
                   <AccordionItem value="services">
                     <AccordionTrigger>Services</AccordionTrigger>
                     <AccordionContent>
-                      <Link
-                        href="/services?filter=writing"
-                        className="block py-2"
-                      >
-                        Writers
+                      <Link href="/services/writing" className="block py-2">
+                        Writing
                       </Link>
-                      <Link
-                        href="/services?filter=tutoring"
-                        className="block py-2"
-                      >
-                        Tutors
+                      <Link href="/services/tutoring" className="block py-2">
+                        Tutoring
                       </Link>
                     </AccordionContent>
                   </AccordionItem>
@@ -152,25 +146,25 @@ const Header = () => {
                       >
                         Curriculum
                       </Link>
-                      {/* <Link
+                      <Link
                         href="/content-library/tests"
                         className="block py-2"
                       >
                         Tests
-                      </Link> */}
+                      </Link>
                     </AccordionContent>
                   </AccordionItem>
                 </Accordion>
                 {/* <Link href="/games" className="block py-2">
                   Games
                 </Link> */}
-                <Link href="/referral" className="block py-2">
+                <Link href="/profile/referral" className="block py-2">
                   Referral
                 </Link>
               </SignedIn>
-              <Link href="/help" className="block py-2">
+              {/* <Link href="/help" className="block py-2">
                 Help
-              </Link>
+              </Link> */}
               <SignedIn>
                 <UserMenu />
               </SignedIn>
