@@ -106,7 +106,11 @@ const TestNav = (props: Props) => {
           </SelectTrigger>
           <SelectContent>
             {levels.map((level) => (
-              <SelectItem key={level} value={level}>
+              <SelectItem
+                key={level}
+                value={level}
+                className="!hover:bg-primary"
+              >
                 {level.replace("_", " ")}
               </SelectItem>
             ))}
@@ -119,7 +123,11 @@ const TestNav = (props: Props) => {
           </SelectTrigger>
           <SelectContent>
             {subjects.map((subject) => (
-              <SelectItem key={subject} value={subject}>
+              <SelectItem
+                key={subject}
+                value={subject}
+                className="!hover:bg-primary"
+              >
                 {subject.replace("_", " ")}
               </SelectItem>
             ))}
