@@ -1,10 +1,16 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
 
 import { englishPdf, mathsPdf } from "@/assets/files";
 import dynamic from "next/dynamic";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { FileSearch2 } from "lucide-react";
 
 type Props = {};
 
@@ -27,8 +33,8 @@ const CurriculumPage = (props: Props) => {
     }
   };
   return (
-    <main className="min-h-screen">
-      <aside className="sticky left-2 top-[150px] max-w-56 rounded-lg h-full bg-white">
+    <main className="min-h-screen flex gap-2 relative max-w-full w-full">
+      <aside className="sticky left-2 top-[130px] px-3 rounded-lg h-full hidden lg:inline-flex">
         <div className="bg-white p-4 rounded-lg shadow-lg">
           <h1 className="text-xl font-bold text-center">Curriculum</h1>
           <div className="flex flex-col gap-2 mt-4">
@@ -44,8 +50,34 @@ const CurriculumPage = (props: Props) => {
           </div>
         </div>
       </aside>
-      <aside className="-mt-32">
-        <ViewPdf selectedFile={selectedSubject} />
+      <aside className="relative flex-1 max-w-full">
+        <Suspense fallback={<p>...</p>}>
+          <ViewPdf selectedFile={selectedSubject} />
+        </Suspense>
+        <Popover>
+          <PopoverTrigger
+            asChild
+            className="lg:hidden sticky bottom-2 left-2 z-30"
+          >
+            <Button>
+              <FileSearch2 />
+              Curriculum
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <div className="flex flex-col gap-2 mt-4">
+              <Button
+                variant={"link"}
+                onClick={() => onSelectFile("mathematics")}
+              >
+                Mathematics
+              </Button>
+              <Button variant={"link"} onClick={() => onSelectFile("english")}>
+                English
+              </Button>
+            </div>
+          </PopoverContent>
+        </Popover>
       </aside>
     </main>
   );
