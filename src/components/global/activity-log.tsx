@@ -65,11 +65,13 @@ export const columns: ColumnDef<ActivityLog>[] = [
   {
     accessorKey: "serviceDetail",
     header: "Detail",
-    cell: ({ row }) => (
-      <div className="capitalize text-left">
-        {row.getValue("serviceDetail")}
-      </div>
-    ),
+    cell: ({ row }) => {
+      const detail = row.original.serviceDetail;
+
+      return (
+        <div className="capitalize text-left">{detail.replace("_", " ")}</div>
+      );
+    },
   },
   {
     accessorKey: "serviceType",
