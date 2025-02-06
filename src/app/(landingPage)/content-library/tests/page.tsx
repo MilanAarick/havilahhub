@@ -8,9 +8,7 @@ type Props = {};
 const page = async (props: Props) => {
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6 py-10 container">
-        Available Tests
-      </h1>
+      <h1 className="text-3xl font-bold mb-6 py-10 container">Tests</h1>
       <div className="container">
         <TestNav />
       </div>

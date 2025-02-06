@@ -27,7 +27,6 @@ import {
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useRouter } from "next/navigation";
-import { getServiceTitle } from "@/constants/global";
 
 type Props = {
   service: {
@@ -58,7 +57,7 @@ const ServiceCard = ({ service }: Props) => {
           Free Consultation
         </Button>
         <Button
-          onClick={() => router.push(`/services/writers/buy-writing-services`)}
+          onClick={() => router.push(`/services/writers/buy-writing-service`)}
           variant="default"
           className="w-full"
         >

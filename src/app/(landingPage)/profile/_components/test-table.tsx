@@ -37,7 +37,7 @@ export const columns: ColumnDef<TestAttempt & { test: Test }>[] = [
     header: "Test ID",
     cell: ({ row }) => {
       const id = row.original?.testId;
-      return <div className="lowercase text-left">{id}</div>;
+      return <div className="capitalize text-left">{id}</div>;
     },
   },
   {
@@ -45,7 +45,7 @@ export const columns: ColumnDef<TestAttempt & { test: Test }>[] = [
     header: "Level",
     cell: ({ row }) => {
       const level = row.original?.test?.schoolLevel;
-      return <div className="lowercase text-left">{level}</div>;
+      return <div className="capitalize text-left">{level}</div>;
     },
   },
   {
@@ -53,7 +53,7 @@ export const columns: ColumnDef<TestAttempt & { test: Test }>[] = [
     header: "Subject",
     cell: ({ row }) => {
       const subject = row.original?.test?.subjectArea;
-      return <div className="lowercase text-left">{subject}</div>;
+      return <div className="capitalize text-left">{subject}</div>;
     },
   },
 
@@ -62,7 +62,7 @@ export const columns: ColumnDef<TestAttempt & { test: Test }>[] = [
     header: "Test Score",
     cell: ({ row }) => {
       const score = row.original?.score;
-      return <div className="lowercase text-left">{score}%</div>;
+      return <div className="capitalize text-left">{score}%</div>;
     },
   },
 ];

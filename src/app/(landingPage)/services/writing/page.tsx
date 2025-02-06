@@ -33,7 +33,7 @@ const Page = (props: Props) => {
             high-quality, tailored writing services for students, businesses,
             and authors.
           </p>
-          <Link href={"/services/writers/buy-writing-service"}>
+          {/* <Link href={"/services/writers/buy-writing-service"}>
             <Button
               size="lg"
               variant="secondary"
@@ -41,7 +41,7 @@ const Page = (props: Props) => {
             >
               Explore Our Services
             </Button>
-          </Link>
+          </Link> */}
         </div>
         <svg
           className="absolute bottom-0 w-full text-white"
