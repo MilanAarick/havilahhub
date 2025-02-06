@@ -66,14 +66,16 @@ export const columns: ColumnDef<ActivityLog>[] = [
     accessorKey: "serviceDetail",
     header: "Detail",
     cell: ({ row }) => (
-      <div className="lowercase text-left">{row.getValue("serviceDetail")}</div>
+      <div className="capitalize text-left">
+        {row.getValue("serviceDetail")}
+      </div>
     ),
   },
   {
     accessorKey: "serviceType",
     header: "Service",
     cell: ({ row }) => (
-      <div className="lowercase text-left">
+      <div className="capitalize text-left">
         {getServiceTypeBadge(row.getValue("serviceType"))}
       </div>
     ),
