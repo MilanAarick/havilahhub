@@ -45,7 +45,9 @@ export const columns: ColumnDef<TestAttempt & { test: Test }>[] = [
     header: "Level",
     cell: ({ row }) => {
       const level = row.original?.test?.schoolLevel;
-      return <div className="capitalize text-left">{level}</div>;
+      return (
+        <div className="capitalize text-left">{level.replace("_", " ")}</div>
+      );
     },
   },
   {
