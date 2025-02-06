@@ -13,12 +13,15 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { currentUser } from "@clerk/nextjs/server";
 import React from "react";
 import ReferralTabs from "./_components/referral-tabs";
+import { Progress } from "@/components/ui/progress";
+import { ReferralProgressBar } from "./_components/referral-progress";
 
 type Props = {};
 
 const page = async (props: Props) => {
   const user = await currentUser();
   const profileUser = await onGetUser(user?.id);
+
   return (
     <div className="min-h-screen p-8">
       <div className="max-w-4xl mx-auto space-y-8">
@@ -41,13 +44,14 @@ const page = async (props: Props) => {
                 </ul>
               </div>
               <div className="flex justify-between gap-5 items-center">
-                <h3 className="text-lg font-semibold mb-2">
+                {/* <h3 className="text-lg font-semibold mb-2">
                   Your Current Points:
                 </h3>
-                {/* <Progress value={(points / 100) * 100} className="w-full" /> */}
+                
                 <p className="mt-2 text-center">
                   {profileUser?.data?.points} points
-                </p>
+                </p> */}
+                <ReferralProgressBar points={profileUser?.data?.points ?? 0} />
               </div>
               {profileUser?.data && <ReferralTabs user={profileUser?.data} />}
 
