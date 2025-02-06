@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/drawer";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
   service: {
@@ -53,9 +54,11 @@ const ServiceCard = ({ service }: Props) => {
       <p className="text-gray-600">{service.details}</p>
 
       <div className="flex items-center gap-2 mt-6">
-        <Button variant="outline" className="w-full">
-          Free Consultation
-        </Button>
+        <Link href={`tel:+2349019956550`}>
+          <Button variant="outline" className="w-full">
+            Free Consultation
+          </Button>
+        </Link>
         <Button
           onClick={() => router.push(`/services/writers/buy-writing-service`)}
           variant="default"
