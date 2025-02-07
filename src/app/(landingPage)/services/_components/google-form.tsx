@@ -34,6 +34,7 @@ import {
 } from "@/components/ui/select";
 
 import { MultiSelect } from "@/components/ui/multi-select";
+import { TimeDurationSelect } from "@/components/ui/time-select";
 
 const schoolLevel = [
   { label: "Pre School", value: "Pre School" },
@@ -113,6 +114,7 @@ const formSchema = z.object({
   details: z.string().optional(),
   goals: z.string().optional(),
   beginDate: z.string(),
+  hours: z.number(),
 });
 
 export default function GoogleForm() {
@@ -123,6 +125,7 @@ export default function GoogleForm() {
       services: {},
       grades: [],
       subjects: [],
+      hours: 1,
     },
   });
 
@@ -188,7 +191,9 @@ export default function GoogleForm() {
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const totalAmount = calculateTotalAmount(values.services);
+    const totalAmount =
+      calculateTotalAmount(values.services) * (values.numberOfChildren ?? 1) +
+      (values.hours > 2 ? values.hours - 2 * 15000 : 0); // Extra hours cost N15,000
     const selectedSubjects = getSelectedSubjects(values.services);
     setIsSubmitting(true);
     try {
@@ -667,9 +672,31 @@ export default function GoogleForm() {
                   <FormItem>
                     <FormLabel className="text-base font-medium">
                       When would you like to begin the tutoring sessions?
+                      <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
                       <Input {...field} type="date" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="hours"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel className="text-base font-medium">
+                      Duration
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <TimeDurationSelect
+                        value={field.value}
+                        onChange={field.onChange}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
