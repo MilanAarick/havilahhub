@@ -109,7 +109,7 @@ export function MultiSelect({
               }}
               onClick={() => handleRemove(item)}
             >
-              <X className="h-3 w-3 text-muted-foreground hover:text-foreground" />
+              <X className="h-3 w-3 text-white hover:text-foreground" />
             </button>
           </Badge>
         ))}

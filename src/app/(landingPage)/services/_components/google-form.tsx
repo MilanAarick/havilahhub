@@ -92,10 +92,10 @@ const formSchema = z.object({
     required_error: "Please select how you heard about us",
   }),
   services: z.object({
-    physicalClasses: z.enum(["80000", "100000", "120000"]).optional(),
-    onlineClasses: z.enum(["50000", "65000", "80000"]).optional(),
-    artsMusic: z.enum(["100000", "130500", "165000"]).optional(),
-    languages: z.enum(["95000", "125000", "155000"]).optional(),
+    physicalClasses: z.enum(["56000", "80000", "110000"]).optional(),
+    onlineClasses: z.enum(["32000", "48000", "80000"]).optional(),
+
+    languages: z.enum(["100000", "125000", "160000"]).optional(),
   }),
   numberOfChildren: z.number().int().min(1, {
     message: "Number of children is required",
@@ -126,6 +126,7 @@ export default function GoogleForm() {
       grades: [],
       subjects: [],
       hours: 1,
+      beginDate: new Date().toISOString().split("T")[0],
     },
   });
 
@@ -185,16 +186,17 @@ export default function GoogleForm() {
     const subjects = [];
     if (services.physicalClasses) subjects.push("Physical Classes");
     if (services.onlineClasses) subjects.push("Online Classes");
-    if (services.artsMusic) subjects.push("Arts & Music");
     if (services.languages) subjects.push("Languages");
     return subjects.join(", ");
   };
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const totalAmount =
-      calculateTotalAmount(values.services) * (values.numberOfChildren ?? 1) +
-      (values.hours > 2 ? values.hours - 2 * 15000 : 0); // Extra hours cost N15,000
+    const calcAmount =
+      calculateTotalAmount(values.services) * (values.numberOfChildren ?? 1);
+    const extraAmount = values.hours > 2 ? (values.hours - 2) * 15000 : 0; // Extra hours cost N15,000
+    const totalAmount = calcAmount + extraAmount;
     const selectedSubjects = getSelectedSubjects(values.services);
+
     setIsSubmitting(true);
     try {
       handleBuy(
@@ -473,7 +475,13 @@ export default function GoogleForm() {
                       <span className="text-red-500">*</span>
                     </FormLabel>
                     <FormControl>
-                      <Input {...field} />
+                      <Input
+                        {...field}
+                        type="number"
+                        onChange={(e) =>
+                          field.onChange(parseInt(e.target.value))
+                        }
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -709,7 +717,8 @@ export default function GoogleForm() {
             variant={"secondary"}
             className="w-full text-white hover:bg-secondary"
           >
-            Submit {isSubmitting && <Loader2 className="animate-spin" />}
+            Submit{" "}
+            {form.formState.isLoading && <Loader2 className="animate-spin" />}
           </Button>
         </form>
       </Form>

@@ -25,6 +25,18 @@ interface FormSubmissionEmailProps {
     artsMusic?: string;
     languages?: string;
   };
+  numberOfChildren: number;
+  namesOfChildren: string;
+  agesOfChildren: string;
+  currentSchools: string;
+  grades: string[];
+  subjects: string[];
+  additionalInformation?: string;
+  challenges?: string;
+  details?: string;
+  goals?: string;
+  beginDate: string;
+  hours: number;
 }
 
 export const FormSubmissionEmail = ({
@@ -35,6 +47,18 @@ export const FormSubmissionEmail = ({
   preferredContact,
   referralSource,
   services,
+  numberOfChildren,
+  namesOfChildren,
+  agesOfChildren,
+  currentSchools,
+  grades,
+  subjects,
+  additionalInformation,
+  challenges,
+  details,
+  goals,
+  beginDate,
+  hours,
 }: FormSubmissionEmailProps) => {
   const previewText = `New form submission from ${parentName}`;
 
@@ -95,6 +119,43 @@ export const FormSubmissionEmail = ({
                 Languages: ₦{services.languages}
               </Text>
             )}
+          </Section>
+
+          <Section style={section}>
+            <Text style={sectionTitle}>Children Information</Text>
+            <Text style={sectionContent}>
+              Number of Children: {numberOfChildren}
+            </Text>
+            <Text style={sectionContent}>
+              Names of Children: {namesOfChildren}
+            </Text>
+            <Text style={sectionContent}>
+              Ages of Children: {agesOfChildren}
+            </Text>
+            <Text style={sectionContent}>
+              Current Schools: {currentSchools}
+            </Text>
+            <Text style={sectionContent}>Grades: {grades.join(", ")}</Text>
+            <Text style={sectionContent}>Subjects: {subjects.join(", ")}</Text>
+            <Text style={sectionContent}>
+              Details about your child&apos;s learning style, interests, or
+              preferences?: {additionalInformation}
+            </Text>
+            <Text style={sectionContent}>
+              Does your child have any specific academic challenges or areas
+              they need extra support in? : {challenges}
+            </Text>
+            <Text style={sectionContent}>
+              Kindly provide details: {details}
+            </Text>
+            <Text style={sectionContent}>
+              Are there any particular academic goals you have for your child?:{" "}
+              {goals}
+            </Text>
+            <Text style={sectionContent}>
+              When would you like to begin the tutoring sessions? : {beginDate}
+            </Text>
+            <Text style={sectionContent}>Number of Hours: {hours}</Text>
           </Section>
 
           <Hr style={hr} />

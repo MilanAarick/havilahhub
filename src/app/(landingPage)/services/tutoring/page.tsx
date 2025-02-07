@@ -208,13 +208,15 @@ export default function CourseSubjects() {
                 Choose a Plan
               </Button>
             </Link>
-            <Button
-              size="lg"
-              variant="outline"
-              className="border-primary text-primary hover:bg-primary/10 rounded-full"
-            >
-              Book a Consultation
-            </Button>
+            <Link href={`tel:+2349019956550`}>
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-primary text-primary hover:bg-primary/10 rounded-full"
+              >
+                Book a Consultation
+              </Button>
+            </Link>
           </div>
           <div className="absolute -right-4 bottom-0 hidden md:block"></div>
         </div>
