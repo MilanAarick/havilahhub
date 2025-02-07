@@ -37,7 +37,7 @@ export const columns: ColumnDef<TestAttempt & { test: Test }>[] = [
     header: "Test ID",
     cell: ({ row }) => {
       const id = row.original?.testId;
-      return <div className="capitalize text-left">{id}</div>;
+      return <div className=" text-left">{id}</div>;
     },
   },
   {
@@ -45,9 +45,15 @@ export const columns: ColumnDef<TestAttempt & { test: Test }>[] = [
     header: "Level",
     cell: ({ row }) => {
       const level = row.original?.test?.schoolLevel;
-      return (
-        <div className="capitalize text-left">{level.replace("_", " ")}</div>
-      );
+      const levelReplaced = level.replace("_", " ");
+      const levelCapitalized = levelReplaced.split(" ");
+      const levelJoined = levelCapitalized
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+
+      return <div className="!capitalize text-left">{levelJoined}</div>;
     },
   },
   {
@@ -55,7 +61,15 @@ export const columns: ColumnDef<TestAttempt & { test: Test }>[] = [
     header: "Subject",
     cell: ({ row }) => {
       const subject = row.original?.test?.subjectArea;
-      return <div className="capitalize text-left">{subject}</div>;
+      const subjectReplaced = subject.replace("_", " ");
+      const subjectCapitalized = subjectReplaced.split(" ");
+      const subjectJoined = subjectCapitalized
+        .map(
+          (word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
+        )
+        .join(" ");
+
+      return <div className=" text-left">{subjectJoined}</div>;
     },
   },
 
@@ -64,7 +78,7 @@ export const columns: ColumnDef<TestAttempt & { test: Test }>[] = [
     header: "Test Score",
     cell: ({ row }) => {
       const score = row.original?.score;
-      return <div className="capitalize text-left">{score}%</div>;
+      return <div className="!capitalize text-left">{score}%</div>;
     },
   },
 ];
@@ -109,7 +123,7 @@ export function TestTable({ data }: TestWithDetails) {
           className="max-w-sm"
         />
       </div> */}
-      <div className="rounded-md border">
+      <div className="rounded-md border border-black">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

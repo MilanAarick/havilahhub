@@ -67,10 +67,14 @@ export const columns: ColumnDef<ActivityLog>[] = [
     header: "Detail",
     cell: ({ row }) => {
       const detail = row.original.serviceDetail;
+      const detailTransformed = detail.replace("_", " ");
+      const detailCapitalized = detailTransformed.split(" ");
+      const detailJoined = detailCapitalized
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")
+        .toLowerCase();
 
-      return (
-        <div className="capitalize text-left">{detail.replace("_", " ")}</div>
-      );
+      return <div className="!capitalize text-left">{detailJoined}</div>;
     },
   },
   {

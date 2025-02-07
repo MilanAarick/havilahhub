@@ -20,11 +20,62 @@ import { ServiceSection } from "./service-section";
 import { toast } from "sonner";
 import { sendEmail } from "@/actions/send-email";
 import { useState } from "react";
-import { Loader2 } from "lucide-react";
+import { Check, ChevronsUpDown, Loader2, X } from "lucide-react";
 import { useMutation } from "@tanstack/react-query";
 import { payWithPaystack } from "@/actions/payment";
 import { ServiceType } from "@prisma/client";
 import { TutorFormData } from "@/constants/forms";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+import { MultiSelect } from "@/components/ui/multi-select";
+
+const schoolLevel = [
+  { label: "Pre School", value: "Pre School" },
+  { label: "Kindergarten", value: "Kindergarten" },
+  { label: "Grade 1", value: "Grade 1" },
+  { label: "Grade 2", value: "Grade 2" },
+  { label: "Grade 3", value: "Grade 3" },
+  { label: "Grade 4", value: "Grade 4" },
+  { label: "Grade 5", value: "Grade 5" },
+  { label: "Grade 6", value: "Grade 6" },
+  { label: "Grade 7", value: "Grade 7" },
+  { label: "Grade 8", value: "Grade 8" },
+  { label: "Grade 9", value: "Grade 9" },
+  { label: "Grade 10", value: "Grade 10" },
+  { label: "Grade 11", value: "Grade 11" },
+  { label: "Grade 12", value: "Grade 12" },
+];
+
+const subjects = [
+  { label: "Mathematics and Numeracy", value: "Mathematics and Numeracy" },
+  { label: "English and Literacy", value: "English and Literacy" },
+  {
+    label: "Computer Science and Coding",
+    value: "Computer Science and Coding",
+  },
+  { label: "Basic Science", value: "Basic Science" },
+  { label: "Basic Technology", value: "Basic Technology" },
+  { label: "Further Mathematics", value: "Further Mathematics" },
+  { label: "Physics", value: "Physics" },
+  { label: "Chemistry", value: "Chemistry" },
+  { label: "Biology", value: "Biology" },
+  { label: "Geography", value: "Geography" },
+  { label: "Arts and Music", value: "Arts and Music" },
+  { label: "Government", value: "Government" },
+  { label: "Economics", value: "Economics" },
+  { label: "Commerce", value: "Commerce" },
+  { label: "Literature", value: "Literature" },
+  {
+    label: "Local and International Languages",
+    value: "Local and International Languages",
+  },
+];
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address" }),
@@ -45,6 +96,23 @@ const formSchema = z.object({
     artsMusic: z.enum(["100000", "130500", "165000"]).optional(),
     languages: z.enum(["95000", "125000", "155000"]).optional(),
   }),
+  numberOfChildren: z.number().int().min(1, {
+    message: "Number of children is required",
+  }),
+  namesOfChildren: z
+    .string()
+    .min(1, { message: "Names of children is required" }),
+  agesOfChildren: z
+    .string()
+    .min(1, { message: "Ages of children is required" }),
+  currentSchools: z.string().min(1, { message: "Current schools is required" }),
+  grades: z.array(z.string()).min(1, { message: "Grades is required" }),
+  subjects: z.array(z.string()).min(1, { message: "Subjects is required" }),
+  additionalInformation: z.string().optional(),
+  challenges: z.string().optional(),
+  details: z.string().optional(),
+  goals: z.string().optional(),
+  beginDate: z.string(),
 });
 
 export default function GoogleForm() {
@@ -53,8 +121,11 @@ export default function GoogleForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       services: {},
+      grades: [],
+      subjects: [],
     },
   });
+
   const { mutateAsync, isPending } = useMutation({
     mutationKey: ["initialize-paystack"],
     mutationFn: ({
@@ -306,10 +377,13 @@ export default function GoogleForm() {
 
           <FormHeader title="Service Preference" />
           <div className="space-y-4">
-            <p className="rounded-lg border bg-white p-4 text-sm">
-              Select any that applies.
+            <p className="rounded-lg border bg-white p-4 text-sm font-semibold">
+              Select any that apply.
               <br />
-              NOTE: The fee attached is the price per month!
+              NOTE: The fee attached is the hourly price per month!
+              <br className="mt-2" />
+              Extra hours cost N15,000 and Special needs children cost an
+              additional N15,000 on all plans
             </p>
 
             <FormField
@@ -319,9 +393,9 @@ export default function GoogleForm() {
                 <ServiceSection
                   title="General Subjects: Physical Classes"
                   options={[
-                    { value: "80000", label: "₦80,000 (Two days weekly)" },
-                    { value: "100000", label: "₦100,000 (Three days weekly)" },
-                    { value: "120000", label: "₦120,000 (Five days weekly)" },
+                    { value: "56000", label: "₦56,000 (Two days weekly)" },
+                    { value: "80000", label: "₦80,000 (Three days weekly)" },
+                    { value: "110000", label: "₦110,000 (Five days weekly)" },
                   ]}
                   value={field.value}
                   onChange={field.onChange}
@@ -336,8 +410,8 @@ export default function GoogleForm() {
                 <ServiceSection
                   title="General Subjects: Online Classes"
                   options={[
-                    { value: "50000", label: "₦50,000 (Two days weekly)" },
-                    { value: "65000", label: "₦65,000 (Three days weekly)" },
+                    { value: "32000", label: "₦32,000 (Two days weekly)" },
+                    { value: "48000", label: "₦48,000 (Three days weekly)" },
                     { value: "80000", label: "₦80,000 (Five days weekly)" },
                   ]}
                   value={field.value}
@@ -346,7 +420,7 @@ export default function GoogleForm() {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={form.control}
               name="services.artsMusic"
               render={({ field }) => (
@@ -361,18 +435,18 @@ export default function GoogleForm() {
                   onChange={field.onChange}
                 />
               )}
-            />
+            /> */}
 
             <FormField
               control={form.control}
               name="services.languages"
               render={({ field }) => (
                 <ServiceSection
-                  title="Local & International Languages"
+                  title="Computer & Coding and Local & International Languages"
                   options={[
-                    { value: "95000", label: "₦95,000 (Two days weekly)" },
+                    { value: "100000", label: "₦100,000 (Two days weekly)" },
                     { value: "125000", label: "₦125,000 (Three days weekly)" },
-                    { value: "155000", label: "₦155,000 (Five days weekly)" },
+                    { value: "160000", label: "₦160,000 (Five days weekly)" },
                   ]}
                   value={field.value}
                   onChange={field.onChange}
@@ -381,6 +455,228 @@ export default function GoogleForm() {
             />
           </div>
 
+          <FormHeader title="Child Details" />
+          <div className="space-y-4">
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="numberOfChildren"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-medium">
+                      Number of Children
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="namesOfChildren"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-medium">
+                      Names of Children
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="agesOfChildren"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-medium">
+                      Age(s) of Child(ren)
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="currentSchools"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-medium">
+                      Current Schools
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="grades"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel className="text-base font-medium">
+                      Grades
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <MultiSelect
+                        options={schoolLevel}
+                        selected={field.value}
+                        onChange={field.onChange}
+                        placeholder="Select grades"
+                        emptyMessage="No grades found."
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="subjects"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel className="text-base font-medium">
+                      Subjects
+                      <span className="text-red-500">*</span>
+                    </FormLabel>
+                    <FormControl>
+                      <MultiSelect
+                        options={subjects}
+                        selected={field.value}
+                        onChange={field.onChange}
+                        placeholder="Select subject(s)"
+                        emptyMessage="No subjects found."
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="additionalInformation"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-medium">
+                      Details about your child&apos;s learning style, interests,
+                      or preferences?
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="challenges"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-medium">
+                      Details about your child&apos;s learning style, interests,
+                      or preferences?
+                    </FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select a response" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="yes">Yes</SelectItem>
+                        <SelectItem value="no">No</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="details"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-medium">
+                      Kindly provide details
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="goals"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-medium">
+                      Are there any particular academic goals you have for your
+                      child?
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <div className="rounded-lg border bg-white p-6">
+              <FormField
+                control={form.control}
+                name="beginDate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-base font-medium">
+                      When would you like to begin the tutoring sessions?
+                    </FormLabel>
+                    <FormControl>
+                      <Input {...field} type="date" />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+          </div>
           <Button
             type="submit"
             variant={"secondary"}
