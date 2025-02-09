@@ -30,14 +30,12 @@ const TestNav = (props: Props) => {
   const debounced = useDebounce(searchTerm, 500);
 
   const levels = [
-    "PRE_SCHOOL",
     "GRADE_1",
     "GRADE_2",
     "GRADE_3",
     "GRADE_4",
     "GRADE_5",
     "PRE_K",
-    "KINDERGARTEN",
     "KINDERGARTEN_1",
     "KINDERGARTEN_2",
     "GRADE_6",
