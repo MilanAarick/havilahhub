@@ -60,7 +60,7 @@ const ServiceCard = ({ service }: Props) => {
           </Button>
         </Link>
         <Button
-          onClick={() => router.push(`/services/writers/buy-writing-service`)}
+          onClick={() => router.push(`/services/writing/buy-writing-service`)}
           variant="default"
           className="w-full"
         >
