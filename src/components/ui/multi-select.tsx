@@ -75,6 +75,7 @@ export function MultiSelect({
                   <CommandItem
                     key={option.value}
                     onSelect={() => handleSelect(option)}
+                    className="!hover:bg-primary"
                   >
                     <Check
                       className={cn(
