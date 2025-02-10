@@ -208,7 +208,7 @@ export default function CourseSubjects() {
                 Choose a Plan
               </Button>
             </Link>
-            <Link href={`tel:+2349019956550`}>
+            <Link href={`https://wa.link/uq6gn6`}>
               <Button
                 size="lg"
                 variant="outline"

@@ -54,7 +54,7 @@ const ServiceCard = ({ service }: Props) => {
       <p className="text-gray-600">{service.details}</p>
 
       <div className="flex items-center gap-2 mt-6">
-        <Link href={`tel:+2349019956550`}>
+        <Link href={`https://wa.link/uq6gn6`}>
           <Button variant="outline" className="w-full">
             Free Consultation
           </Button>

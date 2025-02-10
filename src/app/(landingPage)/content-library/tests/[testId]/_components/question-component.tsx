@@ -32,9 +32,9 @@ export default function QuestionComponent({
     <div className="border p-4 rounded-lg">
       <h3 className="font-semibold mb-2">Question {index}</h3>
       <p className="mb-4">{question.questionText}</p>
-      {question.questionImage && (
+      {question.hasPicture && (
         <img
-          src={question.questionImage}
+          src={question.questionImage || ""}
           alt={`Question ${index}`}
           className="mb-4 max-w-full h-auto"
         />
