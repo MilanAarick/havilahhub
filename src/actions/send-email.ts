@@ -1,7 +1,7 @@
 "use server";
 
 import { renderFormSubmissionEmail } from "@/app/(landingPage)/services/_components/form-submission";
-import { TutorFormData } from "@/constants/forms";
+import { TutorFormData, WritingFormData } from "@/constants/forms";
 import nodemailer from "nodemailer";
 
 const transporter = nodemailer.createTransport({
@@ -15,9 +15,16 @@ const transporter = nodemailer.createTransport({
   },
 });
 
-export async function sendEmail(formData: TutorFormData) {
+interface Props {
+  type: "tutoring" | "writing";
+  // formData?: TutorFormData;
+  // writingFormData?: WritingFormData;
+  data: TutorFormData | WritingFormData;
+}
+
+export async function sendEmail({ type, data }: Props) {
   try {
-    const emailHtml = await renderFormSubmissionEmail(formData);
+    const emailHtml = await renderFormSubmissionEmail(type, data);
 
     await transporter.sendMail({
       from: `"Havilah Educational Services" < ${process.env.ZOHO_MAIL}>`,

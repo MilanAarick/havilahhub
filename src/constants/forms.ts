@@ -1,3 +1,4 @@
+import { ServiceType } from "@prisma/client";
 import z from "zod";
 
 export type AuthFormProps = {
@@ -106,4 +107,23 @@ export type TutorFormData = {
   goals?: string;
   beginDate: string;
   hours: number;
+};
+
+export type WritingFormData = {
+  fullName?: string;
+  email?: string;
+  phoneNumber?: string;
+  preferredContactMethod?: string;
+  type: ServiceType; // The type of service selected
+  total: number; // Total price of the order
+  serviceDetails: {
+    subject?: string | null; // Name of the service (e.g., "Research Writing")
+    description?: string | null; // Description of the service
+    plan?: string; // Selected plan (e.g., "basic", "standard", "premium")
+    tier?: string; // Selected tier (if applicable)
+    revisions?: number; // Number of revisions included
+    rushOrder?: boolean; // Whether a rush order was selected
+    addOns?: string[]; // Any additional add-ons selected
+    customNotes?: string; // Custom notes or requests from the user
+  };
 };

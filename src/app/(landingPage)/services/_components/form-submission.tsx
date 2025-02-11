@@ -11,8 +11,9 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 import { render } from "@react-email/render";
+import { WritingFormData } from "@/constants/forms";
 
-interface FormSubmissionEmailProps {
+interface TutorFormProps {
   email: string;
   parentName: string;
   phoneNumber: string;
@@ -39,7 +40,7 @@ interface FormSubmissionEmailProps {
   hours: number;
 }
 
-export const FormSubmissionEmail = ({
+const TutorFormEmail = ({
   email,
   parentName,
   phoneNumber,
@@ -59,7 +60,7 @@ export const FormSubmissionEmail = ({
   goals,
   beginDate,
   hours,
-}: FormSubmissionEmailProps) => {
+}: TutorFormProps) => {
   const previewText = `New form submission from ${parentName}`;
 
   return (
@@ -170,8 +171,90 @@ export const FormSubmissionEmail = ({
   );
 };
 
-export const renderFormSubmissionEmail = (props: FormSubmissionEmailProps) => {
-  return render(<FormSubmissionEmail {...props} />);
+// Writing Email Template
+
+const WritingFormEmail = ({
+  fullName,
+  email,
+  phoneNumber,
+  preferredContactMethod,
+  type,
+  total,
+  serviceDetails,
+}: WritingFormData) => {
+  const previewText = `New writing service request from ${fullName}`;
+  return (
+    <Html>
+      <Head />
+      <Preview>{previewText}</Preview>
+      <Body style={main}>
+        <Container style={container}>
+          <Heading style={h1}>New Writing Service Request</Heading>
+          <Section style={section}>
+            <Text style={sectionTitle}>Personal Information</Text>
+            <Text style={sectionContent}>Full Name: {fullName}</Text>
+            <Text style={sectionContent}>Email: {email}</Text>
+            <Text style={sectionContent}>Phone Number: {phoneNumber}</Text>
+            <Text style={sectionContent}>
+              Preferred Contact Method: {preferredContactMethod}
+            </Text>
+          </Section>
+          <Hr style={hr} />
+          <Section style={section}>
+            <Text style={sectionTitle}>Service Details</Text>
+            <Text style={sectionContent}>Type: {type}</Text>
+            <Text style={sectionContent}>
+              Subject: {serviceDetails.subject}
+            </Text>
+            <Text style={sectionContent}>
+              Description: {serviceDetails.description}
+            </Text>
+            <Text style={sectionContent}>
+              Plan: {serviceDetails.plan || "N/A"}
+            </Text>
+            <Text style={sectionContent}>
+              Tier: {serviceDetails.tier || "N/A"}
+            </Text>
+            <Text style={sectionContent}>
+              Revisions: {serviceDetails.revisions || "N/A"}
+            </Text>
+            <Text style={sectionContent}>
+              Rush Order: {serviceDetails.rushOrder ? "Yes" : "No"}
+            </Text>
+            <Text style={sectionContent}>
+              Add-Ons: {serviceDetails.addOns?.join(", ") || "None"}
+            </Text>
+            <Text style={sectionContent}>
+              Custom Notes: {serviceDetails.customNotes || "None"}
+            </Text>
+          </Section>
+          <Hr style={hr} />
+          <Section style={section}>
+            <Text style={sectionTitle}>Order Summary</Text>
+            <Text style={sectionContent}>
+              Total Amount: ₦{total.toLocaleString()}
+            </Text>
+          </Section>
+          <Hr style={hr} />
+          <Text style={footer}>
+            This is an automated email sent from Havilah&apos;s Educational
+            Services.
+          </Text>
+        </Container>
+      </Body>
+    </Html>
+  );
+};
+
+export const renderFormSubmissionEmail = (
+  type: "tutoring" | "writing",
+  data: TutorFormProps | WritingFormData
+) => {
+  if (type === "tutoring") {
+    return render(<TutorFormEmail {...(data as TutorFormProps)} />);
+  } else {
+    return render(<WritingFormEmail {...(data as WritingFormData)} />);
+  }
 };
 
 const main = {

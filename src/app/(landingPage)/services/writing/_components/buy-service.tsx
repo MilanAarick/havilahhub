@@ -34,6 +34,8 @@ import { payWithPaystack } from "@/actions/payment";
 import { useUser } from "@clerk/nextjs";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
+import { WritingFormData } from "@/constants/forms";
+import { sendEmail } from "@/actions/send-email";
 // import { Service } from "@prisma/client";
 
 // Define the ServiceType enum
@@ -264,6 +266,9 @@ interface Props {
 
 export default function ServiceSelectionFlow({ services }: Props) {
   const clerk = useUser();
+  const [formData, setFormData] = useState<Partial<WritingFormData>>({
+    serviceDetails: {},
+  });
   const [selectedService, setSelectedService] = useState<Service>();
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
@@ -300,6 +305,14 @@ export default function ServiceSelectionFlow({ services }: Props) {
 
   const handleServiceSelect = (service: Service) => {
     setSelectedService(service);
+    setFormData((prev) => ({
+      ...prev,
+      type: service.type,
+      serviceDetails: {
+        subject: service.subject,
+        description: service.description,
+      },
+    }));
     setSelectedPlan(null);
     setSelectedTier(null);
     setAddOn(false);
@@ -308,11 +321,25 @@ export default function ServiceSelectionFlow({ services }: Props) {
 
   const handlePlanSelect = (plan: string) => {
     setSelectedPlan(plan);
+    setFormData((prev) => ({
+      ...prev,
+      serviceDetails: {
+        ...prev.serviceDetails,
+        plan,
+      },
+    }));
     setStep(3);
   };
 
   const handleTierSelect = (tier: string) => {
     setSelectedTier(tier);
+    setFormData((prev) => ({
+      ...prev,
+      serviceDetails: {
+        ...prev.serviceDetails,
+        tier,
+      },
+    }));
     setStep(4);
   };
 
@@ -1149,9 +1176,13 @@ export default function ServiceSelectionFlow({ services }: Props) {
         phone: personalInfo.phoneNumber,
       },
       {
-        onSuccess(data, variables, context) {
-          toast.success(data.message);
-          window.location.href = data.data.authorization_url;
+        async onSuccess(data, variables, context) {
+          //@ts-expect-error: sendEmail function does not have proper TypeScript definitions
+          const result = await sendEmail({ type: "tutoring", data: formData });
+          if (result.success) {
+            toast.success(data.message);
+            window.location.href = data.data.authorization_url;
+          }
         },
         onError(error, variables, context) {
           toast.error(error.message);

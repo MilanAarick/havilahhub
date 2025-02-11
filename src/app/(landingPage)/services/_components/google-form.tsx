@@ -206,7 +206,7 @@ export default function GoogleForm() {
         values.phoneNumber,
         selectedSubjects
       );
-      const result = await sendEmail(values);
+      const result = await sendEmail({ type: "tutoring", data: values });
       if (result.success) {
         toast.success("Thank you for your submission. We'll be in touch soon!");
         form.reset();
