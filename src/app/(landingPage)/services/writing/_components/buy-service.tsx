@@ -923,7 +923,7 @@ export default function ServiceSelectionFlow({ services }: Props) {
         <div>
           <p>Service: {selectedService.subject}</p>
           <p>Plan: {selectedPlan}</p>
-          <p>Price: ₦{total.toLocaleString()} per word</p>
+          <p>Price: ₦{total.toLocaleString()}</p>
         </div>
       );
     } else if (selectedService.bookWritingPlans) {
@@ -1247,7 +1247,7 @@ export default function ServiceSelectionFlow({ services }: Props) {
         {step === 5 && (
           <Button onClick={handleBuy}>
             Proceed to Payment{" "}
-            {isPending && <Loader2 className="animate-in animate-spin" />}
+            {isPending && <Loader2 className="animate-spin" />}
           </Button>
         )}
       </div>
