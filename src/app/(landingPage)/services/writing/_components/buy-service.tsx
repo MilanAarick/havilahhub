@@ -1183,7 +1183,7 @@ export default function ServiceSelectionFlow({ services }: Props) {
             toast.success(data.message);
             window.location.href = data.data.authorization_url;
           } else {
-            console.log(result.message);
+            toast.error(result.message);
           }
         },
         onError(error, variables, context) {
