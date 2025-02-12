@@ -232,7 +232,7 @@ const WritingFormEmail = ({
           <Section style={section}>
             <Text style={sectionTitle}>Order Summary</Text>
             <Text style={sectionContent}>
-              Total Amount: ₦{total.toLocaleString()}
+              Total Amount: ₦{total?.toLocaleString()}
             </Text>
           </Section>
           <Hr style={hr} />

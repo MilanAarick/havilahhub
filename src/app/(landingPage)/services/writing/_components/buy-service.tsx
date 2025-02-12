@@ -301,6 +301,10 @@ export default function ServiceSelectionFlow({ services }: Props) {
     }
 
     setTotal(calculatedTotal);
+    setFormData((prev) => ({
+      ...prev,
+      total: calculatedTotal,
+    }));
   };
 
   const handleServiceSelect = (service: Service) => {
