@@ -102,7 +102,7 @@ const TutorFormEmail = ({
             <Text style={sectionTitle}>Selected Services</Text>
             {services.physicalClasses && (
               <Text style={sectionContent}>
-                Physical Classes: ₦{services.physicalClasses}
+                Physical Classes: ₦{services.physicalClasses ?? "N/A"}
               </Text>
             )}
             {services.onlineClasses && (
@@ -252,7 +252,7 @@ export const renderFormSubmissionEmail = (
 ) => {
   if (type === "tutoring") {
     return render(<TutorFormEmail {...(data as TutorFormProps)} />);
-  } else {
+  } else if (type === "writing") {
     return render(<WritingFormEmail {...(data as WritingFormData)} />);
   }
 };

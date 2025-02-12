@@ -1178,10 +1178,12 @@ export default function ServiceSelectionFlow({ services }: Props) {
       {
         async onSuccess(data, variables, context) {
           //@ts-expect-error: sendEmail function does not have proper TypeScript definitions
-          const result = await sendEmail({ type: "tutoring", data: formData });
+          const result = await sendEmail({ type: "writing", data: formData });
           if (result.success) {
             toast.success(data.message);
             window.location.href = data.data.authorization_url;
+          } else {
+            console.log(result.message);
           }
         },
         onError(error, variables, context) {
