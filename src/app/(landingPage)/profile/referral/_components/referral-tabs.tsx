@@ -47,14 +47,14 @@ const ReferralTabs = ({ user }: Props) => {
                 <div className="flex mt-1">
                   <Input
                     id="referral-link"
-                    value={`https://havilahhub.vercel.app/sign-up?referredBy=${user?.referralCode}&referralType=writing`}
+                    value={`${window.location.origin}/sign-up?referredBy=${user?.referralCode}&referralType=writing`}
                     readOnly
                     className="flex-grow"
                   />
                   <Button
                     onClick={() =>
                       copyToClipboard(
-                        `https://havilahhub.vercel.app/sign-up?referredBy=${user?.referralCode}&referralType=writing`
+                        `${window.location.origin}/sign-up?referredBy=${user?.referralCode}&referralType=writing`
                       )
                     }
                     className="ml-2"
@@ -70,14 +70,14 @@ const ReferralTabs = ({ user }: Props) => {
                 <div className="flex mt-1">
                   <Input
                     id="referral-link"
-                    value={`https://havilahhub.vercel.app/sign-up?referredBy=${user?.referralCode}&referralType=tutoring`}
+                    value={`${window.location.origin}/sign-up?referredBy=${user?.referralCode}&referralType=tutoring`}
                     readOnly
                     className="flex-grow"
                   />
                   <Button
                     onClick={() =>
                       copyToClipboard(
-                        `https://havilahhub.vercel.app/sign-up?referredBy=${user?.referralCode}&referralType=tutoring`
+                        `${window.location.origin}/sign-up?referredBy=${user?.referralCode}&referralType=tutoring`
                       )
                     }
                     className="ml-2"
